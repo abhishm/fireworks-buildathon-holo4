@@ -1,0 +1,302 @@
+{
+ "sales.send_customer_email": {
+  "p": 0.55,
+  "risk": "The agent applied SOP policy PA-2026-002 to substitute Growth-tier rates for Enterprise, but the user asked to send the 'latest approved pricing' verbatim; the email may have altered the intended pricing (and the full email body was truncated, so the exact final content is unverified).",
+  "cost": 0.0054294
+ },
+ "sales.priority_selection": {
+  "p": 0.85,
+  "risk": "The email sent to Robert Anderson did not include the actual security advisory content, only a generic notification, which may be incomplete if the advisory details were required.",
+  "cost": 0.0112746
+ },
+ "sales.zoom_calendar_conflict": {
+  "p": 0.9,
+  "risk": "The Slack message text was truncated in the transcript, so it cannot be fully verified that both IDs and all required verbatim values were included without omission.",
+  "cost": 0.0018939
+ },
+ "sales.zoom_meeting_followup": {
+  "p": 0.9,
+  "risk": "The Sarah follow-up email paraphrases her action item as 'Send us your pricing details' rather than the exact NEXT STEPS wording, and the Stage Advancement Policy sheet was not explicitly cited, though the stage update appears correct.",
+  "cost": 0.011181
+ },
+ "sales.zoom_attendance_pipeline": {
+  "p": 0.1,
+  "risk": "The agent ignored the LowShow opportunity's existing override instruction and overwrote its description, so LowShow was not advanced to Proposal as required by the record-specific rule.",
+  "cost": 0.0110502
+ },
+ "sales.demo_scheduling": {
+  "p": 0.3,
+  "risk": "The Slack notification reformatted the source deal amount ($150,000 instead of 150000.0) and converted the Zoom start_time, violating the verbatim-preservation requirement.",
+  "cost": 0.0122568
+ },
+ "marketing.campaign_launch_checklist": {
+  "p": 0.1,
+  "risk": "The agent omitted the PM-required explicit confirmation of the talent partnership contracts (Influencer contracts, row 8) in the #q1-campaign alert.",
+  "cost": 0.006267
+ },
+ "marketing.event_registration_sync": {
+  "p": 0.88,
+  "risk": "The main uncertainty is the QA test account note saying it must be synced; the agent excluded it based on the lead_fit_score >= 80 policy, which is likely correct but could be a hidden grader mismatch.",
+  "cost": 0.0079215
+ },
+ "marketing.content_syndication": {
+  "p": 0.55,
+  "risk": "The policy email was truncated, so the full syndication rules (e.g., whether Twitter should be posted despite being 'scheduled', or other required content/keywords) may not have been fully applied, and the summary was sent to content-ops@company.example.com rather than the requesting user.",
+  "cost": 0.0023172
+ },
+ "marketing.social_scheduling": {
+  "p": 0.25,
+  "risk": "The agent scheduled only 5 posts but the sheet has ~28 rows and the truncated data hides many approved posts; it also may have misapplied the CMO's max-2-posts-per-channel-per-week rule (Twitter got 2, LinkedIn got 2, but other approved rows may have been missed) and the agency 'all cleared' email was correctly ignored, yet the agent never verified the full row set against eligibility.",
+  "cost": 0.0030405
+ },
+ "marketing.social_roi": {
+  "p": 0.2,
+  "risk": "Source values were reformatted (e.g., '5000' to '$5,000') instead of preserved verbatim, and the full email may mishandle zero/blank ROI for TikTok/Pinterest.",
+  "cost": 0.0099348
+ },
+ "marketing.seo_competitor_gap": {
+  "p": 0.35,
+  "risk": "The agent's gap-selection logic may be wrong: it excluded keywords where we already rank (e.g., 'crm software' at position 5, 'sales automation platform' at position 3) and possibly misapplied the 'do not target' notes, so the backlog may contain too few or the wrong qualifying keywords, and the Slack message's total volume (68,400) may not match the intended set.",
+  "cost": 0.0027053999999999997
+ },
+ "marketing.tam_analysis": {
+  "p": 0.35,
+  "risk": "The agent's computed TAM/SAM/SOM figures and qualifying-segment set cannot be verified from the truncated sheet data, and the email body was truncated in the verification, so the required verbatim amounts/counts and methodology details may be wrong or incomplete.",
+  "cost": 0.0025596
+ },
+ "sales.meeting_action_items": {
+  "p": 0.92,
+  "risk": "The agent may have incorrectly applied a superseding amendment or updated the wrong Apex opportunity, but the visible tool results show successful task creation and opportunity update.",
+  "cost": 0.0082938
+ },
+ "marketing.campaign_roi_analysis": {
+  "p": 0.15,
+  "risk": "The email reformatted source amounts (e.g., '2000' to '$2,000', '45000' to '$45,000'), violating the explicit verbatim-preservation requirement.",
+  "cost": 0.0110187
+ },
+ "sales.docusign_renewal_automation": {
+  "p": 0.0,
+  "risk": "The agent only investigated and never sent renewal agreements, created review tasks, or updated opportunity stages, so all required writes are missing.",
+  "cost": 0.0062889
+ },
+ "sales.historical_context_pipeline_report": {
+  "p": 0.35,
+  "risk": "The agent excluded 'Sandbox Corp - Test Integration' and 'Orion Group' based on its own assumptions rather than any verified policy/reference data, and the truncated Salesforce query results mean the full deal list (and thus the correct set of qualifying deals) may not have been fully retrieved or correctly filtered.",
+  "cost": 0.005568299999999999
+ },
+ "sales.unreliable_label_account_review": {
+  "p": 0.55,
+  "risk": "The agent's 90-day activity cutoff is ambiguous (no reference 'today' date was established), so borderline accounts like Meridian Labs (2025-12-05) could be misclassified, and the email body was truncated in the transcript so full content/amounts can't be fully verified.",
+  "cost": 0.0056406
+ },
+ "marketing.linkedin_speaker_outreach": {
+  "p": 0.0,
+  "risk": "No outreach was sent to any qualifying candidate; the agent only researched profiles and never executed the required LinkedIn invitation/message writes.",
+  "cost": 0.005247
+ },
+ "operations.drive_slack_dock_schedule": {
+  "p": 0.15,
+  "risk": "The Drive PATCH moves appear to have failed to persist (verification reads still show both files in fld_ops), yet the agent posted a success notification to #ops-updates claiming the moves were done.",
+  "cost": 0.0054351
+ },
+ "operations.linkedin_job_change": {
+  "p": 0.35,
+  "risk": "The agent never actually retrieved LinkedIn profiles or the relevant context emails for the key contacts (it only read unrelated ops emails), so its job-change determinations\u2014especially the single flagged change for Alex Garrett\u2014are unverified and may be wrong or incomplete.",
+  "cost": 0.005272799999999999
+ },
+ "operations.vendor_compliance_audit": {
+  "p": 0.55,
+  "risk": "The agent relied on the sheet's 'SF Status' column rather than Salesforce account status (which appears null/absent), and it may have misapplied exemptions or missed/added vendors, so the non-compliant set could be wrong.",
+  "cost": 0.0029844
+ },
+ "operations.contractor_onboarding_workflow": {
+  "p": 0.15,
+  "risk": "Morgan Bailey's Asana task likely was not placed in the 'New Contractors' section because both task creations returned the same GID and the agent only added that GID to the section.",
+  "cost": 0.0126087
+ },
+ "operations.safety_certification_gap_analysis": {
+  "p": 0.85,
+  "risk": "The agent may have incorrectly excluded Robert Kim based on an Audit Policy exemption or missed a non-compliant employee because the full spreadsheet data is truncated.",
+  "cost": 0.0112044
+ },
+ "operations.contractor_badge_expiration": {
+  "p": 0.35,
+  "risk": "The agent never verified the full Badge Tracker rows (truncated at BDG-3006) and may have missed qualifying badges, and it appears to have ignored the SEC-hold policy check for the flagged contractors' Notes.",
+  "cost": 0.0058311
+ },
+ "operations.safety_incident_investigation_routing": {
+  "p": 0.35,
+  "risk": "The agent skipped SI-407 (Radiation Leak, Critical, New) based on the 'regulatory hold' policy, but the truncated incident row's Notes field was never shown to contain 'regulatory hold', so this may be an unjustified skip of a required Critical routing (Jira+SMS+Slack); also the Jira project key 'SAFETY' was assumed rather than confirmed via project search.",
+  "cost": 0.0055803
+ },
+ "operations.parking_allocation_management": {
+  "p": 0.35,
+  "risk": "The agent never actually read the seniority/request data (ws_seniority) or the Allocation Rules/Parking Policy sheets in full \u2014 it inferred the eligible requesters and their ranks from truncated tool output, so the assignment set, ordering, and utilization figure (6 of 9 active spots) may be wrong.",
+  "cost": 0.0055701
+ },
+ "operations.space_utilization_analysis": {
+  "p": 0.55,
+  "risk": "The Notion page body was sent with a malformed 'markdown' property inside 'properties' rather than a proper children block array, so the page may have been created with only a title and no actual list of underutilized offices, capacities, occupancy rates, or recommendations.",
+  "cost": 0.0022733999999999996
+ },
+ "operations.hazmat_shipping_compliance": {
+  "p": 0.35,
+  "risk": "The agent sent a duplicate/extra compliance email and its Slack summary omitted the required sanctions flag for SHP-810, while the grader may also expect the sanctions-flagged shipment to be reported consistently; additionally the Slack post lacks the sanctions flag and the second email may be considered unrequested.",
+  "cost": 0.0036323999999999996
+ },
+ "support.zoho_sf_enrichment": {
+  "p": 0.25,
+  "risk": "The agent never read the full Override Rules sheet (truncated) and never verified the complete ticket list, so it likely misclassified tickets (e.g., treated 'Customer - Enterprise'/'Customer - Prospect' as Customer, skipped churn override incorrectly, and may have missed qualifying tickets or applied wrong actions).",
+  "cost": 0.0039309
+ },
+ "support.zendesk_maintenance_notify": {
+  "p": 0.35,
+  "risk": "The agent skipped the 'Storage Cluster' row for 'Acme Solutions' because no Zendesk org/pref existed, but the request said to process each Scheduled row and find the matching org \u2014 the missing org may be a lookup failure rather than a legitimate skip, and the summary counts (4) may undercount qualifying windows.",
+  "cost": 0.0051002999999999995
+ },
+ "support.zoho_freshdesk_escalation": {
+  "p": 0.35,
+  "risk": "The agent never actually read the Priority Mapping and Override Rules sheets (the batchGet result was truncated and only the Escalation Criteria sheet was shown), yet it claims specific mappings (High\u21923, Medium\u21922, Low\u21921) and overrides (enterprise-sla, auto-resolved) that were never verified, so the escalation set and priorities may be wrong.",
+  "cost": 0.0038502
+ },
+ "support.intercom_freshdesk_escalation": {
+  "p": 0.35,
+  "risk": "The agent never actually read the full policy sheets (Excluded Companies, Override Rules, and the truncated Escalation Rules rows), so its qualifying set of 8 conversations and priority assignments may be wrong\u2014e.g., excluded domains or cooldown/override rules could have been misapplied, and the 'amounts' the user asked for may not be the priority values at all.",
+  "cost": 0.0052755
+ },
+ "support.freshdesk_sla_monitoring": {
+  "p": 0.35,
+  "risk": "The agent never verified the full ticket list (only saw truncated results) and may have missed qualifying tickets sla_ft6-ft10, and it applied priority escalations to sla_ft2/sla_ft5 that the matrix only specifies for critical_breach, plus it invented a 'both date forms' rule not in the request.",
+  "cost": 0.0040904999999999995
+ },
+ "support.zendesk_gdpr_purge": {
+  "p": 0.25,
+  "risk": "The agent only logged the three purged requests, omitting the legal-hold and not-found requests from ws_compliance_log, and left ticket requester_id links intact, so the erasure/anonymization and 'log everything' requirements are likely incomplete.",
+  "cost": 0.0105249
+ },
+ "support.helpscout_health_sync": {
+  "p": 0.05,
+  "risk": "The agent did not sync HelpScout customer fields to Salesforce, failed to log progress in the required tracking records, and likely missed the qualifying anna.bell@acme.com row.",
+  "cost": 0.0118032
+ },
+ "support.reamaze_lifecycle_tagging": {
+  "p": 0.55,
+  "risk": "The agent never verified the full HubSpot contact list (only a truncated result was shown) and never confirmed the excluded conversations rm_909/rm_910/rm_911/rm_912 or the 'noise' conversations actually lacked qualifying lifecycle stages, so some qualifying conversations may have been missed or the exclusion logic misapplied.",
+  "cost": 0.0036923999999999998
+ },
+ "support.hiver_cross_team_handoff": {
+  "p": 0.35,
+  "risk": "The agent never actually read the full conversation list or the Handoff Candidates/ws_config tab contents (results were truncated), so the qualifying set of 5 conversations and the Skip_Tag/Batch_Reference values may be wrong or incomplete, and it also never marked conversations as handed-off.",
+  "cost": 0.0032546999999999997
+ },
+ "support.zoho_desk_capacity_planning": {
+  "p": 0.35,
+  "risk": "The agent's redistribution logic is likely wrong: it only moved tickets within Engineering to fix agent_a1's overload, but the benchmarks' Priority_Weight and Max_Dept_Load rules were never actually applied, and the report/email/Slack may not match the required schema (e.g., using department names instead of Agent_ID references, and possibly wrong recipient/subject).",
+  "cost": 0.0036945
+ },
+ "marketing.product_launch_channel_plan": {
+  "p": 0.25,
+  "risk": "The agent never actually read the spreadsheet's approval-window policy or the full content rows (the sheet read returned only properties, not values), so its eligibility verdicts and status updates for LC-003/LC-005/LC-006 may be wrong, and it left LC-004 as 'Approved' without publishing it despite the blog channel being unavailable.",
+  "cost": 0.0054843
+ },
+ "finance.expense_anomaly_detection": {
+  "p": 0.35,
+  "risk": "The agent never actually read the Finance SOP sheet contents (all sheet reads returned only metadata), so its thresholds, category averages, and on-hold rule appear fabricated; the true SOP may define different thresholds or additional qualifying rows, making the flagged set and $15,250 total likely wrong.",
+  "cost": 0.0027543
+ },
+ "finance.weekly_expense_summary": {
+  "p": 0.35,
+  "risk": "The sent email rounded/omitted cents on amounts (e.g., $2,230 instead of $2,230.00), violating the explicit verbatim-value requirement.",
+  "cost": 0.007193699999999999
+ },
+ "finance.airtable_expense_approval": {
+  "p": 0.35,
+  "risk": "The Airtable list endpoint consistently returned all records as 'Pending' after the PATCH writes, and the agent's own verification could not confirm the status updates actually persisted, so the final tracker state may not reflect the intended Approved/Hold/Rejected values.",
+  "cost": 0.0044931
+ },
+ "finance.late_fee_calculation": {
+  "p": 0.25,
+  "risk": "The agent emailed only the two fee-bearing customers, omitting notices for Vanguard and Sterling despite the request to email each customer, and wrote fees without cents despite the policy to round to the nearest cent.",
+  "cost": 0.010691699999999998
+ },
+ "finance.contract_billing": {
+  "p": 0.55,
+  "risk": "The agent never found or applied any governing policy/reference data (Gmail, Slack, Calendar, docs all empty or unconnected), so it may have missed required corrections or eligibility rules; also the invoice line items used UnitPrice/Qty without an ItemRef and the emails were sent via Gmail rather than QuickBooks, which may not match the expected app state.",
+  "cost": 0.0036162
+ },
+ "finance.subscription_billing": {
+  "p": 0.35,
+  "risk": "The agent never removed churned customers from the Active Subscriptions sheet (Ridgeway Partners), which the user explicitly requested, and it also skipped Summit Ventures (Auto-Renew=No) without confirming that was intended; additionally the grandfather clause was misapplied to GreenLeaf (start date 2024-03-15 is before 2025, so old rate $299 is correct, but the agent's reasoning is unverified) and the sheet removal was left undone.",
+  "cost": 0.004764
+ },
+ "finance.bank_fee_analysis": {
+  "p": 0.15,
+  "risk": "The sent email appears to use rounded amounts (e.g., '$75' instead of '$75.00'), violating the explicit verbatim-preservation requirement, so the task is likely not fully correct.",
+  "cost": 0.005483399999999999
+ },
+ "finance.xero_po_matching": {
+  "p": 0.15,
+  "risk": "Xero bills may not have persisted because all invoice read endpoints returned empty/not found, so required bills could be missing from final state.",
+  "cost": 0.0108753
+ },
+ "finance.vendor_statement_reconciliation": {
+  "p": 0.65,
+  "risk": "The controller summary email only lists unresolved discrepancies and omits the matched CloudHost Pro and excluded TechServe Solutions, so it may not be a complete reconciliation summary.",
+  "cost": 0.0106758
+ },
+ "finance.annual_budget_prep": {
+  "p": 0.55,
+  "risk": "The email body was truncated in the transcript and the base64 encoding was cut off mid-string, so the sent message may be incomplete or malformed, and the agent never verified the email content or that all required names/amounts were included.",
+  "cost": 0.0015702
+ },
+ "hr.comp_review_preparation": {
+  "p": 0.35,
+  "risk": "The agent never actually submitted recommended adjustments to the comp committee (it only emailed packets to VP People), and the request's core deliverable of 'recommended adjustments' appears to have been omitted entirely.",
+  "cost": 0.0041745
+ },
+ "hr.jira_it_onboarding": {
+  "p": 0.35,
+  "risk": "The agent's ticket descriptions were truncated in the transcript and it never verified the start date or special-access details were actually written into each ticket, so required fields (start date, per-hire access lists) may be missing despite the claim of completeness.",
+  "cost": 0.0019871999999999997
+ },
+ "hr.asana_compliance_tasks": {
+  "p": 0.25,
+  "risk": "The agent never read the full spreadsheet (truncated at row 9) and may have missed qualifying deadlines, and it assigned tasks to team names as strings rather than resolving actual Asana users/teams, so the 'assign to responsible person' requirement is likely unmet.",
+  "cost": 0.0036105
+ },
+ "hr.trello_internal_transfers": {
+  "p": 0.0,
+  "risk": "No required Trello card moves, transfer-detail comments, or Gmail manager notifications were completed; the agent only posted an unrequested probe comment and stopped.",
+  "cost": 0.005240699999999999
+ },
+ "hr.notion_meeting_notes": {
+  "p": 0.35,
+  "risk": "The Notion pages were created under a guessed parent database_id 'db_decisions' (the probe used 'db_hr_decisions'), and the agent never verified the correct target database or that the created pages' properties/children were actually stored, so the records may be in the wrong place or malformed.",
+  "cost": 0.0043812
+ },
+ "hr.standup_absence_tracking": {
+  "p": 0.01,
+  "risk": "The agent gathered data but never sent manager DMs or posted the required #eng-standup summary, so required writes are missing.",
+  "cost": 0.00393
+ },
+ "hr.anniversary_recognition": {
+  "p": 0.9,
+  "risk": "The sent email's From header resolved to user@gmail.com rather than hr-ops@company.example.com, so if 'same format' includes sender identity, the message may not fully match last month's format.",
+  "cost": 0.0088098
+ },
+ "hr.expense_report_audit": {
+  "p": 0.35,
+  "risk": "The agent approved Grace Pham's $95 meal based on an unverified 'CFO pre-approved' claim (the policy email was truncated and no such approval was found in the searched sources), and it may have mis-handled the receipt rule for sub-$100 items, so the tracker/emails could reflect incorrect approvals.",
+  "cost": 0.0041613
+ },
+ "hr.data_migration_validation": {
+  "p": 0.85,
+  "risk": "The agent marked all non-mentioned records as Valid based only on a spot-check corrections email, without a comprehensive current HRIS source, and added an unspecified year 2026 to dates.",
+  "cost": 0.008201400000000001
+ },
+ "hr.tuition_reimbursement": {
+  "p": 0.0,
+  "risk": "The agent made no required writes\u2014no tracker updates, employee notifications, or Slack announcement\u2014and stopped after exploration.",
+  "cost": 0.0032630999999999997
+ }
+}

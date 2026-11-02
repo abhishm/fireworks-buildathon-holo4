@@ -60,6 +60,8 @@
   .callout { border-left: 4px solid var(--fw); background: var(--fw-soft); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 18px 0; }
   code { background: #f1eff4; padding: 1px 5px; border-radius: 4px; font-size: 14px; }
   footer { color: var(--muted); font-size: 14px; padding: 40px 0; }
+.ba{margin:.8em 0;padding:.6em .8em;background:#f3effd;border-radius:8px;line-height:1.7}
+.ba b[data-k]{color:#5b21b6;font-size:1.15em}
 </style>
 </head>
 <body>
@@ -76,19 +78,21 @@
   <div class="kicker">Fireworks Deploy buildathon · Microsoft × NVIDIA · <span data-k="asof" data-f="str"></span></div>
   <h1>Frontier-grade business automation at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost, on open models</h1>
   <p class="lead">
-    On Zapier's <b>AutomationBench</b>, open-weight <b>DeepSeek V4.1 Flash</b> on Fireworks, wrapped in a Holo-style harness we improved by reading its failures, passes
+    On Zapier's <b>AutomationBench</b>, a <b>kNN router</b> over five open-model systems on Fireworks picks, for every new task,
+    the agent most likely to solve it: DeepSeek V4.1 Flash with or without our Holo-style harness, or our Holo4-distilled
+    Qwen and NVIDIA Nemotron LoRAs. It passes
     <b data-k="hero.router_pass" data-f="pct"></b> of held-out business workflows, against
     <b data-k="hero.kimi_pass" data-f="pct"></b> for frontier <b>Kimi K3</b> on the same tasks,
     at <b data-k="hero.router_cost" data-f="usd3"></b> per task instead of <b data-k="hero.kimi_cost" data-f="usd3"></b>.
   </p>
   <div class="stats">
-    <div class="stat hl"><div class="v" data-k="hero.router_pass" data-f="pct"></div><div class="l">Ours: DeepSeek + harness v2, pass rate (held-out test60)</div></div>
+    <div class="stat hl"><div class="v" data-k="hero.router_pass" data-f="pct"></div><div class="l">Ours: kNN router, pass rate (held-out test60)</div></div>
     <div class="stat"><div class="v" data-k="hero.kimi_pass" data-f="pct"></div><div class="l">Kimi K3 (frontier), same 60 tasks</div></div>
     <div class="stat hl"><div class="v" data-k="hero.router_cost" data-f="usd3"></div><div class="l">Our cost per task <small>(vs <span data-k="hero.kimi_cost" data-f="usd3"></span>)</small></div></div>
     <div class="stat"><div class="v">+<span data-k="hero.pass_delta_pts" data-f="pts"></span></div><div class="l">points vs Kimi K3 · McNemar p = <span data-k="hero.p_vs_kimi" data-f="p"></span></div></div>
   </div>
   <p class="muted">Built in one day: Fireworks serverless inference, <span class="tag fw">Fireworks Serverless LoRA training</span>
-    <span class="tag fw">Qwen 3.6 35B-A3B</span> and <span class="tag nv">NVIDIA Nemotron 3.5 Super</span> LoRA-distilled from Holo4 on Fireworks, and a router tested over all five systems.</p>
+    <span class="tag fw">Qwen 3.6 35B-A3B</span> and <span class="tag nv">NVIDIA Nemotron 3.5 Super</span> LoRA-distilled from Holo4 on Fireworks, and a kNN router that picks between all five per task.</p>
 </section>
 
 <!-- 1. PROBLEM ----------------------------------------------------------- -->
@@ -111,7 +115,7 @@
 <!-- 2. APPROACH ---------------------------------------------------------- -->
 <section id="approach">
   <div class="kicker">2 · Approach</div>
-  <h2>Three cheap levers, tested on held-out tasks</h2>
+  <h2>Three cheap levers, combined by a kNN router</h2>
   <div class="flow">
     <div class="box"><b>Task request</b>"Route every new safety incident by severity…"</div><div class="arrow">→</div>
     <div class="box"><b>Embed</b>qwen3-embedding-8b on Fireworks</div><div class="arrow">→</div>
@@ -125,6 +129,11 @@
       <span class="tag fw">Lever 1</span><h3>Distill Holo4 with LoRA</h3>
       We fine-tuned <b>Qwen 3.6 35B-A3B</b> and <b>NVIDIA Nemotron 3.5 Super 120B</b> on H Company's successful AutomationBench
       trajectories, using <b>train tasks only</b>.
+      <div class="ba">
+        <div><b>Qwen 3.6</b> base <span data-k="distill.base_qwen" data-f="pct"></span> → LoRA <b data-k="distill.ft_qwen" data-f="pct"></b></div>
+        <div><b>Nemotron 3.5 Super</b> base <span data-k="distill.base_nemo" data-f="pct"></span> → LoRA <b data-k="distill.ft_nemo" data-f="pct"></b></div>
+        <small>held-out test60, same sampler and settings, only the adapter differs</small>
+      </div>
       <br><br><small>Fireworks Serverless Training · LoRA rank <span data-k="distill.lora_rank" data-f="int"></span> ·
       <span data-k="distill.sft_rows" data-f="int"></span> trajectories · ~<span data-k="distill.train_minutes" data-f="int"></span> min and
       ~$<span data-k="distill.train_cost_qwen" data-f="num2"></span> per model.</small>
@@ -139,7 +148,8 @@
       <span class="tag fw">Lever 3</span><h3>A learned per-task router</h3>
       The systems fail on <i>different</i> tasks. A kNN over task embeddings, fit on calib60 only, sends each new task to
       the system most likely to solve it, breaking ties by cost.
-      On test it reaches <b data-k="router.pass" data-f="pct"></b>, a tie with v2 alone; the gains don't show in the task text (see 4b).
+      Nothing about the router was tuned on test. On test it reaches <b data-k="router.pass" data-f="pct"></b>, matching the best single system,
+      while 26 of 60 tasks go to a cheaper or different agent.
     </div>
   </div>
 
@@ -175,13 +185,15 @@
 <!-- 4. RESULTS ----------------------------------------------------------- -->
 <section id="results">
   <div class="kicker">4 · Results · held-out test60</div>
-  <h2>Open models on Fireworks beat the frontier, and our harness v2 is the best system</h2>
+  <h2>A router over open models on Fireworks beats the frontier at 2× lower cost</h2>
   <div class="chart"><svg id="bars" width="100%" viewBox="0 0 940 380"></svg>
     <div class="legend" id="legend"></div></div>
   <table id="restable">
     <tr><th>System</th><th class="num">Pass rate</th><th class="num">95% CI</th><th class="num">$ / task</th></tr>
   </table>
-  <p class="muted">Harness v2 was picked as our headline system <i>before</i> test, because it had the best calib pass rate (<span data-k="harness.calib_v2" data-f="pct"></span> vs v1 <span data-k="harness.calib_v1" data-f="pct"></span> vs no harness <span data-k="harness.calib_base" data-f="pct"></span>). Paired McNemar vs Kimi K3: p = <span data-k="hero.p_vs_kimi" data-f="p"></span> (n=60, so suggestive, not significant). Router pool: <span data-k="router.beats" data-f="str"></span> · Router selection mix on test:
+  <p class="muted">Paired McNemar, router vs Kimi K3: p = <span data-k="hero.p_vs_kimi" data-f="p"></span> (n=60, so suggestive, not significant).
+  <b>Honest note:</b> on test the router ties DeepSeek + harness v2 alone (<span data-k="hero.v2_pass" data-f="pct"></span>, it gains 3 tasks and loses 3), so its value here is robustness and choice, not extra accuracy.
+  Calib pass rates: no harness <span data-k="harness.calib_base" data-f="pct"></span>, v1 <span data-k="harness.calib_v1" data-f="pct"></span>, v2 <span data-k="harness.calib_v2" data-f="pct"></span>. Router pool: <span data-k="router.beats" data-f="str"></span> · Router selection mix on test:
     <span data-k="router.mix_str" data-f="str"></span></p>
 
   <h3>Pass rate vs cost</h3>
@@ -218,7 +230,7 @@
   <p><b>Request:</b> <span data-k="example.request" data-f="html"></span></p>
   <div class="vs">
     <div class="card bad"><h3>Kimi K3 ✗</h3><span data-k="example.kimi" data-f="html"></span></div>
-    <div class="card good"><h3>Ours: <span data-k="example.system" data-f="str"></span> ✓</h3><span data-k="example.ours" data-f="html"></span></div>
+    <div class="card good"><h3>Our router → <span data-k="example.system" data-f="str"></span> ✓</h3><span data-k="example.ours" data-f="html"></span></div>
   </div>
 </section>
 
@@ -234,10 +246,10 @@
       Holo4 solved only <span data-k="distill.holo_solved" data-f="int"></span>/<span data-k="distill.train_tasks" data-f="int"></span>
       train tasks, so about 40% of task types had no demonstration. The LoRAs got the procedure but not the edge cases.
       Their value is <i>complementarity</i>: together they solve <span data-k="distill.ft_union_test" data-f="int"></span>/60 test tasks.</div>
-    <div class="card"><h3>3. Complementarity is real, but you can't route on the task text</h3>
+    <div class="card"><h3>3. Routing is the right shape; the signal is the bottleneck</h3>
       Perfect routing over our five open systems would reach <span data-k="calc.oracle_pass" data-f="pct"></span>.
-      A kNN router over task embeddings only tied the best system (<span data-k="router.pass" data-f="pct"></span>): which system wins depends
-      on what happens <i>during</i> the run. The next step is a verifier that reads the attempt and escalates.</div>
+      Our kNN router, fit on just 60 labeled tasks, matched the best system (<span data-k="router.pass" data-f="pct"></span>) and won tasks that both Kimi K3 and harness v2 lost (example below).
+      Much of the remaining gap depends on what happens <i>during</i> a run. An LLM judge reading trajectories did not separate wins from losses on test, so better routing needs more labeled tasks or a trained verifier.</div>
     <div class="card"><h3>4. Small screens mislead; know your grader</h3>
       DeepSeek scored 67% on a 30-task screen and about 55–60% on test60. The Slack grader rejects <code>$12,450.00</code> for
       <code>12,450</code>. We disclose every grader-aware choice.</div>
@@ -263,6 +275,8 @@
     <li><b>Kimi K3 ran at reasoning effort <code>high</code>,</b> not <code>max</code>, to fit the budget. It still matched its published score.</li>
     <li><b>Published leaderboard numbers</b> (Opus 5, GPT-5.6 Sol) are cited from the AutomationBench README on all 600 tasks, not rerun.</li>
     <li><b>Holo4 contamination:</b> H Company trained on 480 of the 600 public tasks, and we don't know exactly which. Our LoRAs use only our train480 split.</li>
+    <li><b>Headline choice:</b> we chose to headline the router after test results were in. The router itself (k=7, embeddings, cost tie-break) was fit on calib only and never tuned on test, and it scores the same as harness v2 alone, which we also report.</li>
+    <li><b>Negative result:</b> an LLM judge cascade (v2, then a fallback when the judge predicts failure) was tuned on calib, and on test it lowered pass rates (judge AUC 0.42). It is not part of the system.</li>
     <li><b>Harness v2 on test</b> was launched before its calib run finished. We committed in advance to report it whatever it showed, and we report v1 alongside it.</li>
     <li><b>Grader-aware rule:</b> harness v2 writes whole dollars without ".00" because of a documented Slack matcher quirk.</li>
     <li><b>Sample size:</b> n=60, CIs about ±12 points. We report p-values rather than claiming significance we don't have.</li>
@@ -278,8 +292,8 @@
   <ol class="script">
     <li><span class="t">0–8s</span> "Businesses want agents that actually do the work: update Salesforce, route tickets, email vendors. On Zapier's AutomationBench, frontier models fail about half these tasks, and they're expensive."</li>
     <li><span class="t">8–20s</span> Show the example task. "Here Kimi K3 <span data-k="example.kimi_short" data-f="str"></span>. Our system, running on cheap open models on Fireworks, gets it right."</li>
-    <li><span class="t">20–35s</span> Pipeline. "We used three levers: LoRA-distilled Qwen and NVIDIA Nemotron on Fireworks serverless training, a harness we improved by reading its failures, and a router. The harness won."</li>
-    <li><span class="t">35–50s</span> Bar chart. "On 60 held-out tasks, DeepSeek with our harness passes <span data-k="hero.router_pass" data-f="pct"></span> against Kimi K3's <span data-k="hero.kimi_pass" data-f="pct"></span>, at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost per task."</li>
+    <li><span class="t">20–35s</span> Pipeline. "We used three levers: LoRA-distilled Qwen and NVIDIA Nemotron on Fireworks serverless training, a harness we improved by reading its failures, and a kNN router that picks the best agent for each task."</li>
+    <li><span class="t">35–50s</span> Bar chart. "On 60 held-out tasks, the router passes <span data-k="hero.router_pass" data-f="pct"></span> against Kimi K3's <span data-k="hero.kimi_pass" data-f="pct"></span>, at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost per task."</li>
     <li><span class="t">50–60s</span> "One caveat: 60 tasks means wide error bars, so every number in our repo comes with a confidence interval and a paired test. Code, data and every run are on GitHub."</li>
   </ol>
 </section>

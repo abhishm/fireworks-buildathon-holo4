@@ -22,7 +22,7 @@ def stat(rs):
     p = [1.0 if x["pass"] else 0.0 for x in rs]; lo, hi = boot_ci(p)
     return dict(pass_=round(sum(p) / len(p), 4), lo=round(lo, 4), hi=round(hi, 4), cost=round(sum(x["cost"] for x in rs) / len(rs), 4))
 st = {k: stat(v) for k, v in rows.items()}
-HERO = "ds_harness_v2"
+HERO = "router_knn"
 pv = lambda a, b: mcnemar([x["pass"] for x in rows[a]], [x["pass"] for x in rows[b]])[2]
 mix = {}
 for s in knn.values(): mix[s] = mix.get(s, 0) + 1
@@ -33,9 +33,9 @@ evals = sum(v["cost"] for D in (calib, test) for r in D.values() for v in r.valu
 spend_total = round(evals + 22.27, 2)
 
 LABEL = {"kimi_k3": ("Kimi K3 (frontier, effort=high)", "frontier"), "ds_base": ("DeepSeek V4.1 Flash, no harness", "open"),
-         "ds_harness": ("DeepSeek + Holo harness v1", "harness"), "ds_harness_v2": ("DeepSeek + Holo harness v2 (ours)", "harness"),
+         "ds_harness": ("DeepSeek + Holo harness v1", "harness"), "ds_harness_v2": ("DeepSeek + Holo harness v2", "harness"),
          "qwen_ft": ("Qwen 3.6 35B-A3B + Holo4 LoRA", "finetune"), "nemo_ft": ("Nemotron 3.5 Super 120B + Holo4 LoRA", "finetune"),
-         "router_knn": ("kNN router over all five", "router"), "oracle": ("Oracle (perfect routing, upper bound)", "oracle")}
+         "router_knn": ("kNN router over five open systems (ours)", "router"), "oracle": ("Oracle (perfect routing, upper bound)", "oracle")}
 systems = []
 for k, (lab, kind) in LABEL.items():
     d = st[k]; e = {"id": k, "label": lab, "kind": kind, "pass": d["pass_"], "lo": d["lo"], "hi": d["hi"], "cost": d["cost"]}
@@ -44,9 +44,15 @@ for k, (lab, kind) in LABEL.items():
     systems.append(e)
 
 h, kk = st[HERO], st["kimi_k3"]
+BASE = {}
+for k in ["qwen", "nemo"]:
+    f = ROOT / f"runs/test_{k}_base.json"
+    if f.exists():
+        r = load_run(f"runs/test_{k}_base.json", [0.45, 0.09, 1.335])
+        BASE[k] = round(sum(r[t]["pass"] for t in TT) / len(TT), 4) if all(t in r for t in TT) else None
 data = {
   "asof": datetime.datetime.now().strftime("%b %-d, %Y %-I:%M %p PT"), "n_test": len(TT),
-  "hero": {"system": "DeepSeek V4.1 Flash + our Holo-style harness v2", "router_pass": h["pass_"], "kimi_pass": kk["pass_"],
+  "hero": {"system": "kNN router over five open systems on Fireworks", "v2_pass": st["ds_harness_v2"]["pass_"], "v2_cost": st["ds_harness_v2"]["cost"], "p_vs_v2": round(pv(HERO, "ds_harness_v2"), 3), "router_pass": h["pass_"], "kimi_pass": kk["pass_"],
            "router_cost": h["cost"], "kimi_cost": kk["cost"], "cost_ratio": None, "pass_delta_pts": None,
            "p_vs_kimi": round(pv(HERO, "kimi_k3"), 3), "base_pass": st["ds_base"]["pass_"], "base_cost": st["ds_base"]["cost"],
            "p_base_vs_kimi": round(pv("ds_base", "kimi_k3"), 3)},
@@ -59,13 +65,14 @@ data = {
               "n_calib": len(CT), "turns_v1": 25, "turns_base": 13},
   "distill": {"holo_solved": 289, "train_tasks": 480, "sft_rows": 259, "sft_tasks": 257, "lora_rank": 32, "steps_qwen": 33, "steps_nemo": 32,
               "train_cost_qwen": 10.68, "train_cost_nemo": 11.59, "train_minutes": 5,
+              "ft_qwen": st["qwen_ft"]["pass_"], "ft_nemo": st["nemo_ft"]["pass_"], "base_qwen": BASE.get("qwen"), "base_nemo": BASE.get("nemo"),
               "ft_union_test": sum(test["qwen_ft"][t]["pass"] or test["nemo_ft"][t]["pass"] for t in TT)},
   "spend": {"training": 22.27, "kimi_eval": round(sum(x["cost"] for x in rows["kimi_k3"]), 2), "evals": round(evals, 2), "total": spend_total},
-  "example": {"task": "sales.add_contact_to_campaign",
-              "request": "\u201cAdd senior contacts to the Q1 Product Launch Webinar campaign. Focus on director-level and above. Make sure everyone meets our campaign eligibility and compliance requirements.\u201d",
-              "kimi": "Searched the CRM for senior titles and added <b>all 22</b> director-level contacts in 29 tool calls. It checked opt-out flags but never looked for the company's eligibility rules. Its summary claims \u201celigibility & compliance checks applied\u201d. <b>4 of 8 checks failed</b>: ineligible contacts are now in the campaign.",
-              "ours": "Searched for the eligibility policy first and found the <code>ss_campaign_rules</code> sheet (industry restrictions, compliance, legal and regulatory holds). It filtered the candidates and added <b>only the 4</b> who qualify. <b>All 4 grader checks passed</b>.",
-              "system": "DeepSeek + harness v2", "kimi_short": "adds all 22 senior contacts, including ones the compliance sheet excludes"},
+  "example": {"task": "sales.multi_hop_lookup",
+              "request": "\u201cWe just closed the Meridian Corp Platform Deal! Mark it as won and route the win notice to the right team per our routing policy. Confirm the account tier from the \u2018Account Hierarchy\u2019 spreadsheet, convert currencies if needed, and check for any open support escalations.\u201d",
+              "kimi": "Marked the deal won, found the latest <b>Enterprise</b> tier, converted to <b>$156,000</b> and emailed the executive team. It never followed up on the open support escalation, so <b>support-escalation@ was never notified</b>. Kimi K3 fails this task, and so does our harness v2 (the same miss).",
+              "ours": "The router saw that similar calibration tasks were solved by <b>plain DeepSeek</b> (no harness) and sent the task there. It did the same lookups, found the open escalation, and notified <b>both</b> executive-team@ and support-escalation@ with the deal name, amount and tier. <b>All checks passed</b>, at $0.046 vs Kimi's $0.090.",
+              "system": "plain DeepSeek V4.1 Flash", "kimi_short": "misses the open support escalation"},
 }
 js = "// Generated by analysis/fill_story.py from runs/. Do not edit by hand.\nwindow.STORY = " + json.dumps(data, indent=1).replace('"pass_"', '"pass"') + ";\n"
 open("slides/story_data.js", "w").write(js)

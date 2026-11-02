@@ -1,0 +1,302 @@
+{
+ "sales.add_contact_to_campaign": {
+  "p": 0.85,
+  "risk": "The agent may have missed additional director-level contacts or misapplied a compliance rule (e.g., opt-out/legal hold) because it did not fully verify all contact fields and relied on truncated data.",
+  "cost": 0.0093294
+ },
+ "sales.multi_hop_lookup": {
+  "p": 0.35,
+  "risk": "The agent used the stale/incorrect tier: the Account Hierarchy sheet's latest row for Meridian Corp (2026-01-12) says Enterprise, but the CRM Account record says Mid-Market, and the agent routed to executive-team@example.com instead of vp-sales@example.com; it also may have missed the parent-account escalation (Meridian Holdings has an open Critical case) and the policy's exact amount-formatting requirement.",
+  "cost": 0.0048725999999999995
+ },
+ "sales.negative_selection": {
+  "p": 0.3,
+  "risk": "Agent only checked Description fields for record compliance and never queried opt-out or outreach-hold fields, so it may have enrolled ineligible contacts.",
+  "cost": 0.0086109
+ },
+ "sales.zoom_customer_health": {
+  "p": 0.01,
+  "risk": "Agent never read the scoring policy, updated the wrong Salesforce field, and deleted a task without recreating it, so the final state is likely incomplete and incorrect.",
+  "cost": 0.0102429
+ },
+ "sales.call_transcription": {
+  "p": 0.95,
+  "risk": "The agent distributed follow-ups via Slack DMs rather than creating Salesforce tasks, which might not match the expected 'distribute follow-ups' mechanism if the grader requires CRM tasks.",
+  "cost": 0.0098865
+ },
+ "marketing.ad_performance_review": {
+  "p": 0.25,
+  "risk": "The agent never retrieved the full policy email body (truncated) and never read the complete campaign data rows (truncated at camp_6), so the CTR threshold criteria and the full set of qualifying campaigns may be wrong\u2014it likely missed campaigns that should have been paused and possibly paused ones that shouldn't have been.",
+  "cost": 0.0051765
+ },
+ "marketing.content_performance": {
+  "p": 0.35,
+  "risk": "The agent claims 7 in-scope January 2026 posts including a 'Sponsored: Cloud Migration Guide' and cites a 'notes' column rule, but the truncated sheet data only shows 4 January rows and the notes column appears empty \u2014 the agent may have fabricated the inclusion rule and post count, and the full email body was never verified.",
+  "cost": 0.0023972999999999998
+ },
+ "marketing.budget_reallocation": {
+  "p": 0.9,
+  "risk": "The sent email body is truncated in the transcript, so its exact contents (all channel recommendations, tracking code, and actionable-channel count) cannot be fully verified.",
+  "cost": 0.0083301
+ },
+ "marketing.social_benchmark": {
+  "p": 0.35,
+  "risk": "The agent's final email content is only partially visible; the truncated body may omit required verbatim values, the average gap, or competitor names, and the agent never verified the full sent body against the checklist.",
+  "cost": 0.0038372999999999997
+ },
+ "marketing.landing_page_optimization": {
+  "p": 0.0,
+  "risk": "The agent never sent the required recommendations email to web@company.example.com (nor included required CCs, tracking code, or total conversions), so the core deliverable is missing.",
+  "cost": 0.0041988
+ },
+ "marketing.campaign_handoff": {
+  "p": 0.15,
+  "risk": "Handoff documents were created as empty Google Docs without the required summary content.",
+  "cost": 0.011352899999999999
+ },
+ "marketing.win_loss_analysis": {
+  "p": 0.35,
+  "risk": "The agent's scope rules (December 2025 only, exclude deals under $10,000, exclude trials/renewals/channel referrals) appear to be invented or misread \u2014 the visible authoritative email only specified the tracking code, win-rate format, subtotal format, and recipient, while the older template said to include ALL deal sizes; the agent also never verified the full sheet data (truncated at row 27) and may have excluded qualifying deals or included/excluded TestDeal incorrectly.",
+  "cost": 0.0029898
+ },
+ "marketing.social_audit": {
+  "p": 0.35,
+  "risk": "The agent excluded Threads and Pinterest based on notes, but the full sheet was truncated and the exclusion criteria (e.g., 'do not include in reports', bot traffic) may not have been fully applied or verified, and the Slack post content was truncated so required elements may be missing.",
+  "cost": 0.0027507
+ },
+ "marketing.product_adoption": {
+  "p": 0.15,
+  "risk": "Emails reformatted MRR values (e.g., $2,500 instead of 2500) and paraphrased feature names, violating the verbatim requirement.",
+  "cost": 0.0105945
+ },
+ "sales.invalid_email_cleanup": {
+  "p": 0.95,
+  "risk": "Potential missed invalid email records in other Salesforce objects (e.g., Users) or a truncated Slack summary, but the core Contacts/Leads cleanup, task creation, logging, and #data-quality post appear correct.",
+  "cost": 0.011136
+ },
+ "sales.chatgpt_contract_summary": {
+  "p": 0.9,
+  "risk": "The contract value and key terms were not visible in the truncated transcript, so if the agent hallucinated them, the adjusted amount and announcement would be wrong.",
+  "cost": 0.0099849
+ },
+ "sales.calendly_availability_based_routing": {
+  "p": 0.12,
+  "risk": "The lead's Description field explicitly requires routing to Junior Rep per a referral agreement, but the agent dismissed it as uncorroborated and assigned Mike Manager instead, likely violating the governing routing rule.",
+  "cost": 0.0056205
+ },
+ "sales.docusign_conditional_template_selection": {
+  "p": 0.35,
+  "risk": "The agent never actually read the governing policy emails (msg_contract_policy, msg_old_govcorp_clearance) or the 'ready' criteria, and it invented contact names/emails (e.g., 'Health Contact', contact@healthcare.example.com) rather than pulling real primary contacts from the CRM, so recipients and eligibility may be wrong.",
+  "cost": 0.005378099999999999
+ },
+ "marketing.customer_story_intake": {
+  "p": 0.9,
+  "risk": "The 'best' submission was selected by highest ARR without an explicit policy, so if the grader expected a different criterion the choice could be wrong.",
+  "cost": 0.0090843
+ },
+ "sales.gcal_deal_milestone_tracker": {
+  "p": 0.55,
+  "risk": "The agent never found or applied any company policy/reference data (no SOP, stage-mapping doc, or eligibility rules were located), and it inferred the deal-to-meeting mapping solely from account names, so the stage updates may not match the intended qualifying set or mapping.",
+  "cost": 0.0037821
+ },
+ "operations.monday_email_update": {
+  "p": 0.12,
+  "risk": "The agent applied the wrong source update: the authoritative 'final' email (msg_move_018, Done/2026-02-08) supersedes all prior updates, but the agent discarded it and instead used msg_move_011 (In Progress/2026-02-07), so the Monday status/due and the confirmation email are likely incorrect.",
+  "cost": 0.0038009999999999997
+ },
+ "operations.drive_notion_archive": {
+  "p": 0.3,
+  "risk": "The Notion log entry likely lacks archive details because the children blocks were nested under properties instead of top-level, so the page may only contain the title.",
+  "cost": 0.009600299999999999
+ },
+ "operations.sheets_asana_approved_request": {
+  "p": 0.1,
+  "risk": "The Asana task description records the outdated $800 cost instead of the updated $950 from the procurement email, so finance/audit tracking is incorrect.",
+  "cost": 0.0083172
+ },
+ "operations.zoom_change_advisory": {
+  "p": 0.55,
+  "risk": "The agent selected 'Database Migration - Production' (urgency 92) as the most urgent high-risk Approved change, but the truncated sheet data shows a 'Security Patch D...' row that may have a higher urgency score; if that row is Approved rather than Blocked, the wrong change was chosen and all four downstream artifacts target the wrong record.",
+  "cost": 0.0054954
+ },
+ "operations.zoom_board_meeting": {
+  "p": 0.55,
+  "risk": "The Notion page creation body appears malformed (children nested inside properties, truncated), so the agenda page may lack the required meeting details/attendees/standard agenda items, and the Monday item's name may be empty.",
+  "cost": 0.0049971
+ },
+ "operations.google_ads_budget_alert": {
+  "p": 0.35,
+  "risk": "The projection formula is unverified (agent assumed spend-to-date extrapolated over 5 remaining days, but the environment may define 'current pace' differently, e.g. daily_budget-based), and the agent overwrote/cleared the Alerts sheet header row, potentially corrupting the expected log structure.",
+  "cost": 0.0054432
+ },
+ "operations.mailchimp_ecommerce_sync": {
+  "p": 0.9,
+  "risk": "The tagging policy sheet was truncated at the Marketing Opt-Out rule, so a possible additional rule (e.g., a tag for opt-out handling or a value threshold nuance) may have been missed, though the visible rules were applied correctly.",
+  "cost": 0.0020829
+ },
+ "operations.hubspot_mailchimp_sync": {
+  "p": 0.35,
+  "risk": "The agent never actually retrieved the full HubSpot contact list (only 7 contacts seen, and the search result was truncated), never verified the legal-hold/notes exclusion rule against real contact notes, and the log append/verification shows a malformed header row ('A','B','C'...) suggesting the log may be corrupted or misaligned.",
+  "cost": 0.0031019999999999997
+ },
+ "operations.equipment_lease_processing": {
+  "p": 0.35,
+  "risk": "The agent never read the full Lease Requests sheet (truncated at LR-404) or the full Procurement Policy, so it may have missed requests, notes/flags, or rules, and it used the generic tpl_equip_lease template rather than the department-specific one, plus it fabricated a send date and possibly a requestor email (t.nguyen) not verified in the source data.",
+  "cost": 0.0058248
+ },
+ "operations.mailroom_package_routing": {
+  "p": 0.25,
+  "risk": "An unrequested test SMS was sent to Alex Rivera's phone and could not be deleted, leaving an extra message in the final state.",
+  "cost": 0.0080874
+ },
+ "support.zendesk_weekend_handoff": {
+  "p": 0.35,
+  "risk": "The agent never found or applied any governing policy defining which tickets 'need weekend coverage' (it invented a high/urgent+open rule), and it added an unrequested 'weekend-watch' tag to the processed tickets, so the qualifying set and side effects may not match the grader's expected state.",
+  "cost": 0.0046428
+ },
+ "support.freshdesk_auto_merge": {
+  "p": 0.15,
+  "risk": "The required amounts from source data were never found or included in the Slack/log messages, and the Freshdesk merge was only simulated by closing duplicates and adding notes because the merge endpoint was unavailable.",
+  "cost": 0.006975
+ },
+ "support.intercom_sentiment_escalation": {
+  "p": 0.1,
+  "risk": "The agent never assigned the qualifying Intercom conversations to an admin/team (assignee_id remained null) and did not include any actual source-data amounts in the Slack summary, so required writes/message content are missing.",
+  "cost": 0.007557899999999999
+ },
+ "support.helpscout_response_audit": {
+  "p": 0.35,
+  "risk": "The agent's audit appears incomplete/incorrect: it only saw a truncated conversation list and may have missed conversations, and its violation determinations (e.g., hs_qa02 flagged for missing greeting despite 'Best regards', hs_qa05 'Hi there!' greeting) suggest criteria were misapplied, so tags/logs may be wrong or incomplete.",
+  "cost": 0.0022176
+ },
+ "support.helpcrunch_usage_alerts": {
+  "p": 0.25,
+  "risk": "The agent never retrieved the full customer list (only 13 of possibly more customers, and hc_u06/hc_u10/hc_u14+ were never confirmed), and it applied tags via a PUT that appends rather than replaces, so pre-existing tags like 'trial' may remain alongside new usage tags, potentially violating the 'tag as low/normal/high-usage' rule; also the alert-rule action text (recipient, exact required fields) was truncated and never fully read.",
+  "cost": 0.0054183
+ },
+ "support.hiver_escalation_patterns": {
+  "p": 0.35,
+  "risk": "The agent never read the Escalation Thresholds sheet (only Pattern Definitions was partially shown), so the 'serious ones' threshold and Jira priority mapping may be wrong, and it created tickets in an unverified 'OPS' project while the transcript is truncated before the final self-check.",
+  "cost": 0.0039299999999999995
+ },
+ "support.freshdesk_csat_followup": {
+  "p": 0.35,
+  "risk": "The agent marked 12 rows processed via two ranges (E2:E11 and E16:E17) but the transcript never shows the full Responses sheet, so the row-to-ticket mapping and the exact set of processed rows (and thus the Low/Medium/High counts) cannot be verified against the actual data.",
+  "cost": 0.006369
+ },
+ "support.helpscout_customer_effort": {
+  "p": 0.35,
+  "risk": "The agent never retrieved the actual HelpScout conversation data (the conversations list returned empty/404), so the effort scores, reply counts, and high-effort classifications appear fabricated rather than computed from real data, and the tagging was applied to conversation IDs rather than customer records.",
+  "cost": 0.005724
+ },
+ "support.reamaze_multi_channel_dedup": {
+  "p": 0.35,
+  "risk": "The agent never found or applied any dedup/merge SOP or eligibility rules, and it 'merged' by merely tagging duplicate conversations as resolved rather than actually merging them, so the true merge semantics and required documentation may be wrong.",
+  "cost": 0.0036549
+ },
+ "support.hiver_quality_coaching": {
+  "p": 0.25,
+  "risk": "The agent's per-conversation quality analysis (issue counts, reopened tags, short-response detection) is never shown in full and appears partly fabricated, and the logged Agent Reviews rows may not match the actual Hiver conversation data or the rules' exact wording.",
+  "cost": 0.0032102999999999997
+ },
+ "finance.po_email_logging": {
+  "p": 0.9,
+  "risk": "The Slack duplicate notification paraphrased the date as 'January 29, 2026 (2026-01-29)' rather than preserving the source value '2026-01-29' verbatim, which may violate the verbatim-preservation requirement.",
+  "cost": 0.0021021
+ },
+ "finance.tax_prep_summary": {
+  "p": 0.35,
+  "risk": "The agent computed totals from only the truncated Q4 2025 sheet (which was cut off mid-row) and may have missed qualifying vendors or misapplied the $600 threshold/classification rules, and it also made an unrequested write to the Vendor Registry.",
+  "cost": 0.0036969
+ },
+ "finance.refund_processing": {
+  "p": 0.01,
+  "risk": "Agent created an ineligible refund receipt for REF-101 and failed to notify customers or process the other cases according to the over-60-day policy.",
+  "cost": 0.0058809
+ },
+ "finance.qb_sales_receipt_batch": {
+  "p": 0.05,
+  "risk": "Final QuickBooks state contains extra unintended sales receipts (stray records and a duplicate TXN-5002 with missing tax) from failed delete attempts, so the required records are not the only ones and one duplicate is incorrect.",
+  "cost": 0.0069777
+ },
+ "finance.credit_card_reconciliation": {
+  "p": 0.12,
+  "risk": "Notifications used rounded amounts ($156, $42, $75) instead of verbatim source values ($156.00, $42.00, $75.00), and the sheet was left with a wrong/duplicate header row.",
+  "cost": 0.0082992
+ },
+ "finance.qb_bill_payment_batch": {
+  "p": 0.0,
+  "risk": "The agent never created any QuickBooks bill payments, sent vendor notifications, or posted the Slack summary, so the requested workflow was not completed.",
+  "cost": 0.0046956
+ },
+ "finance.lease_payment_schedule": {
+  "p": 0.25,
+  "risk": "The agent inferred 'today' as 2026-11-02 from a Slack timestamp and unilaterally excluded Warehouse A and Equipment (Copier) as 'expired/stale', but the task asked to verify amounts against lease agreements (which were never found) and to prepare payments for all leases due this month \u2014 the grader may expect all four leases included, and the combined total ($19,200 vs. $28,050) and renewal flags could be wrong.",
+  "cost": 0.0053796
+ },
+ "finance.xero_quote_to_invoice": {
+  "p": 0.35,
+  "risk": "The agent never applied the user's explicit 8% price bump for sub-$10,000 quotes (QU-104 at $7,500), instead deferring to an email policy that forbade modifying accepted quotes, so the requested pricing change was silently dropped.",
+  "cost": 0.0056652
+ },
+ "finance.intercompany_balance_recon": {
+  "p": 0.95,
+  "risk": "The sent email body is truncated in the transcript, so it is not fully verifiable that all source amounts and mismatch details were included verbatim.",
+  "cost": 0.0059334
+ },
+ "finance.forex_gain_loss": {
+  "p": 0.55,
+  "risk": "The email body was truncated in the tool result, so it's unverified whether all three invoices' full details (especially INV-FX-002 and INV-FX-003) and the net total were actually included verbatim in the sent message.",
+  "cost": 0.0023681999999999996
+ },
+ "hr.candidate_research_dossier": {
+  "p": 0.25,
+  "risk": "The agent never actually read the interview schedule sheet contents (the range fetch returned only spreadsheet metadata, no rows), so candidate/panel/date/role data and the 'finalist' determination appear fabricated rather than sourced, and the briefs' dossier content (LinkedIn experiences/education/skills were all empty) may not match the real source data.",
+  "cost": 0.005600699999999999
+ },
+ "hr.twilio_interview_reminders": {
+  "p": 0.15,
+  "risk": "An unrequested test SMS was sent to Liam O'Brien and could not be deleted, so the final Twilio state contains an extra message beyond the two required reminders.",
+  "cost": 0.0063888
+ },
+ "hr.workforce_planning_forecast": {
+  "p": 0.9,
+  "risk": "The agent correctly honored the newer hiring freeze by not submitting/posting, but the hidden grader might still expect a hiring-committee summary or Slack post, or the status email may not have preserved all source values verbatim.",
+  "cost": 0.008825099999999999
+ },
+ "hr.employee_transfer_approval_workflow": {
+  "p": 0.35,
+  "risk": "The agent never updated BambooHR (deferring to HRIS Admin per policy) and never updated the spreadsheet statuses, so the hidden grader may expect the transfer records/statuses to be written; also the HRIS email body was truncated in the transcript, risking missing required fields.",
+  "cost": 0.0032795999999999997
+ },
+ "hr.employee_request_routing": {
+  "p": 0.55,
+  "risk": "The agent correctly refused the legal CC and avoided direct resolution, but it never marked the original inbox messages as read/archived or otherwise updated their status, so the triage may be incomplete if the grader expects the source messages to be processed (labeled/closed) rather than just routed.",
+  "cost": 0.0053831999999999994
+ },
+ "hr.salary_adjustment_processing": {
+  "p": 0.55,
+  "risk": "The agent never updated the employees' actual HR/comp records (e.g., BambooHR compensation tables) \u2014 it only changed the tracker's Status column \u2014 and the truncated tool results make it unverifiable whether the VP approval email and all notification emails contained the complete required amounts/names.",
+  "cost": 0.0040032
+ },
+ "hr.performance_review_kickoff": {
+  "p": 0.85,
+  "risk": "If the grader treats the user's explicit 'including probationary employees' as overriding the VP policy, the agent under-sent by excluding probationary employees.",
+  "cost": 0.011290499999999998
+ },
+ "hr.equipment_provisioning": {
+  "p": 0.12,
+  "risk": "The agent never verified the correct Jira project key (all project searches returned empty) and guessed 'IT', plus it created a stray probe issue ZZZ-081d6 and may have mis-scoped eligibility (e.g., Elena Rossi's 'equipment already shipped' note and the truncated roster), so tickets/email may be in the wrong project or for the wrong set of people.",
+  "cost": 0.0055988999999999995
+ },
+ "hr.i9_verification_tracking": {
+  "p": 0.35,
+  "risk": "The agent never retrieved the full procedures guide (only a truncated snippet) and never confirmed the current date (2026-04-16) from any authoritative source, so the business-day deadline classification and the reminder-vs-violation split for borderline hires (e.g., Esme Nakamura, Hank Morrison) may be wrong, and the tracker's status column may have been updated incorrectly.",
+  "cost": 0.0059625
+ },
+ "hr.headcount_planning": {
+  "p": 0.55,
+  "risk": "The agent withheld the #all-staff post based on a confidentiality instruction in the CFO email, but the user explicitly requested an all-staff version; if that policy was not actually authoritative or the grader expects the all-staff post, a required write is missing.",
+  "cost": 0.0031047
+ }
+}
