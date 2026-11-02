@@ -1,0 +1,104 @@
+Filtering to 60 tasks: ['sales.calendly_availability_based_routing', 
+'sales.invalid_email_cleanup', 'sales.chatgpt_contract_summary', 
+'sales.docusign_conditional_template_selection', 
+'sales.add_contact_to_campaign', 'sales.zoom_customer_health', 
+'sales.call_transcription', 'sales.negative_selection', 
+'sales.multi_hop_lookup', 'sales.gcal_deal_milestone_tracker', 
+'marketing.win_loss_analysis', 'marketing.social_audit', 
+'marketing.customer_story_intake', 'marketing.landing_page_optimization', 
+'marketing.social_benchmark', 'marketing.product_adoption', 
+'marketing.budget_reallocation', 'marketing.content_performance', 
+'marketing.ad_performance_review', 'marketing.campaign_handoff', 
+'operations.drive_notion_archive', 'operations.zoom_board_meeting', 
+'operations.sheets_asana_approved_request', 'operations.hubspot_mailchimp_sync',
+'operations.monday_email_update', 'operations.equipment_lease_processing', 
+'operations.zoom_change_advisory', 'operations.mailchimp_ecommerce_sync', 
+'operations.google_ads_budget_alert', 'operations.mailroom_package_routing', 
+'support.freshdesk_csat_followup', 'support.zendesk_weekend_handoff', 
+'support.helpscout_response_audit', 'support.intercom_sentiment_escalation', 
+'support.helpcrunch_usage_alerts', 'support.hiver_escalation_patterns', 
+'support.hiver_quality_coaching', 'support.reamaze_multi_channel_dedup', 
+'support.helpscout_customer_effort', 'support.freshdesk_auto_merge', 
+'finance.qb_bill_payment_batch', 'finance.credit_card_reconciliation', 
+'finance.lease_payment_schedule', 'finance.qb_sales_receipt_batch', 
+'finance.forex_gain_loss', 'finance.refund_processing', 
+'finance.xero_quote_to_invoice', 'finance.intercompany_balance_recon', 
+'finance.tax_prep_summary', 'finance.po_email_logging', 
+'hr.equipment_provisioning', 'hr.twilio_interview_reminders', 
+'hr.employee_transfer_approval_workflow', 'hr.i9_verification_tracking', 
+'hr.employee_request_routing', 'hr.performance_review_kickoff', 
+'hr.candidate_research_dossier', 'hr.salary_adjustment_processing', 
+'hr.workforce_planning_forecast', 'hr.headcount_planning']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 60 groups (60 total rollouts):   0%|          | 0/60 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [00:41<40:46, 41.46s/it, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [00:41<40:46, 41.46s/it, reward=0.800, pass_rate=0.000]Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [00:45<18:43, 19.37s/it, reward=0.800, pass_rate=0.000]Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [00:45<18:43, 19.37s/it, reward=0.900, pass_rate=0.500]Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [01:13<22:14, 23.41s/it, reward=0.900, pass_rate=0.500]Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [01:13<22:14, 23.41s/it, reward=0.711, pass_rate=0.333]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [02:10<34:01, 36.45s/it, reward=0.711, pass_rate=0.333]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [02:10<34:01, 36.45s/it, reward=0.757, pass_rate=0.250]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [02:37<30:27, 33.22s/it, reward=0.757, pass_rate=0.250]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [02:37<30:27, 33.22s/it, reward=0.766, pass_rate=0.200]Processing 60 groups (60 total rollouts):  10%|█         | 6/60 [02:58<26:03, 28.95s/it, reward=0.766, pass_rate=0.200]Processing 60 groups (60 total rollouts):  10%|█         | 6/60 [02:58<26:03, 28.95s/it, reward=0.777, pass_rate=0.167]Processing 60 groups (60 total rollouts):  12%|█▏        | 7/60 [03:03<18:37, 21.09s/it, reward=0.777, pass_rate=0.167]Processing 60 groups (60 total rollouts):  12%|█▏        | 7/60 [03:03<18:37, 21.09s/it, reward=0.809, pass_rate=0.286]Processing 60 groups (60 total rollouts):  13%|█▎        | 8/60 [03:24<18:26, 21.28s/it, reward=0.809, pass_rate=0.286]Processing 60 groups (60 total rollouts):  13%|█▎        | 8/60 [03:24<18:26, 21.28s/it, reward=0.833, pass_rate=0.375]Processing 60 groups (60 total rollouts):  15%|█▌        | 9/60 [04:22<27:39, 32.53s/it, reward=0.833, pass_rate=0.375]Processing 60 groups (60 total rollouts):  15%|█▌        | 9/60 [04:22<27:39, 32.53s/it, reward=0.829, pass_rate=0.333]Task was destroyed but it is pending!
+task: <Task pending name='Task-153' coro=<Environment._teardown() running at ~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py:630>>
+<sys>:0: RuntimeWarning: coroutine 'Environment._teardown' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Task was destroyed but it is pending!
+task: <Task cancelling name='Task-1' coro=<run_evaluation() running at ~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py:430> wait_for=<Future cancelled>>
+Exception ignored in: <coroutine object run_evaluation at 0x1396c9600>
+Traceback (most recent call last):
+  File "~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py", line 430, in run_evaluation
+    results = await env.evaluate(
+  File "~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py", line 1255, in evaluate
+    return await self.generate(
+  File "~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py", line 1130, in generate
+    task.cancel()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/tasks.py", line 776, in cancel
+    if child.cancel(msg=msg):
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 833, in call_soon
+    self._check_closed()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Processing 60 groups (60 total rollouts):  15%|█▌        | 9/60 [05:17<29:59, 35.29s/it, reward=0.829, pass_rate=0.333]
+Filtering to 51 tasks: ['sales.zoom_customer_health', 
+'sales.call_transcription', 'sales.multi_hop_lookup', 
+'marketing.win_loss_analysis', 'marketing.social_audit', 
+'marketing.customer_story_intake', 'marketing.landing_page_optimization', 
+'marketing.social_benchmark', 'marketing.product_adoption', 
+'marketing.ad_performance_review', 'marketing.campaign_handoff', 
+'operations.drive_notion_archive', 'operations.zoom_board_meeting', 
+'operations.sheets_asana_approved_request', 'operations.hubspot_mailchimp_sync',
+'operations.monday_email_update', 'operations.equipment_lease_processing', 
+'operations.zoom_change_advisory', 'operations.mailchimp_ecommerce_sync', 
+'operations.google_ads_budget_alert', 'operations.mailroom_package_routing', 
+'support.freshdesk_csat_followup', 'support.zendesk_weekend_handoff', 
+'support.helpscout_response_audit', 'support.intercom_sentiment_escalation', 
+'support.helpcrunch_usage_alerts', 'support.hiver_escalation_patterns', 
+'support.hiver_quality_coaching', 'support.reamaze_multi_channel_dedup', 
+'support.helpscout_customer_effort', 'support.freshdesk_auto_merge', 
+'finance.qb_bill_payment_batch', 'finance.credit_card_reconciliation', 
+'finance.lease_payment_schedule', 'finance.qb_sales_receipt_batch', 
+'finance.forex_gain_loss', 'finance.refund_processing', 
+'finance.xero_quote_to_invoice', 'finance.intercompany_balance_recon', 
+'finance.tax_prep_summary', 'finance.po_email_logging', 
+'hr.equipment_provisioning', 'hr.twilio_interview_reminders', 
+'hr.employee_transfer_approval_workflow', 'hr.i9_verification_tracking', 
+'hr.employee_request_routing', 'hr.performance_review_kickoff', 
+'hr.candidate_research_dossier', 'hr.salary_adjustment_processing', 
+'hr.workforce_planning_forecast', 'hr.headcount_planning']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 51 groups (51 total rollouts):   0%|          | 0/51 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 51 groups (51 total rollouts):   2%|▏         | 1/51 [01:24<1:10:17, 84.35s/it, pass_rate=?, reward=?]Processing 51 groups (51 total rollouts):   2%|▏         | 1/51 [01:24<1:10:17, 84.35s/it, reward=0.667, pass_rate=0.000]Processing 51 groups (51 total rollouts):   4%|▍         | 2/51 [03:24<1:25:59, 105.30s/it, reward=0.667, pass_rate=0.000]Processing 51 groups (51 total rollouts):   4%|▍         | 2/51 [03:24<1:25:59, 105.30s/it, reward=0.808, pass_rate=0.000]Processing 51 groups (51 total rollouts):   6%|▌         | 3/51 [03:40<51:46, 64.72s/it, reward=0.808, pass_rate=0.000]   Processing 51 groups (51 total rollouts):   6%|▌         | 3/51 [03:40<51:46, 64.72s/it, reward=0.872, pass_rate=0.333]Processing 51 groups (51 total rollouts):   8%|▊         | 4/51 [04:56<54:02, 69.00s/it, reward=0.872, pass_rate=0.333]Processing 51 groups (51 total rollouts):   8%|▊         | 4/51 [04:56<54:02, 69.00s/it, reward=0.866, pass_rate=0.250]Processing 51 groups (51 total rollouts):  10%|▉         | 5/51 [04:56<34:00, 44.36s/it, reward=0.866, pass_rate=0.250]Processing 51 groups (51 total rollouts):  10%|▉         | 5/51 [04:56<34:00, 44.36s/it, reward=0.856, pass_rate=0.200]Processing 51 groups (51 total rollouts):  12%|█▏        | 6/51 [05:50<35:39, 47.54s/it, reward=0.856, pass_rate=0.200]Processing 51 groups (51 total rollouts):  12%|█▏        | 6/51 [05:50<35:39, 47.54s/it, reward=0.880, pass_rate=0.333]Processing 51 groups (51 total rollouts):  14%|█▎        | 7/51 [06:34<33:53, 46.22s/it, reward=0.880, pass_rate=0.333]Processing 51 groups (51 total rollouts):  14%|█▎        | 7/51 [06:34<33:53, 46.22s/it, reward=0.863, pass_rate=0.286]

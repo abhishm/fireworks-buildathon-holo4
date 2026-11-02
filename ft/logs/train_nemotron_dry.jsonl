@@ -1,0 +1,6 @@
+{"event": "data", "rows": 2, "tokens": 15611, "max_len": 8404, "t": 1793650269.2}
+{"event": "plan", "steps": 1, "planned_tokens": 15611, "est_cost": 0.04, "t": 1793650269.2}
+{"event": "session", "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-fa3b9652465d4fabb2d9df822cf03fe9", "run_id": "run-4b9481cc8edc4dd2af25bf2f69895e70", "base_model": "accounts/fireworks/models/nvidia-nemotron-3p5-super-vl-120b-a12b-bf16", "t": 1793650271.2}
+{"event": "step", "step": 1, "total": 1, "epoch": 0, "lr": 4e-05, "loss": 0.293809810917213, "metrics": {"loss:sum": 0.5876196026802063, "total_tokens:sum": 15609.0, "dp_sharded_counts:min": 0.0, "dp_sharded_counts:max": 0.0, "local_input_sequences:sum": 2.0, "response_tokens": 4101.0}, "batch_tokens": 15611, "cum_tokens": 15611, "est_cost": 0.036, "elapsed": 5.2, "t": 1793650276.5}
+{"event": "sampler_ckpt", "name": "ndry-fin-1211", "path": "FW_ACCOUNT_A/run-4b9481cc8edc4dd2af25bf2f69895e70/ndry-fin-1211-aa6b5192", "t": 1793650284.3}
+{"event": "done", "sampler_path": "FW_ACCOUNT_A/run-4b9481cc8edc4dd2af25bf2f69895e70/ndry-fin-1211-aa6b5192", "cum_tokens": 15611, "t": 1793650284.3}

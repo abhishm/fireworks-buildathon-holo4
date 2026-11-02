@@ -1,0 +1,99 @@
+Filtering to 60 tasks: ['sales.calendly_availability_based_routing', 
+'sales.invalid_email_cleanup', 'sales.chatgpt_contract_summary', 
+'sales.docusign_conditional_template_selection', 
+'sales.add_contact_to_campaign', 'sales.zoom_customer_health', 
+'sales.call_transcription', 'sales.negative_selection', 
+'sales.multi_hop_lookup', 'sales.gcal_deal_milestone_tracker', 
+'marketing.win_loss_analysis', 'marketing.social_audit', 
+'marketing.customer_story_intake', 'marketing.landing_page_optimization', 
+'marketing.social_benchmark', 'marketing.product_adoption', 
+'marketing.budget_reallocation', 'marketing.content_performance', 
+'marketing.ad_performance_review', 'marketing.campaign_handoff', 
+'operations.drive_notion_archive', 'operations.zoom_board_meeting', 
+'operations.sheets_asana_approved_request', 'operations.hubspot_mailchimp_sync',
+'operations.monday_email_update', 'operations.equipment_lease_processing', 
+'operations.zoom_change_advisory', 'operations.mailchimp_ecommerce_sync', 
+'operations.google_ads_budget_alert', 'operations.mailroom_package_routing', 
+'support.freshdesk_csat_followup', 'support.zendesk_weekend_handoff', 
+'support.helpscout_response_audit', 'support.intercom_sentiment_escalation', 
+'support.helpcrunch_usage_alerts', 'support.hiver_escalation_patterns', 
+'support.hiver_quality_coaching', 'support.reamaze_multi_channel_dedup', 
+'support.helpscout_customer_effort', 'support.freshdesk_auto_merge', 
+'finance.qb_bill_payment_batch', 'finance.credit_card_reconciliation', 
+'finance.lease_payment_schedule', 'finance.qb_sales_receipt_batch', 
+'finance.forex_gain_loss', 'finance.refund_processing', 
+'finance.xero_quote_to_invoice', 'finance.intercompany_balance_recon', 
+'finance.tax_prep_summary', 'finance.po_email_logging', 
+'hr.equipment_provisioning', 'hr.twilio_interview_reminders', 
+'hr.employee_transfer_approval_workflow', 'hr.i9_verification_tracking', 
+'hr.employee_request_routing', 'hr.performance_review_kickoff', 
+'hr.candidate_research_dossier', 'hr.salary_adjustment_processing', 
+'hr.workforce_planning_forecast', 'hr.headcount_planning']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 60 groups (60 total rollouts):   0%|          | 0/60 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [02:02<2:00:46, 122.82s/it, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [02:02<2:00:46, 122.82s/it, reward=0.833, pass_rate=0.000]Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [02:30<1:04:42, 66.95s/it, reward=0.833, pass_rate=0.000] Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [02:30<1:04:42, 66.95s/it, reward=0.917, pass_rate=0.500]Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [02:35<36:45, 38.69s/it, reward=0.917, pass_rate=0.500]  Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [02:35<36:45, 38.69s/it, reward=0.944, pass_rate=0.667]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [03:08<33:54, 36.33s/it, reward=0.944, pass_rate=0.667]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [03:08<33:54, 36.33s/it, reward=0.958, pass_rate=0.750]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [03:50<35:04, 38.27s/it, reward=0.958, pass_rate=0.750]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [03:50<35:04, 38.27s/it, reward=0.887, pass_rate=0.600]Task was destroyed but it is pending!
+task: <Task cancelling name='Task-117' coro=<Environment._teardown() running at ~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py:630>>
+<sys>:0: RuntimeWarning: coroutine 'Environment._teardown' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Task was destroyed but it is pending!
+task: <Task cancelling name='Task-1' coro=<run_evaluation() running at ~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py:430> wait_for=<Future cancelled>>
+Exception ignored in: <coroutine object run_evaluation at 0x16f663040>
+Traceback (most recent call last):
+  File "~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py", line 430, in run_evaluation
+    results = await env.evaluate(
+  File "~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py", line 1255, in evaluate
+    return await self.generate(
+RuntimeError: coroutine ignored GeneratorExit
+Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [05:17<58:13, 63.52s/it, reward=0.887, pass_rate=0.600]
+Filtering to 55 tasks: ['sales.calendly_availability_based_routing', 
+'sales.chatgpt_contract_summary', 
+'sales.docusign_conditional_template_selection', 'sales.zoom_customer_health', 
+'sales.multi_hop_lookup', 'marketing.win_loss_analysis', 
+'marketing.social_audit', 'marketing.customer_story_intake', 
+'marketing.landing_page_optimization', 'marketing.social_benchmark', 
+'marketing.product_adoption', 'marketing.budget_reallocation', 
+'marketing.content_performance', 'marketing.ad_performance_review', 
+'marketing.campaign_handoff', 'operations.drive_notion_archive', 
+'operations.zoom_board_meeting', 'operations.sheets_asana_approved_request', 
+'operations.hubspot_mailchimp_sync', 'operations.monday_email_update', 
+'operations.equipment_lease_processing', 'operations.zoom_change_advisory', 
+'operations.mailchimp_ecommerce_sync', 'operations.google_ads_budget_alert', 
+'operations.mailroom_package_routing', 'support.freshdesk_csat_followup', 
+'support.zendesk_weekend_handoff', 'support.helpscout_response_audit', 
+'support.intercom_sentiment_escalation', 'support.helpcrunch_usage_alerts', 
+'support.hiver_escalation_patterns', 'support.hiver_quality_coaching', 
+'support.reamaze_multi_channel_dedup', 'support.helpscout_customer_effort', 
+'support.freshdesk_auto_merge', 'finance.qb_bill_payment_batch', 
+'finance.credit_card_reconciliation', 'finance.lease_payment_schedule', 
+'finance.qb_sales_receipt_batch', 'finance.forex_gain_loss', 
+'finance.refund_processing', 'finance.xero_quote_to_invoice', 
+'finance.intercompany_balance_recon', 'finance.tax_prep_summary', 
+'finance.po_email_logging', 'hr.equipment_provisioning', 
+'hr.twilio_interview_reminders', 'hr.employee_transfer_approval_workflow', 
+'hr.i9_verification_tracking', 'hr.employee_request_routing', 
+'hr.performance_review_kickoff', 'hr.candidate_research_dossier', 
+'hr.salary_adjustment_processing', 'hr.workforce_planning_forecast', 
+'hr.headcount_planning']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 55 groups (55 total rollouts):   0%|          | 0/55 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 55 groups (55 total rollouts):   2%|▏         | 1/55 [04:48<4:19:21, 288.19s/it, pass_rate=?, reward=?]Processing 55 groups (55 total rollouts):   2%|▏         | 1/55 [04:48<4:19:21, 288.19s/it, reward=0.895, pass_rate=0.000]

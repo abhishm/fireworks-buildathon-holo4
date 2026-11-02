@@ -1,0 +1,26 @@
+# External clones (see patches/ for local AutomationBench changes)
+AutomationBench/
+ft/cookbook/
+
+# Large, regenerable data (Hcompany/trajectories derived)
+ft/data/
+data/traj/
+
+# Python virtual environments / caches
+.venv*/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+*.lock
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+*.swp

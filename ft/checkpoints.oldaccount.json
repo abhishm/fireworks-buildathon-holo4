@@ -1,0 +1,56 @@
+{
+  "nemotron_dry": {
+    "base_model": "accounts/fireworks/models/nvidia-nemotron-3p5-super-vl-120b-a12b-bf16",
+    "renderer": "nemotron35_vl",
+    "tokenizer": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
+    "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-fa3b9652465d4fabb2d9df822cf03fe9",
+    "run_id": "run-4b9481cc8edc4dd2af25bf2f69895e70",
+    "status": "done",
+    "sampler_path": "FW_ACCOUNT_A/run-4b9481cc8edc4dd2af25bf2f69895e70/ndry-fin-1211-aa6b5192",
+    "steps": 1,
+    "train_tokens": 15611,
+    "est_cost_usd": 0.04
+  },
+  "qwen_dry": {
+    "base_model": "accounts/fireworks/models/qwen3p6-35b-a3b",
+    "renderer": "qwen3_6_interleaved",
+    "tokenizer": "Qwen/Qwen3.6-35B-A3B",
+    "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-86057b21d7a34a189fe28acd4e829fb4",
+    "run_id": "run-a4d32e5f14094c1385cd99cfc407a9c0",
+    "status": "done",
+    "sampler_path": "FW_ACCOUNT_A/run-a4d32e5f14094c1385cd99cfc407a9c0/qdry-fin-1211-ef93dad9",
+    "steps": 1,
+    "train_tokens": 15219,
+    "est_cost_usd": 0.03
+  },
+  "nemotron": {
+    "base_model": "accounts/fireworks/models/nvidia-nemotron-3p5-super-vl-120b-a12b-bf16",
+    "renderer": "nemotron35_vl",
+    "tokenizer": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
+    "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-a4a19ca23742418aa9c0d2bfa23c036b",
+    "run_id": "run-85f0368aeace4c9082d05b789d0c167f",
+    "status": "done",
+    "sampler_path_step12": "FW_ACCOUNT_A/run-85f0368aeace4c9082d05b789d0c167f/nrun-s12-1212-db88363c",
+    "sampler_path_step24": "FW_ACCOUNT_A/run-85f0368aeace4c9082d05b789d0c167f/nrun-s24-1212-db88363c",
+    "sampler_path": "FW_ACCOUNT_A/run-85f0368aeace4c9082d05b789d0c167f/nrun-fin-1212-db88363c",
+    "steps": 32,
+    "train_tokens": 4996653,
+    "est_cost_usd": 11.59,
+    "promoted_model": "accounts/FW_ACCOUNT_A/models/holo-ab-nemotron-sft-11021221"
+  },
+  "qwen": {
+    "base_model": "accounts/fireworks/models/qwen3p6-35b-a3b",
+    "renderer": "qwen3_6_interleaved",
+    "tokenizer": "Qwen/Qwen3.6-35B-A3B",
+    "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-db61efadbaef4623a7501daa0d6068c9",
+    "run_id": "run-bfc18cdcb47a4873a000bda68f0b861d",
+    "status": "done",
+    "sampler_path_step12": "FW_ACCOUNT_A/run-bfc18cdcb47a4873a000bda68f0b861d/qrun-s12-1212-d07d5db4",
+    "sampler_path_step24": "FW_ACCOUNT_A/run-bfc18cdcb47a4873a000bda68f0b861d/qrun-s24-1212-d07d5db4",
+    "sampler_path": "FW_ACCOUNT_A/run-bfc18cdcb47a4873a000bda68f0b861d/qrun-fin-1212-d07d5db4",
+    "steps": 33,
+    "train_tokens": 4991770,
+    "est_cost_usd": 10.68,
+    "promoted_model": "accounts/FW_ACCOUNT_A/models/holo-ab-qwen-sft-11021227"
+  }
+}

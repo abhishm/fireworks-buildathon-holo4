@@ -1,0 +1,36 @@
+Filtering to 2 tasks: ['sales.priority_selection', 
+'finance.late_fee_calculation']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 2 groups (2 total rollouts):   0%|          | 0/2 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 2 groups (2 total rollouts):  50%|█████     | 1/2 [02:32<02:32, 152.60s/it, pass_rate=?, reward=?]Processing 2 groups (2 total rollouts):  50%|█████     | 1/2 [02:32<02:32, 152.60s/it, reward=0.286, pass_rate=0.000]Processing 2 groups (2 total rollouts): 100%|██████████| 2/2 [04:00<00:00, 114.47s/it, reward=0.286, pass_rate=0.000]Processing 2 groups (2 total rollouts): 100%|██████████| 2/2 [04:00<00:00, 114.47s/it, reward=0.143, pass_rate=0.000]
+                                  Token Usage                                   
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Task                         ┃    Tokens ┃                    In/Out ┃  Cost ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━┩
+│ 1. sales.priority_selection  │ 1,427,002 │ 1,391,283 in / 35,719 out │ $0.46 │
+│ 2.                           │   307,134 │   286,004 in / 21,130 out │ $0.11 │
+│ finance.late_fee_calculation │           │                           │       │
+└──────────────────────────────┴───────────┴───────────────────────────┴───────┘
+
+Total: 1,734,136 (1,677,287 in / 56,849 out)
+Estimated cost: $0.57 
+(cli-override/accounts/fireworks/models/deepseek-v4p1-flash)
+
+─────────────────────────────────── Results ────────────────────────────────────
+Average score (partial credit): 14%
+Pass rate (100% only): 0%
+  Task 1 (sales.priority_selection): FAIL
+  Task 2 (finance.late_fee_calculation): FAIL
+
+Results exported to: ../runs/harness_smoke_ds.json
+Processing 2 groups (2 total rollouts): 100%|██████████| 2/2 [04:00<00:00, 120.20s/it, reward=0.143, pass_rate=0.000]

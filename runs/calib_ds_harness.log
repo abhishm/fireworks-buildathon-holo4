@@ -1,0 +1,91 @@
+Filtering to 60 tasks: ['sales.docusign_renewal_automation', 
+'sales.zoom_calendar_conflict', 'sales.priority_selection', 
+'sales.historical_context_pipeline_report', 'sales.zoom_meeting_followup', 
+'marketing.social_roi', 'marketing.social_scheduling', 
+'marketing.content_syndication', 'marketing.linkedin_speaker_outreach', 
+'marketing.event_registration_sync', 
+'operations.safety_incident_investigation_routing', 
+'operations.hazmat_shipping_compliance', 
+'operations.safety_certification_gap_analysis', 
+'operations.drive_slack_dock_schedule', 
+'operations.contractor_badge_expiration', 'support.helpscout_health_sync', 
+'support.zendesk_maintenance_notify', 'support.zoho_sf_enrichment', 
+'support.intercom_freshdesk_escalation', 'support.freshdesk_sla_monitoring', 
+'finance.late_fee_calculation', 'finance.bank_fee_analysis', 
+'finance.annual_budget_prep', 'finance.weekly_expense_summary', 
+'finance.xero_po_matching', 'hr.jira_it_onboarding', 'hr.tuition_reimbursement',
+'hr.expense_report_audit', 'hr.data_migration_validation', 
+'hr.anniversary_recognition', 'sales.meeting_action_items', 
+'sales.send_customer_email', 'sales.zoom_attendance_pipeline', 
+'sales.demo_scheduling', 'sales.unreliable_label_account_review', 
+'marketing.tam_analysis', 'marketing.seo_competitor_gap', 
+'marketing.campaign_roi_analysis', 'marketing.product_launch_channel_plan', 
+'marketing.campaign_launch_checklist', 
+'operations.contractor_onboarding_workflow', 'operations.linkedin_job_change', 
+'operations.parking_allocation_management', 
+'operations.space_utilization_analysis', 'operations.vendor_compliance_audit', 
+'support.zoho_freshdesk_escalation', 'support.reamaze_lifecycle_tagging', 
+'support.zoho_desk_capacity_planning', 'support.zendesk_gdpr_purge', 
+'support.hiver_cross_team_handoff', 'finance.subscription_billing', 
+'finance.expense_anomaly_detection', 'finance.vendor_statement_reconciliation', 
+'finance.contract_billing', 'finance.airtable_expense_approval', 
+'hr.notion_meeting_notes', 'hr.trello_internal_transfers', 
+'hr.comp_review_preparation', 'hr.asana_compliance_tasks', 
+'hr.standup_absence_tracking']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 60 groups (60 total rollouts):   0%|          | 0/60 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [01:03<1:02:09, 63.21s/it, pass_rate=?, reward=?]Processing 60 groups (60 total rollouts):   2%|▏         | 1/60 [01:03<1:02:09, 63.21s/it, reward=1.000, pass_rate=1.000]Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [02:09<1:02:55, 65.09s/it, reward=1.000, pass_rate=1.000]Processing 60 groups (60 total rollouts):   3%|▎         | 2/60 [02:09<1:02:55, 65.09s/it, reward=0.853, pass_rate=0.500]Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [02:34<44:26, 46.79s/it, reward=0.853, pass_rate=0.500]  Processing 60 groups (60 total rollouts):   5%|▌         | 3/60 [02:34<44:26, 46.79s/it, reward=0.902, pass_rate=0.667]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [02:50<32:19, 34.64s/it, reward=0.902, pass_rate=0.667]Processing 60 groups (60 total rollouts):   7%|▋         | 4/60 [02:50<32:19, 34.64s/it, reward=0.864, pass_rate=0.500]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [03:21<30:21, 33.11s/it, reward=0.864, pass_rate=0.500]Processing 60 groups (60 total rollouts):   8%|▊         | 5/60 [03:21<30:21, 33.11s/it, reward=0.891, pass_rate=0.600]Processing 60 groups (60 total rollouts):  10%|█         | 6/60 [03:37<24:41, 27.43s/it, reward=0.891, pass_rate=0.600]Processing 60 groups (60 total rollouts):  10%|█         | 6/60 [03:37<24:41, 27.43s/it, reward=0.886, pass_rate=0.500]Processing 60 groups (60 total rollouts):  10%|█         | 6/60 [05:17<47:38, 52.94s/it, reward=0.886, pass_rate=0.500]
+Filtering to 54 tasks: ['sales.docusign_renewal_automation', 
+'sales.priority_selection', 'marketing.social_roi', 
+'marketing.social_scheduling', 'marketing.content_syndication', 
+'marketing.linkedin_speaker_outreach', 
+'operations.safety_incident_investigation_routing', 
+'operations.hazmat_shipping_compliance', 
+'operations.safety_certification_gap_analysis', 
+'operations.drive_slack_dock_schedule', 
+'operations.contractor_badge_expiration', 'support.helpscout_health_sync', 
+'support.zendesk_maintenance_notify', 'support.zoho_sf_enrichment', 
+'support.intercom_freshdesk_escalation', 'support.freshdesk_sla_monitoring', 
+'finance.late_fee_calculation', 'finance.bank_fee_analysis', 
+'finance.annual_budget_prep', 'finance.weekly_expense_summary', 
+'finance.xero_po_matching', 'hr.jira_it_onboarding', 'hr.tuition_reimbursement',
+'hr.expense_report_audit', 'hr.data_migration_validation', 
+'hr.anniversary_recognition', 'sales.send_customer_email', 
+'sales.zoom_attendance_pipeline', 'sales.unreliable_label_account_review', 
+'marketing.tam_analysis', 'marketing.seo_competitor_gap', 
+'marketing.campaign_roi_analysis', 'marketing.product_launch_channel_plan', 
+'marketing.campaign_launch_checklist', 
+'operations.contractor_onboarding_workflow', 'operations.linkedin_job_change', 
+'operations.parking_allocation_management', 
+'operations.space_utilization_analysis', 'operations.vendor_compliance_audit', 
+'support.zoho_freshdesk_escalation', 'support.reamaze_lifecycle_tagging', 
+'support.zoho_desk_capacity_planning', 'support.zendesk_gdpr_purge', 
+'support.hiver_cross_team_handoff', 'finance.subscription_billing', 
+'finance.expense_anomaly_detection', 'finance.vendor_statement_reconciliation', 
+'finance.contract_billing', 'finance.airtable_expense_approval', 
+'hr.notion_meeting_notes', 'hr.trello_internal_transfers', 
+'hr.comp_review_preparation', 'hr.asana_compliance_tasks', 
+'hr.standup_absence_tracking']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 54 groups (54 total rollouts):   0%|          | 0/54 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.867, pass_rate=0.667]

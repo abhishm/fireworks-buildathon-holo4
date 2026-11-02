@@ -1,0 +1,21 @@
+diff --git a/automationbench/scripts/eval.py b/automationbench/scripts/eval.py
+index fed8beb..0b8ef21 100644
+--- a/automationbench/scripts/eval.py
++++ b/automationbench/scripts/eval.py
+@@ -171,6 +171,16 @@ def _build_progress_callbacks():
+         )
+ 
+     def on_progress(all_outputs, new_outputs, new_metadata):
++        inc = os.environ.get("AB_INCREMENTAL_JSONL")
++        if inc:
++            with open(inc, "a") as fh:
++                for o in new_outputs or []:
++                    fh.write(json.dumps({
++                        "task": _task_name(o),
++                        "reward": o.get("reward", 0.0),
++                        "metrics": o.get("metrics"),
++                        "_usage": o.get("_usage"),
++                    }, default=str) + "\n")
+         pbar = state["pbar"]
+         if pbar is None:
+             return

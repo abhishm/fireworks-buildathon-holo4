@@ -1,0 +1,11 @@
+{
+  "router_systems": ["ds_harness", "qwen_ft", "nemo_ft"],
+  "reference": ["kimi_k3", "ds_base"],
+  "systems": {
+    "ds_harness": {"calib": "runs/calib_ds_harness.json", "test": "runs/test_ds_harness.json", "price": [0.30, 0.006, 1.20]},
+    "qwen_ft":    {"calib": "runs/calib_qwen_ft.json",    "test": "runs/test_qwen_ft.json",    "price": [0.45, 0.45, 1.335]},
+    "nemo_ft":    {"calib": "runs/calib_nemo_ft.json",    "test": "runs/test_nemo_ft.json",    "price": [0.57, 0.57, 1.44]},
+    "kimi_k3":    {"test": "runs/test_kimi.json",         "price": [3.0, 0.30, 15.0]},
+    "ds_base":    {"test": "runs/test_ds_base.json",      "price": [0.30, 0.006, 1.20]}
+  }
+}

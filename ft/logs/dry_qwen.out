@@ -1,0 +1,7 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"event": "data", "rows": 2, "tokens": 15219, "max_len": 8218, "t": 1793650269.8}
+{"event": "plan", "steps": 1, "planned_tokens": 15219, "est_cost": 0.03, "t": 1793650269.8}
+{"event": "session", "session": "accounts/FW_ACCOUNT_A/trainingSessions/ts-86057b21d7a34a189fe28acd4e829fb4", "run_id": "run-a4d32e5f14094c1385cd99cfc407a9c0", "base_model": "accounts/fireworks/models/qwen3p6-35b-a3b", "t": 1793650289.7}
+{"event": "step", "step": 1, "total": 1, "epoch": 0, "lr": 4e-05, "loss": 0.27732987924733804, "metrics": {"loss:sum": 0.5546597689390182, "total_tokens:sum": 15217.0, "dp_sharded_counts:min": 1.0, "dp_sharded_counts:max": 1.0, "local_input_sequences:sum": 1.0, "response_tokens": 4144.0}, "batch_tokens": 15219, "cum_tokens": 15219, "est_cost": 0.033, "elapsed": 6.0, "t": 1793650295.7}
+{"event": "sampler_ckpt", "name": "qdry-fin-1211", "path": "FW_ACCOUNT_A/run-a4d32e5f14094c1385cd99cfc407a9c0/qdry-fin-1211-ef93dad9", "t": 1793650298.7}
+{"event": "done", "sampler_path": "FW_ACCOUNT_A/run-a4d32e5f14094c1385cd99cfc407a9c0/qdry-fin-1211-ef93dad9", "cum_tokens": 15219, "t": 1793650298.7}

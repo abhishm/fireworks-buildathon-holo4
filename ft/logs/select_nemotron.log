@@ -1,0 +1,3 @@
+datums-per-row histogram: {1: 765}
+630/765 rows fit in 32768 tokens (single datum); all-rows tokens=18888171
+{"key": "nemotron", "rows": 254, "tasks": 253, "tokens": 4996653, "trained_tokens": 1498953, "max_len": 31414, "domains": {"marketing": 49, "sales": 34, "hr": 44, "operations": 56, "finance": 42, "support": 29}}

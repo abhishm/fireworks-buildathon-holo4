@@ -1,0 +1,131 @@
+Filtering to 30 tasks: ['sales.docusign_renewal_automation', 
+'sales.zoom_calendar_conflict', 'sales.priority_selection', 
+'sales.historical_context_pipeline_report', 'sales.zoom_meeting_followup', 
+'marketing.social_roi', 'marketing.social_scheduling', 
+'marketing.content_syndication', 'marketing.linkedin_speaker_outreach', 
+'marketing.event_registration_sync', 
+'operations.safety_incident_investigation_routing', 
+'operations.hazmat_shipping_compliance', 
+'operations.safety_certification_gap_analysis', 
+'operations.drive_slack_dock_schedule', 
+'operations.contractor_badge_expiration', 'support.helpscout_health_sync', 
+'support.zendesk_maintenance_notify', 'support.zoho_sf_enrichment', 
+'support.intercom_freshdesk_escalation', 'support.freshdesk_sla_monitoring', 
+'finance.late_fee_calculation', 'finance.bank_fee_analysis', 
+'finance.annual_budget_prep', 'finance.weekly_expense_summary', 
+'finance.xero_po_matching', 'hr.jira_it_onboarding', 'hr.tuition_reimbursement',
+'hr.expense_report_audit', 'hr.data_migration_validation', 
+'hr.anniversary_recognition']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 30 groups (30 total rollouts):   0%|          | 0/30 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 30 groups (30 total rollouts):   3%|▎         | 1/30 [00:45<22:10, 45.87s/it, pass_rate=?, reward=?]Processing 30 groups (30 total rollouts):   3%|▎         | 1/30 [00:45<22:10, 45.87s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):   7%|▋         | 2/30 [01:04<13:54, 29.82s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):   7%|▋         | 2/30 [01:04<13:54, 29.82s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):  10%|█         | 3/30 [01:21<10:49, 24.05s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):  10%|█         | 3/30 [01:21<10:49, 24.05s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):  13%|█▎        | 4/30 [01:26<07:07, 16.46s/it, reward=1.000, pass_rate=1.000]Processing 30 groups (30 total rollouts):  13%|█▎        | 4/30 [01:26<07:07, 16.46s/it, reward=0.964, pass_rate=0.750]Processing 30 groups (30 total rollouts):  17%|█▋        | 5/30 [01:41<06:35, 15.81s/it, reward=0.964, pass_rate=0.750]Processing 30 groups (30 total rollouts):  17%|█▋        | 5/30 [01:41<06:35, 15.81s/it, reward=0.971, pass_rate=0.800]Processing 30 groups (30 total rollouts):  20%|██        | 6/30 [01:46<04:58, 12.42s/it, reward=0.971, pass_rate=0.800]Processing 30 groups (30 total rollouts):  20%|██        | 6/30 [01:46<04:58, 12.42s/it, reward=0.976, pass_rate=0.833]Processing 30 groups (30 total rollouts):  23%|██▎       | 7/30 [01:51<03:48,  9.93s/it, reward=0.976, pass_rate=0.833]Processing 30 groups (30 total rollouts):  23%|██▎       | 7/30 [01:51<03:48,  9.93s/it, reward=0.980, pass_rate=0.857]Processing 30 groups (30 total rollouts):  27%|██▋       | 8/30 [02:14<05:04, 13.85s/it, reward=0.980, pass_rate=0.857]Processing 30 groups (30 total rollouts):  27%|██▋       | 8/30 [02:14<05:04, 13.85s/it, reward=0.951, pass_rate=0.750]Processing 30 groups (30 total rollouts):  30%|███       | 9/30 [02:19<03:58, 11.38s/it, reward=0.951, pass_rate=0.750]Processing 30 groups (30 total rollouts):  30%|███       | 9/30 [02:19<03:58, 11.38s/it, reward=0.956, pass_rate=0.778]Processing 30 groups (30 total rollouts):  33%|███▎      | 10/30 [03:02<06:57, 20.85s/it, reward=0.956, pass_rate=0.778]Processing 30 groups (30 total rollouts):  33%|███▎      | 10/30 [03:02<06:57, 20.85s/it, reward=0.941, pass_rate=0.700]Processing 30 groups (30 total rollouts):  37%|███▋      | 11/30 [04:03<10:32, 33.26s/it, reward=0.941, pass_rate=0.700]Processing 30 groups (30 total rollouts):  37%|███▋      | 11/30 [04:03<10:32, 33.26s/it, reward=0.885, pass_rate=0.636]Processing 30 groups (30 total rollouts):  40%|████      | 12/30 [04:14<07:54, 26.38s/it, reward=0.885, pass_rate=0.636]Processing 30 groups (30 total rollouts):  40%|████      | 12/30 [04:14<07:54, 26.38s/it, reward=0.895, pass_rate=0.667]Processing 30 groups (30 total rollouts):  43%|████▎     | 13/30 [04:15<05:19, 18.79s/it, reward=0.895, pass_rate=0.667]Processing 30 groups (30 total rollouts):  43%|████▎     | 13/30 [04:15<05:19, 18.79s/it, reward=0.826, pass_rate=0.615]Processing 30 groups (30 total rollouts):  47%|████▋     | 14/30 [04:24<04:11, 15.74s/it, reward=0.826, pass_rate=0.615]Processing 30 groups (30 total rollouts):  47%|████▋     | 14/30 [04:24<04:11, 15.74s/it, reward=0.767, pass_rate=0.571]Processing 30 groups (30 total rollouts):  50%|█████     | 15/30 [04:28<03:04, 12.28s/it, reward=0.767, pass_rate=0.571]Processing 30 groups (30 total rollouts):  50%|█████     | 15/30 [04:28<03:04, 12.28s/it, reward=0.735, pass_rate=0.533]Processing 30 groups (30 total rollouts):  53%|█████▎    | 16/30 [04:30<02:11,  9.38s/it, reward=0.735, pass_rate=0.533]Processing 30 groups (30 total rollouts):  53%|█████▎    | 16/30 [04:30<02:11,  9.38s/it, reward=0.751, pass_rate=0.562]Processing 30 groups (30 total rollouts):  57%|█████▋    | 17/30 [04:34<01:39,  7.66s/it, reward=0.751, pass_rate=0.562]Processing 30 groups (30 total rollouts):  57%|█████▋    | 17/30 [04:34<01:39,  7.66s/it, reward=0.766, pass_rate=0.588]Processing 30 groups (30 total rollouts):  60%|██████    | 18/30 [04:38<01:19,  6.63s/it, reward=0.766, pass_rate=0.588]Processing 30 groups (30 total rollouts):  60%|██████    | 18/30 [04:38<01:19,  6.63s/it, reward=0.779, pass_rate=0.611]Processing 30 groups (30 total rollouts):  63%|██████▎   | 19/30 [04:44<01:08,  6.20s/it, reward=0.779, pass_rate=0.611]Processing 30 groups (30 total rollouts):  63%|██████▎   | 19/30 [04:44<01:08,  6.20s/it, reward=0.791, pass_rate=0.632]Processing 30 groups (30 total rollouts):  67%|██████▋   | 20/30 [05:24<02:45, 16.55s/it, reward=0.791, pass_rate=0.632]Processing 30 groups (30 total rollouts):  67%|██████▋   | 20/30 [05:24<02:45, 16.55s/it, reward=0.801, pass_rate=0.650]Processing 30 groups (30 total rollouts):  70%|███████   | 21/30 [05:39<02:23, 15.90s/it, reward=0.801, pass_rate=0.650]Processing 30 groups (30 total rollouts):  70%|███████   | 21/30 [05:39<02:23, 15.90s/it, reward=0.776, pass_rate=0.619]Processing 30 groups (30 total rollouts):  73%|███████▎  | 22/30 [05:58<02:14, 16.86s/it, reward=0.776, pass_rate=0.619]Processing 30 groups (30 total rollouts):  73%|███████▎  | 22/30 [05:58<02:14, 16.86s/it, reward=0.787, pass_rate=0.636]Processing 30 groups (30 total rollouts):  77%|███████▋  | 23/30 [06:05<01:38, 14.09s/it, reward=0.787, pass_rate=0.636]Processing 30 groups (30 total rollouts):  77%|███████▋  | 23/30 [06:05<01:38, 14.09s/it, reward=0.796, pass_rate=0.652]Processing 30 groups (30 total rollouts):  80%|████████  | 24/30 [06:21<01:27, 14.59s/it, reward=0.796, pass_rate=0.652]Processing 30 groups (30 total rollouts):  80%|████████  | 24/30 [06:21<01:27, 14.59s/it, reward=0.797, pass_rate=0.625]Processing 30 groups (30 total rollouts):  83%|████████▎ | 25/30 [06:31<01:05, 13.13s/it, reward=0.797, pass_rate=0.625]Processing 30 groups (30 total rollouts):  83%|████████▎ | 25/30 [06:31<01:05, 13.13s/it, reward=0.806, pass_rate=0.640]Processing 30 groups (30 total rollouts):  87%|████████▋ | 26/30 [07:28<01:44, 26.19s/it, reward=0.806, pass_rate=0.640]Processing 30 groups (30 total rollouts):  87%|████████▋ | 26/30 [07:28<01:44, 26.19s/it, reward=0.813, pass_rate=0.654]Processing 30 groups (30 total rollouts):  90%|█████████ | 27/30 [07:29<00:56, 18.71s/it, reward=0.813, pass_rate=0.654]Processing 30 groups (30 total rollouts):  90%|█████████ | 27/30 [07:29<00:56, 18.71s/it, reward=0.820, pass_rate=0.667]Processing 30 groups (30 total rollouts):  93%|█████████▎| 28/30 [07:30<00:26, 13.42s/it, reward=0.820, pass_rate=0.667]Processing 30 groups (30 total rollouts):  93%|█████████▎| 28/30 [07:30<00:26, 13.42s/it, reward=0.826, pass_rate=0.679]Processing 30 groups (30 total rollouts):  97%|█████████▋| 29/30 [08:32<00:27, 27.92s/it, reward=0.826, pass_rate=0.679]Processing 30 groups (30 total rollouts):  97%|█████████▋| 29/30 [08:32<00:27, 27.92s/it, reward=0.832, pass_rate=0.690]Processing 30 groups (30 total rollouts): 100%|██████████| 30/30 [11:05<00:00, 65.60s/it, reward=0.832, pass_rate=0.690]Processing 30 groups (30 total rollouts): 100%|██████████| 30/30 [11:05<00:00, 65.60s/it, reward=0.825, pass_rate=0.667]
+                                  Token Usage                                   
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Task                         ┃    Tokens ┃                    In/Out ┃  Cost ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━┩
+│ 1. sales.priority_selection  │   861,351 │   835,069 in / 26,282 out │ $0.28 │
+│ 2.                           │   253,566 │    246,944 in / 6,622 out │ $0.08 │
+│ sales.zoom_calendar_conflict │           │                           │       │
+│ 3.                           │   584,510 │   563,762 in / 20,748 out │ $0.19 │
+│ sales.zoom_meeting_followup  │           │                           │       │
+│ 4.                           │   213,576 │   199,953 in / 13,623 out │ $0.08 │
+│ marketing.event_registratio… │           │                           │       │
+│ 5.                           │   203,648 │   184,353 in / 19,295 out │ $0.08 │
+│ marketing.content_syndicati… │           │                           │       │
+│ 6.                           │   238,109 │   205,379 in / 32,730 out │ $0.10 │
+│ marketing.social_scheduling  │           │                           │       │
+│ 7. marketing.social_roi      │   387,105 │   351,627 in / 35,478 out │ $0.15 │
+│ 8.                           │ 1,573,052 │ 1,530,838 in / 42,214 out │ $0.51 │
+│ sales.docusign_renewal_auto… │           │                           │       │
+│ 9.                           │   885,705 │   846,963 in / 38,742 out │ $0.30 │
+│ sales.historical_context_pi… │           │                           │       │
+│ 10.                          │   177,786 │   148,562 in / 29,224 out │ $0.08 │
+│ marketing.linkedin_speaker_… │           │                           │       │
+│ 11.                          │   335,681 │   319,667 in / 16,014 out │ $0.12 │
+│ operations.drive_slack_dock… │           │                           │       │
+│ 12.                          │   167,775 │   155,608 in / 12,167 out │ $0.06 │
+│ operations.safety_certifica… │           │                           │       │
+│ 13.                          │   239,545 │   224,448 in / 15,097 out │ $0.09 │
+│ operations.contractor_badge… │           │                           │       │
+│ 14.                          │   328,738 │    319,503 in / 9,235 out │ $0.11 │
+│ operations.safety_incident_… │           │                           │       │
+│ 15.                          │   774,542 │   759,162 in / 15,380 out │ $0.25 │
+│ operations.hazmat_shipping_… │           │                           │       │
+│ 16.                          │   714,567 │   685,009 in / 29,558 out │ $0.24 │
+│ support.zoho_sf_enrichment   │           │                           │       │
+│ 17.                          │   237,624 │   213,039 in / 24,585 out │ $0.09 │
+│ support.zendesk_maintenance… │           │                           │       │
+│ 18.                          │ 1,161,184 │ 1,130,782 in / 30,402 out │ $0.38 │
+│ support.intercom_freshdesk_… │           │                           │       │
+│ 19.                          │   133,459 │   113,079 in / 20,380 out │ $0.06 │
+│ support.freshdesk_sla_monit… │           │                           │       │
+│ 20.                          │ 2,875,233 │ 2,818,930 in / 56,303 out │ $0.91 │
+│ support.helpscout_health_sy… │           │                           │       │
+│ 21.                          │   661,178 │   640,741 in / 20,437 out │ $0.22 │
+│ finance.weekly_expense_summ… │           │                           │       │
+│ 22.                          │   499,790 │   475,038 in / 24,752 out │ $0.17 │
+│ finance.late_fee_calculation │           │                           │       │
+│ 23.                          │   179,316 │    171,696 in / 7,620 out │ $0.06 │
+│ finance.bank_fee_analysis    │           │                           │       │
+│ 24. finance.xero_po_matching │   131,040 │    124,505 in / 6,535 out │ $0.05 │
+│ 25.                          │   103,278 │     98,361 in / 4,917 out │ $0.04 │
+│ finance.annual_budget_prep   │           │                           │       │
+│ 26. hr.jira_it_onboarding    │   188,696 │   176,274 in / 12,422 out │ $0.07 │
+│ 27.                          │   261,479 │   244,965 in / 16,514 out │ $0.09 │
+│ hr.anniversary_recognition   │           │                           │       │
+│ 28. hr.expense_report_audit  │   182,496 │   171,088 in / 11,408 out │ $0.07 │
+│ 29.                          │   623,001 │   595,112 in / 27,889 out │ $0.21 │
+│ hr.data_migration_validation │           │                           │       │
+│ 30. hr.tuition_reimbursement │   311,120 │   288,968 in / 22,152 out │ $0.11 │
+└──────────────────────────────┴───────────┴───────────────────────────┴───────┘
+
+Total: 15,488,150 (14,839,425 in / 648,725 out)
+Estimated cost: $5.23 
+(cli-override/accounts/fireworks/models/deepseek-v4p1-flash)
+
+─────────────────────────────────── Results ────────────────────────────────────
+Average score (partial credit): 83%
+Pass rate (100% only): 67%
+  Task 1 (sales.priority_selection): FAIL
+  Task 2 (sales.zoom_calendar_conflict): PASS
+  Task 3 (sales.zoom_meeting_followup): FAIL
+  Task 4 (marketing.event_registration_sync): FAIL
+  Task 5 (marketing.content_syndication): PASS
+  Task 6 (marketing.social_scheduling): PASS
+  Task 7 (marketing.social_roi): PASS
+  Task 8 (sales.docusign_renewal_automation): PASS
+  Task 9 (sales.historical_context_pipeline_report): FAIL
+  Task 10 (marketing.linkedin_speaker_outreach): FAIL
+  Task 11 (operations.drive_slack_dock_schedule): PASS
+  Task 12 (operations.safety_certification_gap_analysis): PASS
+  Task 13 (operations.contractor_badge_expiration): PASS
+  Task 14 (operations.safety_incident_investigation_routing): PASS
+  Task 15 (operations.hazmat_shipping_compliance): PASS
+  Task 16 (support.zoho_sf_enrichment): FAIL
+  Task 17 (support.zendesk_maintenance_notify): PASS
+  Task 18 (support.intercom_freshdesk_escalation): PASS
+  Task 19 (support.freshdesk_sla_monitoring): PASS
+  Task 20 (support.helpscout_health_sync): FAIL
+  Task 21 (finance.weekly_expense_summary): PASS
+  Task 22 (finance.late_fee_calculation): FAIL
+  Task 23 (finance.bank_fee_analysis): FAIL
+  Task 24 (finance.xero_po_matching): PASS
+  Task 25 (finance.annual_budget_prep): PASS
+  Task 26 (hr.jira_it_onboarding): FAIL
+  Task 27 (hr.anniversary_recognition): PASS
+  Task 28 (hr.expense_report_audit): PASS
+  Task 29 (hr.data_migration_validation): PASS
+  Task 30 (hr.tuition_reimbursement): PASS
+
+Results exported to: ../runs/screen_deepseek.json
+Processing 30 groups (30 total rollouts): 100%|██████████| 30/30 [11:05<00:00, 22.19s/it, reward=0.825, pass_rate=0.667]
