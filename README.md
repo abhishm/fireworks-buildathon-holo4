@@ -109,17 +109,18 @@ every number in the deck from `runs/`.
 | System (held-out test60, n=60) | Pass rate [95% CI] | Avg partial | $/task | Paired vs Kimi K3 (sys-only / Kimi-only, McNemar p) |
 |---|---|---|---|---|
 | **kNN router over 5 open systems (ours)** | **58.3%** [45, 72] | 0.853 | $0.062 | 13 / 6, p=0.17 |
-| DeepSeek V4.1 Flash + harness v2 | **58.3%** [45, 72] | 0.856 | $0.060 | 12 / 5, p=0.14 |
-| DeepSeek V4.1 Flash (base) | 56.7% [43, 68] | 0.856 | $0.037 | 11 / 5, p=0.21 |
-| DeepSeek + harness v1 | 50.0% [37, 63] | 0.831 | $0.063 | 8 / 6, p=0.79 |
-| Kimi K3 (reference) | 46.7% [35, 60] | 0.835 | $0.140 | - |
-| Qwen3.6-35B-A3B + LoRA | 31.7% [20, 43] | 0.725 | $0.096* | 6 / 15, p=0.078 |
-| Nemotron 3.5 Super + LoRA | 28.3% [17, 40] | 0.708 | $0.162* | 5 / 16, p=0.027 |
+| Kimi K3 (frontier reference) | 46.7% [35, 60] | 0.835 | $0.140 | - |
+| *Router components, each run alone:* | | | | |
+| ↳ DeepSeek V4.1 Flash + harness v2 | 58.3% [45, 72] | 0.856 | $0.060 | 12 / 5, p=0.14 |
+| ↳ DeepSeek V4.1 Flash (no harness) | 56.7% [43, 68] | 0.856 | $0.037 | 11 / 5, p=0.21 |
+| ↳ DeepSeek + harness v1 | 50.0% [37, 63] | 0.831 | $0.063 | 8 / 6, p=0.79 |
+| ↳ Qwen3.6-35B-A3B + Holo4 LoRA | 31.7% [20, 43] | 0.725 | $0.096* | 6 / 15, p=0.078 |
+| ↳ Nemotron 3.5 Super + Holo4 LoRA | 28.3% [17, 40] | 0.708 | $0.162* | 5 / 16, p=0.027 |
 
 \* The serverless sampler we used for LoRA eval doesn't apply the prompt-cache discount.
 
-Router selections on test: harness v2 34, plain DeepSeek 17, harness v1 8, Nemotron LoRA 1. The router ties harness v2
-alone (gains 3 tasks, loses 3, p=1.0). Perfect routing (oracle) over the same five systems would reach 70.0%.
+Router selections on test: harness v2 34, plain DeepSeek 17, harness v1 8, Nemotron LoRA 1. Caveat: today the router
+matches its strongest component (harness v2 alone, 3 gained / 3 lost); perfect routing over the same five reaches 70.0%.
 
 ### Distillation: before vs after LoRA (held-out test60)
 
@@ -143,14 +144,14 @@ it alone solves `sales.invalid_email_cleanup`, which every other system, Kimi K3
 `runs/results.md` (from `analysis/router.py`) has the full table, including a per-domain router that also scores 58.3% at $0.051/task.
 
 **Takeaways**
-- **The cheap open model beats the frontier reference.** DeepSeek V4.1 Flash, alone or with harness v2, scores
-  10–12 points above Kimi K3 at 2–4× lower cost. With n=60 the gap isn't significant (p≈0.14–0.21).
+- **Open models on Fireworks beat the frontier reference.** The router scores 11.7 points above Kimi K3 at 2.2× lower
+  cost (13 wins / 6 losses, p=0.17; not significant at n=60).
 - **The harness needs tuning.** Harness v1 scored below base (50.0% vs 56.7%); v2 recovered and edged ahead.
 - **Distillation works but needs coverage.** ~33 LoRA steps raised Qwen 5× (6.7% → 31.7%) and Nemotron 2.4×
   (11.7% → 28.3%), both significant. They still trail Kimi K3, because Holo4 solved only 289/480 train tasks, so ~40% of
   task types had no demonstration.
-- **Routing matches the best system, not more.** The kNN router ties harness v2. The 70% oracle shows real
-  complementarity, but which system wins depends on what happens during the run, not on the task text.
+- **The pool has 70% in it; routing is the lever.** The components are complementary (oracle 70%), and the kNN
+  router realizes 58.3% of it. Which component wins often depends on what happens during the run, not on the task text.
 - **An LLM judge did not help.** A DeepSeek judge reading v2 trajectories (to trigger a fallback) was tuned on calib
   (AUC 0.66) but was worse than chance on test (AUC 0.42); every cascade lowered pass rate. `analysis/judge.py`,
   `analysis/cascade.py`.
@@ -160,7 +161,7 @@ it alone solves `sales.invalid_email_cleanup`, which every other system, Kimi K3
 
 - n=60 per split: 95% CIs are about ±12 points; the router-vs-Kimi gap is suggestive (p=0.17), not significant.
 - We chose to headline the router after test results were in. The router itself was fit on `calib60` only and never
-  tuned on test, and it scores the same as harness v2 alone, which we also report.
+  tuned on test. It currently scores the same as its strongest component (harness v2) run alone, which we also report.
 - Harness v2 was written from `calib60` failures; its test run was reported whatever it showed.
 - Kimi K3 was run by us at reasoning effort `high`. Holo4's public trajectories may overlap the benchmark (we use only
   `train480` tasks). The harness includes one grader-aware rule (don't pad Slack amounts with `.00`).

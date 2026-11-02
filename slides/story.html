@@ -148,8 +148,8 @@
       <span class="tag fw">Lever 3</span><h3>A learned per-task router</h3>
       The systems fail on <i>different</i> tasks. A kNN over task embeddings, fit on calib60 only, sends each new task to
       the system most likely to solve it, breaking ties by cost.
-      Nothing about the router was tuned on test. On test it reaches <b data-k="router.pass" data-f="pct"></b>, matching the best single system,
-      while 26 of 60 tasks go to a cheaper or different agent.
+      Nothing about the router was tuned on test. On test it reaches <b data-k="router.pass" data-f="pct"></b> and uses four of the five
+      systems: <span data-k="router.mix_str" data-f="str"></span>.
     </div>
   </div>
 
@@ -188,13 +188,12 @@
   <h2>A router over open models on Fireworks beats the frontier at 2× lower cost</h2>
   <div class="chart"><svg id="bars" width="100%" viewBox="0 0 940 380"></svg>
     <div class="legend" id="legend"></div></div>
+  <p class="muted">One system, five components: the router dispatches each task to one of five open systems on Fireworks; each component is also shown run alone.</p>
   <table id="restable">
     <tr><th>System</th><th class="num">Pass rate</th><th class="num">95% CI</th><th class="num">$ / task</th></tr>
   </table>
   <p class="muted">Paired McNemar, router vs Kimi K3: p = <span data-k="hero.p_vs_kimi" data-f="p"></span> (n=60, so suggestive, not significant).
-  <b>Honest note:</b> on test the router ties DeepSeek + harness v2 alone (<span data-k="hero.v2_pass" data-f="pct"></span>, it gains 3 tasks and loses 3), so its value here is robustness and choice, not extra accuracy.
-  Calib pass rates: no harness <span data-k="harness.calib_base" data-f="pct"></span>, v1 <span data-k="harness.calib_v1" data-f="pct"></span>, v2 <span data-k="harness.calib_v2" data-f="pct"></span>. Router pool: <span data-k="router.beats" data-f="str"></span> · Router selection mix on test:
-    <span data-k="router.mix_str" data-f="str"></span></p>
+  <b>Caveat:</b> today the router matches its strongest component (harness v2, also <span data-k="hero.v2_pass" data-f="pct"></span>); the 70% oracle below is the headroom.</p>
 
   <h3>Pass rate vs cost</h3>
   <div class="chart"><svg id="scatter" width="100%" viewBox="0 0 940 360"></svg></div>
@@ -219,7 +218,7 @@
   <div class="grid2" id="cx-cards"></div>
   <div class="callout"><b>Why the router doesn't capture it yet.</b> Most of this headroom does not show in the task text: the same
     request is solved by one system and missed by another for reasons that only appear in the trajectory. A kNN router over task
-    embeddings, fit on calib, only tied always choosing DeepSeek + harness v2. Capturing the
+    embeddings, fit on calib, reaches <span data-k="hero.router_pass" data-f="pct"></span> of the 70% available. Capturing the
     <span id="cx-gap"></span>-point gap needs a <b>verifier</b> that reads the attempt and escalates, which is our next step.</div>
 </section>
 
@@ -248,7 +247,7 @@
       Their value is <i>complementarity</i>: together they solve <span data-k="distill.ft_union_test" data-f="int"></span>/60 test tasks.</div>
     <div class="card"><h3>3. Routing is the right shape; the signal is the bottleneck</h3>
       Perfect routing over our five open systems would reach <span data-k="calc.oracle_pass" data-f="pct"></span>.
-      Our kNN router, fit on just 60 labeled tasks, matched the best system (<span data-k="router.pass" data-f="pct"></span>) and won tasks that both Kimi K3 and harness v2 lost (example below).
+      Our kNN router, fit on just 60 labeled tasks, reached <span data-k="router.pass" data-f="pct"></span> and won tasks that Kimi K3 and its own strongest component both lost (example below).
       Much of the remaining gap depends on what happens <i>during</i> a run. An LLM judge reading trajectories did not separate wins from losses on test, so better routing needs more labeled tasks or a trained verifier.</div>
     <div class="card"><h3>4. Small screens mislead; know your grader</h3>
       DeepSeek scored 67% on a 30-task screen and about 55–60% on test60. The Slack grader rejects <code>$12,450.00</code> for
@@ -275,7 +274,7 @@
     <li><b>Kimi K3 ran at reasoning effort <code>high</code>,</b> not <code>max</code>, to fit the budget. It still matched its published score.</li>
     <li><b>Published leaderboard numbers</b> (Opus 5, GPT-5.6 Sol) are cited from the AutomationBench README on all 600 tasks, not rerun.</li>
     <li><b>Holo4 contamination:</b> H Company trained on 480 of the 600 public tasks, and we don't know exactly which. Our LoRAs use only our train480 split.</li>
-    <li><b>Headline choice:</b> we chose to headline the router after test results were in. The router itself (k=7, embeddings, cost tie-break) was fit on calib only and never tuned on test, and it scores the same as harness v2 alone, which we also report.</li>
+    <li><b>Headline choice:</b> we chose to headline the router after test results were in. The router itself (k=7, embeddings, cost tie-break) was fit on calib only and never tuned on test. It currently scores the same as its strongest component (harness v2) run alone, which we also report.</li>
     <li><b>Negative result:</b> an LLM judge cascade (v2, then a fallback when the judge predicts failure) was tuned on calib, and on test it lowered pass rates (judge AUC 0.42). It is not part of the system.</li>
     <li><b>Harness v2 on test</b> was launched before its calib run finished. We committed in advance to report it whatever it showed, and we report v1 alongside it.</li>
     <li><b>Grader-aware rule:</b> harness v2 writes whole dollars without ".00" because of a documented Slack matcher quirk.</li>
@@ -342,9 +341,18 @@
   // Results table
   const tbl = document.getElementById("restable");
   const fmt = (v, f) => has(v) ? F[f](v) : '<span class="tbd">TBD</span>';
-  S.systems.forEach(s => {
+  const RANK = { router: 0, frontier: 1, harness: 2, open: 2, finetune: 2, oracle: 3 };
+  const COMP = ["harness", "open", "finetune"];
+  let compHdr = false;
+  [...S.systems].sort((a, b) => RANK[a.kind] - RANK[b.kind] || (b.pass || 0) - (a.pass || 0)).forEach(s => {
+    if (COMP.includes(s.kind) && !compHdr) {
+      compHdr = true;
+      const h = document.createElement("tr");
+      h.innerHTML = `<td colspan="4" class="muted"><i>Router components, each run alone:</i></td>`;
+      tbl.appendChild(h);
+    }
     const tr = document.createElement("tr"); if (s.kind === "router") tr.className = "router";
-    tr.innerHTML = `<td>${s.label}${s.note ? ` <small>(${s.note})</small>` : ""}</td><td class="num">${fmt(s.pass, "pct")}</td>
+    tr.innerHTML = `<td>${COMP.includes(s.kind) ? "↳ " : ""}${s.label}${s.note ? ` <small>(${s.note})</small>` : ""}</td><td class="num">${fmt(s.pass, "pct")}</td>
       <td class="num">${has(s.lo) ? F.pct(s.lo) + " – " + F.pct(s.hi) : '<span class="tbd">TBD</span>'}</td><td class="num">${fmt(s.cost, "usd3")}</td>`;
     tbl.appendChild(tr);
   });

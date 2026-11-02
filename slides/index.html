@@ -230,7 +230,7 @@
 <section class="slide">
   <h2>Next steps</h2>
   <div class="grid3">
-    <div class="card"><h3 style="color:var(--ds)">Close the router gap</h3>The router ties harness v2 (58.3%) while a perfect pick reaches 70%.
+    <div class="card"><h3 style="color:var(--ds)">Close the router gap</h3>The router reaches 58.3%; a perfect pick over the same five systems reaches 70%.
       A better routing signal (more calib tasks, outcome-trained router) is the lever, plus more held-out tasks to tighten p=0.17 vs Kimi.</div>
     <div class="card"><h3 style="color:var(--qwen)">Better distillation</h3>Distill DeepSeek+harness's own successes on train480
       to cover tasks Holo4 failed. Add the harness procedure to the SFT prompts.</div>
@@ -283,7 +283,7 @@ if (S.ds_base) document.getElementById('ds-cost').textContent = '$' + S.ds_base.
 
 const bad = [], good = [];
 if (S.qwen_ft) bad.push(`Alone, the LoRAs trail Kimi: Qwen <b>${pct(S.qwen_ft.pass)}</b>, Nemotron <b>${pct(S.nemo_ft.pass)}</b> vs <b>${pct(S.kimi_k3.pass)}</b> (Nemotron gap p=${P.nemo_ft.p.toFixed(3)}). They cost $0.10–0.16/task on the uncached serverless sampler.`);
-if (S.router) bad.push(`The router <b>ties</b> harness v2 (${pct(S.ds_harness_v2.pass)}); it doesn't beat the best single system. A perfect pick would reach ${R.oracle && R.oracle.length ? pct(R.oracle[R.oracle.length-1].solved/(R.n_common||60)) : '70%'}.`);
+if (S.router) bad.push(`Today the router matches its strongest component (harness v2, ${pct(S.ds_harness_v2.pass)}) rather than exceeding it. A perfect pick would reach ${R.oracle && R.oracle.length ? pct(R.oracle[R.oracle.length-1].solved/(R.n_common||60)) : '70%'}.`);
 bad.push(`n=60: the lead over Kimi is suggestive, not significant.`);
 if (S.router) good.push(`kNN router: <b>${pct(S.router.pass)}</b> vs Kimi <b>${pct(S.kimi_k3.pass)}</b> (${S.router.vs_kimi[0]} wins / ${S.router.vs_kimi[1]} losses, p=${S.router.vs_kimi[2].toFixed(2)}) at <b>$${S.router.cost.toFixed(3)}/task, ${(S.kimi_k3.cost / S.router.cost).toFixed(1)}× cheaper</b>.`);
 const mix = R.router_mix || {};
