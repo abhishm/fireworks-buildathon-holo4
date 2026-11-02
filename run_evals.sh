@@ -17,13 +17,13 @@ DS=accounts/fireworks/models/deepseek-v4p1-flash
 KIMI=accounts/fireworks/models/kimi-k3
 
 AB_INCREMENTAL_JSONL=$ROOT/runs/test_ds_harness.jsonl uv run python ../harness/run.py --model $DS --base-url $BASE --api-key-var FIREWORKS_API_KEY \
-  --tasks "$(split test60 test_ds_harness)" --max-concurrent 12 --input-cost 0.0000003 --output-cost 0.0000012 \
+  --tasks "$(split test60 test_ds_harness)" --max-concurrent 50 --input-cost 0.0000003 --output-cost 0.0000012 \
   --export-json ../runs/test_ds_harness.json >> ../runs/test_ds_harness.log 2>&1 &
 AB_INCREMENTAL_JSONL=$ROOT/runs/calib_ds_harness.jsonl uv run python ../harness/run.py --model $DS --base-url $BASE --api-key-var FIREWORKS_API_KEY \
-  --tasks "$(split calib60 calib_ds_harness)" --max-concurrent 12 --input-cost 0.0000003 --output-cost 0.0000012 \
+  --tasks "$(split calib60 calib_ds_harness)" --max-concurrent 50 --input-cost 0.0000003 --output-cost 0.0000012 \
   --export-json ../runs/calib_ds_harness.json >> ../runs/calib_ds_harness.log 2>&1 &
 AB_INCREMENTAL_JSONL=$ROOT/runs/test_ds_base.jsonl uv run auto-bench --model $DS --base-url $BASE --api-key-var FIREWORKS_API_KEY \
-  --tasks "$(split test60 test_ds_base)" --max-concurrent 12 --input-cost 0.0000003 --output-cost 0.0000012 \
+  --tasks "$(split test60 test_ds_base)" --max-concurrent 50 --input-cost 0.0000003 --output-cost 0.0000012 \
   --export-json ../runs/test_ds_base.json >> ../runs/test_ds_base.log 2>&1 &
 # Kimi K3 test60 already done: runs/test_kimi.json
 wait

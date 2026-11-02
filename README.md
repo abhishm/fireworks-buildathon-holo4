@@ -88,7 +88,7 @@ python3 analysis/router.py analysis/systems.json
 - **Baselines.** Kimi K3 on `test60` (`runs/test_kimi.json`), plus the published frontier numbers in the AutomationBench
   README.
 
-## Results so far (test60, in progress)
+## Results (held-out test60)
 
 ![Approach](slides/img/pipeline.png)
 
@@ -98,26 +98,28 @@ every number in the deck from `runs/`.
 
 ![Test60 results](slides/img/test60_pass.png)
 
-| System (held-out test60) | Pass rate | Avg partial | $/task | Paired vs Kimi K3 (same tasks) |
+| System (held-out test60, n=60) | Pass rate [95% CI] | Avg partial | $/task | Paired vs Kimi K3 (sys-only / Kimi-only, McNemar p) |
 |---|---|---|---|---|
-| Kimi K3 (reference) | 46.7% (28/60) | 0.835 | $0.140 | - |
-| Qwen3.6-35B-A3B + LoRA | 31.7% (19/60) | 0.725 | $0.096* | Kimi ahead, 15 vs 6 discordant tasks, p=0.078 |
-| Nemotron 3.5 Super + LoRA | 28.3% (17/60) | 0.708 | $0.162* | Kimi ahead, 16 vs 5 discordant tasks, p=0.027 |
-| DeepSeek V4.1 Flash (partial) | ~39% | ~0.82 | ~$0.02 | tied with Kimi on the same tasks |
-| DeepSeek + Holo harness (partial) | ~45% (11 tasks) | ~0.89 | ~$0.04 | 4 vs 0 on the same tasks (early) |
+| DeepSeek V4.1 Flash + harness v2 | **58.3%** [47, 70] | 0.856 | $0.060 | 12 / 5, p=0.14 |
+| kNN router | **58.3%** [47, 70] | 0.853 | $0.062 | picks DeepSeek on almost every task |
+| DeepSeek V4.1 Flash (base) | 56.7% [43, 68] | 0.856 | $0.037 | 11 / 5, p=0.21 |
+| DeepSeek + harness v1 | 50.0% [37, 63] | 0.831 | $0.063 | 8 / 6, p=0.79 |
+| Kimi K3 (reference) | 46.7% [35, 60] | 0.835 | $0.140 | - |
+| Qwen3.6-35B-A3B + LoRA | 31.7% [20, 43] | 0.725 | $0.096* | 6 / 15, p=0.078 |
+| Nemotron 3.5 Super + LoRA | 28.3% [17, 40] | 0.708 | $0.162* | 5 / 16, p=0.027 |
 
-\* The serverless sampler we used for LoRA eval doesn't apply the prompt-cache discount. A cached deployment would cost
-much less.
+\* The serverless sampler we used for LoRA eval doesn't apply the prompt-cache discount.
 
-**Takeaways so far**
-- **Distillation alone falls short.** Both LoRAs trail Kimi K3. They solve different tasks from each other (23/60 if
-  you pick the better of the two per task), but even that best case doesn't reach Kimi (28/60). Holo4 solved only
-  289/480 train tasks, so about 40% of task types had no demonstration to learn from.
-- **The cheap base plus harness looks promising.** DeepSeek V4.1 Flash matches Kimi on the same tasks at about 6× lower
-  cost, and early harness results are ahead. The router over {DeepSeek+harness, Qwen LoRA, Nemotron LoRA} will be
-  reported once the DeepSeek runs finish.
-- **Small screens mislead.** DeepSeek scored 66.7% on the 30-task screen (`runs/results.md`, a router pass over
-  screen tasks only) but about 39% on test60 so far.
+`runs/results.md` has the other analysis's numbers. Its kNN router scores 55.0%, and a per-domain router scores 58.3%.
+
+**Takeaways**
+- **The cheap open model beats the frontier reference.** DeepSeek V4.1 Flash, alone or with harness v2, scores
+  10–12 points above Kimi K3 at 2–4× lower cost. With n=60 the gap isn't significant (p≈0.14–0.21).
+- **The harness needs tuning.** Harness v1 scored below base (50.0% vs 56.7%); v2 recovered and edged ahead.
+- **Distillation alone falls short.** Both LoRAs trail Kimi K3. Picking the better of the two per task gets 23/60,
+  still below Kimi's 28/60. Holo4 solved only 289/480 train tasks, so ~40% of task types had no demonstration.
+- **Routing adds little here.** The router mostly picks DeepSeek, so it can't beat the best single system.
+- **Small screens mislead.** DeepSeek scored 66.7% on an early 30-task screen and 56.7% on held-out test60.
 
 ### Grader quirk worth knowing
 

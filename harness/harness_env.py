@@ -36,6 +36,32 @@ VERIFY_ALERT = """<system_alert>Do not finish yet. Final verification pass:
 3. Fix anything missing or wrong now. Do not touch anything the request did not ask for, and do not duplicate actions already done.
 When every item is verified, reply with a brief confirmation and no tool calls.</system_alert>"""
 
+# v2: revised after reading calib60 failures (never test60). Changes vs v1:
+#  - references like proj_x / ws_x in the request are internal IDs: resolve to what the API expects
+#  - outbound messages must name every relevant entity/value; dates in both human + ISO form
+#  - whole-dollar amounts without ".00" (grader-aware: AutomationBench's Slack matcher rejects "12,450.00" for "12,450")
+#  - lighter verify alert (one targeted pass, no full re-read) to cut wasted turns
+PROCEDURE_V2 = """
+
+# Operating procedure (follow strictly)
+
+You are scored ONLY on the final state of the apps (records created/updated, emails/messages sent, events scheduled). What you say is ignored.
+
+1. Orient: read the request, then gather ALL governing context (policies, guidelines, SOPs, corrections in email, docs, sheets, Slack). Newer or more authoritative instructions override older ones. Watch for traps: stale rows, near-duplicate names, superseded values, records that look in-scope but are not.
+2. Plan: write an explicit checklist of every required mutation (app, record, exact field values, recipients) before acting.
+3. Resolve identifiers: IDs in the request (e.g. proj_x, ws_x, ss_x, C_x) are internal references. Look the object up and use the identifier the API field expects (e.g. a Jira project KEY like "OPS", a channel ID/name, an email address). Never guess endpoint URLs or parameter names; search for them.
+4. Chain deliberately: reuse exact values from tool results (ids, emails, amounts, dates). Copy names and numbers exactly as in the source.
+5. Recover, don't repeat: when a call fails, diagnose and change approach; never re-issue the same failing call.
+6. Mutate precisely: perform every required change and nothing else. Stray changes and extra emails/messages count against you as much as missing ones.
+7. Write complete messages: every email/Slack/SMS/comment must explicitly name each relevant person, record, ID, amount and date it concerns, plus any word the request or policy says to include. Write dates in both forms, e.g. "April 1, 2026 (2026-04-01)". Write whole-dollar amounts without trailing zeros ("$12,450", not "$12,450.00"); keep real cents ("$1,125.50").
+8. Finish: once all checklist items are done and checked, reply with a one-line confirmation and no tool calls.
+"""
+
+VERIFY_ALERT_V2 = """<system_alert>Before finishing, one targeted check: compare your checklist to what you actually did. (a) Is any required record/message/update missing, e.g. one for every qualifying item? (b) Did any message omit a required name, ID, amount, date or keyword? (c) Did you change or message anything the request did not ask for? Fix only real gaps with the minimum calls (do not redo work); otherwise reply with a one-line confirmation and no tool calls.</system_alert>"""
+
+if os.environ.get("HARNESS_VERSION", "1") == "2":
+    PROCEDURE, VERIFY_ALERT = PROCEDURE_V2, VERIFY_ALERT_V2
+
 MAX_NUDGES = int(os.environ.get("HARNESS_MAX_NUDGES", "1"))
 USE_PROCEDURE = os.environ.get("HARNESS_PROCEDURE", "1") == "1"
 

@@ -88,4 +88,276 @@ Domains: sales, marketing, operations, support, finance, hr
 Base URL: https://api.fireworks.ai/inference/v1
 
 eval_dataset is not set, falling back to train dataset
-Processing 54 groups (54 total rollouts):   0%|          | 0/54 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.867, pass_rate=0.667]
+Processing 54 groups (54 total rollouts):   0%|          | 0/54 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, pass_rate=?, reward=?]Processing 54 groups (54 total rollouts):   2%|▏         | 1/54 [04:52<4:18:32, 292.68s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.600, pass_rate=0.000]Processing 54 groups (54 total rollouts):   4%|▎         | 2/54 [06:26<2:32:18, 175.74s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.800, pass_rate=0.500]Processing 54 groups (54 total rollouts):   6%|▌         | 3/54 [06:41<1:26:46, 102.09s/it, reward=0.867, pass_rate=0.667]Processing 54 groups (54 total rollouts):   7%|▋         | 4/54 [09:00<1:37:15, 116.70s/it, reward=0.867, pass_rate=0.667]Processing 54 groups (54 total rollouts):   7%|▋         | 4/54 [09:00<1:37:15, 116.70s/it, reward=0.888, pass_rate=0.500]Processing 54 groups (54 total rollouts):   9%|▉         | 5/54 [10:49<1:33:10, 114.09s/it, reward=0.888, pass_rate=0.500]Processing 54 groups (54 total rollouts):   9%|▉         | 5/54 [10:49<1:33:10, 114.09s/it, reward=0.910, pass_rate=0.600][DEBUG] Empty response for marketing.campaign_launch_checklist: finish_reason=length, completion_tokens=65536
+Processing 54 groups (54 total rollouts):  11%|█         | 6/54 [13:12<1:39:01, 123.79s/it, reward=0.910, pass_rate=0.600]Processing 54 groups (54 total rollouts):  11%|█         | 6/54 [13:12<1:39:01, 123.79s/it, reward=0.814, pass_rate=0.500]Task was destroyed but it is pending!
+task: <Task pending name='Task-122' coro=<Environment._teardown() running at ~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py:630>>
+<sys>:0: RuntimeWarning: coroutine 'Environment._teardown' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Filtering to 48 tasks: ['sales.docusign_renewal_automation', 
+'sales.priority_selection', 'marketing.social_roi', 
+'marketing.linkedin_speaker_outreach', 
+'operations.safety_incident_investigation_routing', 
+'operations.hazmat_shipping_compliance', 
+'operations.safety_certification_gap_analysis', 
+'operations.drive_slack_dock_schedule', 
+'operations.contractor_badge_expiration', 'support.helpscout_health_sync', 
+'support.zendesk_maintenance_notify', 'support.zoho_sf_enrichment', 
+'support.intercom_freshdesk_escalation', 'support.freshdesk_sla_monitoring', 
+'finance.late_fee_calculation', 'finance.bank_fee_analysis', 
+'finance.annual_budget_prep', 'finance.weekly_expense_summary', 
+'finance.xero_po_matching', 'hr.jira_it_onboarding', 'hr.tuition_reimbursement',
+'hr.expense_report_audit', 'hr.data_migration_validation', 
+'hr.anniversary_recognition', 'sales.zoom_attendance_pipeline', 
+'sales.unreliable_label_account_review', 
+'marketing.product_launch_channel_plan', 'marketing.campaign_launch_checklist', 
+'operations.contractor_onboarding_workflow', 'operations.linkedin_job_change', 
+'operations.parking_allocation_management', 
+'operations.space_utilization_analysis', 'operations.vendor_compliance_audit', 
+'support.zoho_freshdesk_escalation', 'support.reamaze_lifecycle_tagging', 
+'support.zoho_desk_capacity_planning', 'support.zendesk_gdpr_purge', 
+'support.hiver_cross_team_handoff', 'finance.subscription_billing', 
+'finance.expense_anomaly_detection', 'finance.vendor_statement_reconciliation', 
+'finance.contract_billing', 'finance.airtable_expense_approval', 
+'hr.notion_meeting_notes', 'hr.trello_internal_transfers', 
+'hr.comp_review_preparation', 'hr.asana_compliance_tasks', 
+'hr.standup_absence_tracking']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 48 groups (48 total rollouts):   0%|          | 0/48 [00:00<?, ?it/s, pass_rate=?, reward=?][retry] chat: attempt 5/40 after RateLimitError — sleeping ~16s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 5/40 after RateLimitError — sleeping ~16s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 5/40 after RateLimitError — sleeping ~16s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 6/40 after RateLimitError — sleeping ~32s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 5/40 after RateLimitError — sleeping ~16s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 5/40 after RateLimitError — sleeping ~16s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 6/40 after RateLimitError — sleeping ~32s (a run can legitimately stall for minutes here; it is retrying, not hung)
+[retry] chat: attempt 6/40 after RateLimitError — sleeping ~32s (a run can legitimately stall for minutes here; it is retrying, not hung)
+Task was destroyed but it is pending!
+task: <Task pending name='Task-98' coro=<Environment._teardown() running at ~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py:630>>
+<sys>:0: RuntimeWarning: coroutine 'Environment._teardown' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+Task was destroyed but it is pending!
+task: <Task cancelling name='Task-1' coro=<run_evaluation() running at ~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py:430> wait_for=<Future cancelled>>
+Exception ignored in: <coroutine object run_evaluation at 0x135328e50>
+Traceback (most recent call last):
+  File "~/fireworks-buildathon-holo4/AutomationBench/automationbench/scripts/eval.py", line 430, in run_evaluation
+    results = await env.evaluate(
+  File "~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py", line 1255, in evaluate
+    return await self.generate(
+  File "~/fireworks-buildathon-holo4/AutomationBench/.venv/lib/python3.13/site-packages/verifiers/envs/environment.py", line 1130, in generate
+    task.cancel()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/tasks.py", line 776, in cancel
+    if child.cancel(msg=msg):
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 833, in call_soon
+    self._check_closed()
+  File "/opt/homebrew/Cellar/python@3.13/3.13.14/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 556, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Processing 48 groups (48 total rollouts):   0%|          | 0/48 [11:30<?, ?it/s, pass_rate=?, reward=?]
+Filtering to 48 tasks: ['sales.docusign_renewal_automation', 
+'sales.priority_selection', 'marketing.social_roi', 
+'marketing.linkedin_speaker_outreach', 
+'operations.safety_incident_investigation_routing', 
+'operations.hazmat_shipping_compliance', 
+'operations.safety_certification_gap_analysis', 
+'operations.drive_slack_dock_schedule', 
+'operations.contractor_badge_expiration', 'support.helpscout_health_sync', 
+'support.zendesk_maintenance_notify', 'support.zoho_sf_enrichment', 
+'support.intercom_freshdesk_escalation', 'support.freshdesk_sla_monitoring', 
+'finance.late_fee_calculation', 'finance.bank_fee_analysis', 
+'finance.annual_budget_prep', 'finance.weekly_expense_summary', 
+'finance.xero_po_matching', 'hr.jira_it_onboarding', 'hr.tuition_reimbursement',
+'hr.expense_report_audit', 'hr.data_migration_validation', 
+'hr.anniversary_recognition', 'sales.zoom_attendance_pipeline', 
+'sales.unreliable_label_account_review', 
+'marketing.product_launch_channel_plan', 'marketing.campaign_launch_checklist', 
+'operations.contractor_onboarding_workflow', 'operations.linkedin_job_change', 
+'operations.parking_allocation_management', 
+'operations.space_utilization_analysis', 'operations.vendor_compliance_audit', 
+'support.zoho_freshdesk_escalation', 'support.reamaze_lifecycle_tagging', 
+'support.zoho_desk_capacity_planning', 'support.zendesk_gdpr_purge', 
+'support.hiver_cross_team_handoff', 'finance.subscription_billing', 
+'finance.expense_anomaly_detection', 'finance.vendor_statement_reconciliation', 
+'finance.contract_billing', 'finance.airtable_expense_approval', 
+'hr.notion_meeting_notes', 'hr.trello_internal_transfers', 
+'hr.comp_review_preparation', 'hr.asana_compliance_tasks', 
+'hr.standup_absence_tracking']
+Toolset: api
+API: chat_completions
+╭──────────────────────────────────────────────────────────────────────────────╮
+│  AutomationBench                                                             │
+│  AI Business Workflow Benchmark by Zapier                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Model: accounts/fireworks/models/deepseek-v4p1-flash
+Domains: sales, marketing, operations, support, finance, hr
+Base URL: https://api.fireworks.ai/inference/v1
+
+eval_dataset is not set, falling back to train dataset
+Processing 48 groups (48 total rollouts):   0%|          | 0/48 [00:00<?, ?it/s, pass_rate=?, reward=?]Processing 48 groups (48 total rollouts):   2%|▏         | 1/48 [03:53<3:03:09, 233.83s/it, pass_rate=?, reward=?]Processing 48 groups (48 total rollouts):   2%|▏         | 1/48 [03:53<3:03:09, 233.83s/it, reward=1.000, pass_rate=1.000]Processing 48 groups (48 total rollouts):   4%|▍         | 2/48 [04:04<1:18:39, 102.61s/it, reward=1.000, pass_rate=1.000]Processing 48 groups (48 total rollouts):   4%|▍         | 2/48 [04:04<1:18:39, 102.61s/it, reward=0.750, pass_rate=0.500]Processing 48 groups (48 total rollouts):   6%|▋         | 3/48 [04:18<46:32, 62.06s/it, reward=0.750, pass_rate=0.500]   Processing 48 groups (48 total rollouts):   6%|▋         | 3/48 [04:18<46:32, 62.06s/it, reward=0.833, pass_rate=0.667]Processing 48 groups (48 total rollouts):   8%|▊         | 4/48 [05:05<41:02, 55.96s/it, reward=0.833, pass_rate=0.667]Processing 48 groups (48 total rollouts):   8%|▊         | 4/48 [05:05<41:02, 55.96s/it, reward=0.867, pass_rate=0.500]Processing 48 groups (48 total rollouts):  10%|█         | 5/48 [05:18<29:01, 40.49s/it, reward=0.867, pass_rate=0.500]Processing 48 groups (48 total rollouts):  10%|█         | 5/48 [05:18<29:01, 40.49s/it, reward=0.854, pass_rate=0.400]Processing 48 groups (48 total rollouts):  12%|█▎        | 6/48 [05:20<19:23, 27.70s/it, reward=0.854, pass_rate=0.400]Processing 48 groups (48 total rollouts):  12%|█▎        | 6/48 [05:20<19:23, 27.70s/it, reward=0.878, pass_rate=0.500]Processing 48 groups (48 total rollouts):  15%|█▍        | 7/48 [05:31<15:01, 21.99s/it, reward=0.878, pass_rate=0.500]Processing 48 groups (48 total rollouts):  15%|█▍        | 7/48 [05:31<15:01, 21.99s/it, reward=0.896, pass_rate=0.571]Processing 48 groups (48 total rollouts):  17%|█▋        | 8/48 [05:32<10:11, 15.30s/it, reward=0.896, pass_rate=0.571]Processing 48 groups (48 total rollouts):  17%|█▋        | 8/48 [05:32<10:11, 15.30s/it, reward=0.909, pass_rate=0.625]Processing 48 groups (48 total rollouts):  19%|█▉        | 9/48 [05:37<07:57, 12.24s/it, reward=0.909, pass_rate=0.625]Processing 48 groups (48 total rollouts):  19%|█▉        | 9/48 [05:37<07:57, 12.24s/it, reward=0.919, pass_rate=0.667]Processing 48 groups (48 total rollouts):  21%|██        | 10/48 [06:03<10:20, 16.33s/it, reward=0.919, pass_rate=0.667]Processing 48 groups (48 total rollouts):  21%|██        | 10/48 [06:03<10:20, 16.33s/it, reward=0.927, pass_rate=0.700]Processing 48 groups (48 total rollouts):  23%|██▎       | 11/48 [06:28<11:46, 19.10s/it, reward=0.927, pass_rate=0.700]Processing 48 groups (48 total rollouts):  23%|██▎       | 11/48 [06:28<11:46, 19.10s/it, reward=0.879, pass_rate=0.636]Processing 48 groups (48 total rollouts):  25%|██▌       | 12/48 [06:32<08:43, 14.55s/it, reward=0.879, pass_rate=0.636]Processing 48 groups (48 total rollouts):  25%|██▌       | 12/48 [06:32<08:43, 14.55s/it, reward=0.857, pass_rate=0.583]Processing 48 groups (48 total rollouts):  27%|██▋       | 13/48 [06:42<07:38, 13.09s/it, reward=0.857, pass_rate=0.583]Processing 48 groups (48 total rollouts):  27%|██▋       | 13/48 [06:42<07:38, 13.09s/it, reward=0.862, pass_rate=0.538]Processing 48 groups (48 total rollouts):  29%|██▉       | 14/48 [06:42<07:24, 13.09s/it, reward=0.872, pass_rate=0.571]Processing 48 groups (48 total rollouts):  31%|███▏      | 15/48 [06:44<04:09,  7.56s/it, reward=0.872, pass_rate=0.571]Processing 48 groups (48 total rollouts):  31%|███▏      | 15/48 [06:44<04:09,  7.56s/it, reward=0.867, pass_rate=0.533]Processing 48 groups (48 total rollouts):  33%|███▎      | 16/48 [06:53<04:13,  7.93s/it, reward=0.867, pass_rate=0.533]Processing 48 groups (48 total rollouts):  33%|███▎      | 16/48 [06:53<04:13,  7.93s/it, reward=0.872, pass_rate=0.500]Processing 48 groups (48 total rollouts):  35%|███▌      | 17/48 [06:58<03:37,  7.01s/it, reward=0.872, pass_rate=0.500]Processing 48 groups (48 total rollouts):  35%|███▌      | 17/48 [06:58<03:37,  7.01s/it, reward=0.879, pass_rate=0.529]Processing 48 groups (48 total rollouts):  38%|███▊      | 18/48 [06:58<02:38,  5.27s/it, reward=0.879, pass_rate=0.529]Processing 48 groups (48 total rollouts):  38%|███▊      | 18/48 [06:58<02:38,  5.27s/it, reward=0.886, pass_rate=0.556]Processing 48 groups (48 total rollouts):  40%|███▉      | 19/48 [07:10<03:28,  7.21s/it, reward=0.886, pass_rate=0.556]Processing 48 groups (48 total rollouts):  40%|███▉      | 19/48 [07:10<03:28,  7.21s/it, reward=0.892, pass_rate=0.579]Processing 48 groups (48 total rollouts):  42%|████▏     | 20/48 [07:11<02:30,  5.36s/it, reward=0.892, pass_rate=0.579]Processing 48 groups (48 total rollouts):  42%|████▏     | 20/48 [07:11<02:30,  5.36s/it, reward=0.872, pass_rate=0.550]Processing 48 groups (48 total rollouts):  44%|████▍     | 21/48 [08:03<08:30, 18.89s/it, reward=0.872, pass_rate=0.550]Processing 48 groups (48 total rollouts):  44%|████▍     | 21/48 [08:03<08:30, 18.89s/it, reward=0.879, pass_rate=0.571]Processing 48 groups (48 total rollouts):  46%|████▌     | 22/48 [08:07<06:16, 14.49s/it, reward=0.879, pass_rate=0.571]Processing 48 groups (48 total rollouts):  46%|████▌     | 22/48 [08:07<06:16, 14.49s/it, reward=0.884, pass_rate=0.591]Processing 48 groups (48 total rollouts):  48%|████▊     | 23/48 [08:14<05:09, 12.37s/it, reward=0.884, pass_rate=0.591]Processing 48 groups (48 total rollouts):  48%|████▊     | 23/48 [08:14<05:09, 12.37s/it, reward=0.889, pass_rate=0.609]Processing 48 groups (48 total rollouts):  50%|█████     | 24/48 [08:16<03:38,  9.10s/it, reward=0.889, pass_rate=0.609]Processing 48 groups (48 total rollouts):  50%|█████     | 24/48 [08:16<03:38,  9.10s/it, reward=0.880, pass_rate=0.583]Processing 48 groups (48 total rollouts):  52%|█████▏    | 25/48 [08:31<04:10, 10.88s/it, reward=0.880, pass_rate=0.583]Processing 48 groups (48 total rollouts):  52%|█████▏    | 25/48 [08:31<04:10, 10.88s/it, reward=0.885, pass_rate=0.600]Processing 48 groups (48 total rollouts):  54%|█████▍    | 26/48 [08:33<02:59,  8.15s/it, reward=0.885, pass_rate=0.600]Processing 48 groups (48 total rollouts):  54%|█████▍    | 26/48 [08:33<02:59,  8.15s/it, reward=0.863, pass_rate=0.577]Processing 48 groups (48 total rollouts):  56%|█████▋    | 27/48 [08:36<02:22,  6.76s/it, reward=0.863, pass_rate=0.577]Processing 48 groups (48 total rollouts):  56%|█████▋    | 27/48 [08:36<02:22,  6.76s/it, reward=0.867, pass_rate=0.556]Processing 48 groups (48 total rollouts):  58%|█████▊    | 28/48 [08:37<01:38,  4.95s/it, reward=0.867, pass_rate=0.556]Processing 48 groups (48 total rollouts):  58%|█████▊    | 28/48 [08:37<01:38,  4.95s/it, reward=0.872, pass_rate=0.571]Processing 48 groups (48 total rollouts):  60%|██████    | 29/48 [08:37<01:09,  3.67s/it, reward=0.872, pass_rate=0.571]Processing 48 groups (48 total rollouts):  60%|██████    | 29/48 [08:37<01:09,  3.67s/it, reward=0.876, pass_rate=0.586]Processing 48 groups (48 total rollouts):  62%|██████▎   | 30/48 [08:41<01:05,  3.64s/it, reward=0.876, pass_rate=0.586]Processing 48 groups (48 total rollouts):  62%|██████▎   | 30/48 [08:41<01:05,  3.64s/it, reward=0.880, pass_rate=0.600]Processing 48 groups (48 total rollouts):  65%|██████▍   | 31/48 [09:02<02:31,  8.91s/it, reward=0.880, pass_rate=0.600]Processing 48 groups (48 total rollouts):  65%|██████▍   | 31/48 [09:02<02:31,  8.91s/it, reward=0.884, pass_rate=0.613]Processing 48 groups (48 total rollouts):  67%|██████▋   | 32/48 [09:14<02:37,  9.81s/it, reward=0.884, pass_rate=0.613]Processing 48 groups (48 total rollouts):  67%|██████▋   | 32/48 [09:14<02:37,  9.81s/it, reward=0.856, pass_rate=0.594]Processing 48 groups (48 total rollouts):  69%|██████▉   | 33/48 [09:18<02:00,  8.05s/it, reward=0.856, pass_rate=0.594]Processing 48 groups (48 total rollouts):  69%|██████▉   | 33/48 [09:18<02:00,  8.05s/it, reward=0.853, pass_rate=0.576]Processing 48 groups (48 total rollouts):  71%|███████   | 34/48 [09:21<01:31,  6.54s/it, reward=0.853, pass_rate=0.576]Processing 48 groups (48 total rollouts):  71%|███████   | 34/48 [09:21<01:31,  6.54s/it, reward=0.857, pass_rate=0.588]Processing 48 groups (48 total rollouts):  73%|███████▎  | 35/48 [09:49<02:47, 12.89s/it, reward=0.857, pass_rate=0.588]Processing 48 groups (48 total rollouts):  73%|███████▎  | 35/48 [09:49<02:47, 12.89s/it, reward=0.856, pass_rate=0.571]Processing 48 groups (48 total rollouts):  75%|███████▌  | 36/48 [10:47<05:18, 26.51s/it, reward=0.856, pass_rate=0.571]Processing 48 groups (48 total rollouts):  75%|███████▌  | 36/48 [10:47<05:18, 26.51s/it, reward=0.860, pass_rate=0.583]Processing 48 groups (48 total rollouts):  77%|███████▋  | 37/48 [11:24<05:25, 29.56s/it, reward=0.860, pass_rate=0.583]Processing 48 groups (48 total rollouts):  77%|███████▋  | 37/48 [11:24<05:25, 29.56s/it, reward=0.864, pass_rate=0.595]Processing 48 groups (48 total rollouts):  79%|███████▉  | 38/48 [12:56<08:03, 48.39s/it, reward=0.864, pass_rate=0.595]Processing 48 groups (48 total rollouts):  79%|███████▉  | 38/48 [12:56<08:03, 48.39s/it, reward=0.862, pass_rate=0.579]Processing 48 groups (48 total rollouts):  81%|████████▏ | 39/48 [14:03<08:04, 53.87s/it, reward=0.862, pass_rate=0.579]Processing 48 groups (48 total rollouts):  81%|████████▏ | 39/48 [14:03<08:04, 53.87s/it, reward=0.865, pass_rate=0.590]Processing 48 groups (48 total rollouts):  83%|████████▎ | 40/48 [14:50<06:56, 52.01s/it, reward=0.865, pass_rate=0.590]Processing 48 groups (48 total rollouts):  83%|████████▎ | 40/48 [14:50<06:56, 52.01s/it, reward=0.853, pass_rate=0.575]Processing 48 groups (48 total rollouts):  85%|████████▌ | 41/48 [15:16<05:07, 43.99s/it, reward=0.853, pass_rate=0.575]Processing 48 groups (48 total rollouts):  85%|████████▌ | 41/48 [15:16<05:07, 43.99s/it, reward=0.856, pass_rate=0.585]Processing 48 groups (48 total rollouts):  88%|████████▊ | 42/48 [15:36<03:41, 36.94s/it, reward=0.856, pass_rate=0.585]Processing 48 groups (48 total rollouts):  88%|████████▊ | 42/48 [15:36<03:41, 36.94s/it, reward=0.856, pass_rate=0.571]Processing 48 groups (48 total rollouts):  90%|████████▉ | 43/48 [15:39<02:12, 26.59s/it, reward=0.856, pass_rate=0.571]Processing 48 groups (48 total rollouts):  90%|████████▉ | 43/48 [15:39<02:12, 26.59s/it, reward=0.856, pass_rate=0.558]Processing 48 groups (48 total rollouts):  92%|█████████▏| 44/48 [16:41<02:29, 37.31s/it, reward=0.856, pass_rate=0.558]Processing 48 groups (48 total rollouts):  92%|█████████▏| 44/48 [16:41<02:29, 37.31s/it, reward=0.860, pass_rate=0.568]Processing 48 groups (48 total rollouts):  94%|█████████▍| 45/48 [17:26<01:59, 39.76s/it, reward=0.860, pass_rate=0.568]Processing 48 groups (48 total rollouts):  94%|█████████▍| 45/48 [17:26<01:59, 39.76s/it, reward=0.863, pass_rate=0.578][DEBUG] Empty response for hr.standup_absence_tracking: finish_reason=length, completion_tokens=65536
+[DEBUG] Empty response for sales.docusign_renewal_automation: finish_reason=length, completion_tokens=65536
+Processing 48 groups (48 total rollouts):  96%|█████████▌| 46/48 [19:37<02:13, 66.91s/it, reward=0.863, pass_rate=0.578]Processing 48 groups (48 total rollouts):  96%|█████████▌| 46/48 [19:37<02:13, 66.91s/it, reward=0.857, pass_rate=0.565]Processing 48 groups (48 total rollouts):  98%|█████████▊| 47/48 [22:30<01:38, 98.70s/it, reward=0.857, pass_rate=0.565]Processing 48 groups (48 total rollouts):  98%|█████████▊| 47/48 [22:30<01:38, 98.70s/it, reward=0.860, pass_rate=0.574]Processing 48 groups (48 total rollouts): 100%|██████████| 48/48 [22:45<00:00, 73.65s/it, reward=0.860, pass_rate=0.574]Processing 48 groups (48 total rollouts): 100%|██████████| 48/48 [22:45<00:00, 73.65s/it, reward=0.842, pass_rate=0.562]
+                                  Token Usage                                   
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Task                        ┃    Tokens ┃                     In/Out ┃  Cost ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━┩
+│ 1. sales.priority_selection │ 1,079,409 │  1,053,138 in / 26,271 out │ $0.35 │
+│ 2.                          │ 1,153,666 │  1,104,885 in / 48,781 out │ $0.39 │
+│ sales.zoom_attendance_pipe… │           │                            │       │
+│ 3.                          │   400,532 │    367,740 in / 32,792 out │ $0.15 │
+│ marketing.campaign_launch_… │           │                            │       │
+│ 4. marketing.social_roi     │   402,459 │    380,545 in / 21,914 out │ $0.14 │
+│ 5.                          │ 2,127,966 │ 2,006,268 in / 121,698 out │ $0.75 │
+│ sales.docusign_renewal_aut… │           │                            │       │
+│ 6.                          │   727,802 │    702,534 in / 25,268 out │ $0.24 │
+│ sales.unreliable_label_acc… │           │                            │       │
+│ 7.                          │   440,607 │    410,152 in / 30,455 out │ $0.16 │
+│ marketing.linkedin_speaker… │           │                            │       │
+│ 8.                          │ 3,138,224 │  3,044,828 in / 93,396 out │ $1.03 │
+│ operations.drive_slack_doc… │           │                            │       │
+│ 9.                          │ 1,543,999 │  1,510,575 in / 33,424 out │ $0.49 │
+│ operations.linkedin_job_ch… │           │                            │       │
+│ 10.                         │   447,028 │    432,814 in / 14,214 out │ $0.15 │
+│ operations.vendor_complian… │           │                            │       │
+│ 11.                         │ 1,386,150 │  1,361,062 in / 25,088 out │ $0.44 │
+│ operations.contractor_onbo… │           │                            │       │
+│ 12.                         │   669,460 │    642,087 in / 27,373 out │ $0.23 │
+│ operations.safety_certific… │           │                            │       │
+│ 13.                         │ 1,413,539 │  1,339,327 in / 74,212 out │ $0.49 │
+│ operations.contractor_badg… │           │                            │       │
+│ 14.                         │   752,729 │    732,766 in / 19,963 out │ $0.24 │
+│ operations.safety_incident… │           │                            │       │
+│ 15.                         │   507,294 │    481,975 in / 25,319 out │ $0.17 │
+│ operations.parking_allocat… │           │                            │       │
+│ 16.                         │   441,159 │    425,753 in / 15,406 out │ $0.15 │
+│ operations.space_utilizati… │           │                            │       │
+│ 17.                         │   614,707 │    598,538 in / 16,169 out │ $0.20 │
+│ operations.hazmat_shipping… │           │                            │       │
+│ 18.                         │ 1,150,745 │  1,085,871 in / 64,874 out │ $0.40 │
+│ support.zoho_sf_enrichment  │           │                            │       │
+│ 19.                         │   524,127 │    497,224 in / 26,903 out │ $0.18 │
+│ support.zendesk_maintenanc… │           │                            │       │
+│ 20.                         │   375,364 │    360,780 in / 14,584 out │ $0.13 │
+│ support.zoho_freshdesk_esc… │           │                            │       │
+│ 21.                         │ 1,938,277 │  1,898,078 in / 40,199 out │ $0.62 │
+│ support.intercom_freshdesk… │           │                            │       │
+│ 22.                         │   461,797 │    430,833 in / 30,964 out │ $0.17 │
+│ support.freshdesk_sla_moni… │           │                            │       │
+│ 23.                         │   409,721 │    377,936 in / 31,785 out │ $0.15 │
+│ support.zendesk_gdpr_purge  │           │                            │       │
+│ 24.                         │ 5,260,099 │ 5,156,076 in / 104,023 out │ $1.67 │
+│ support.helpscout_health_s… │           │                            │       │
+│ 25.                         │   495,624 │    477,915 in / 17,709 out │ $0.16 │
+│ support.reamaze_lifecycle_… │           │                            │       │
+│ 26.                         │   490,703 │    465,088 in / 25,615 out │ $0.17 │
+│ support.hiver_cross_team_h… │           │                            │       │
+│ 27.                         │   887,580 │    858,167 in / 29,413 out │ $0.29 │
+│ support.zoho_desk_capacity… │           │                            │       │
+│ 28.                         │ 3,083,869 │  2,993,099 in / 90,770 out │ $1.01 │
+│ marketing.product_launch_c… │           │                            │       │
+│ 29.                         │   294,475 │    283,792 in / 10,683 out │ $0.10 │
+│ finance.expense_anomaly_de… │           │                            │       │
+│ 30.                         │   259,476 │    248,008 in / 11,468 out │ $0.09 │
+│ finance.weekly_expense_sum… │           │                            │       │
+│ 31.                         │   558,181 │    526,113 in / 32,068 out │ $0.20 │
+│ finance.airtable_expense_a… │           │                            │       │
+│ 32.                         │   351,599 │    328,250 in / 23,349 out │ $0.13 │
+│ finance.late_fee_calculati… │           │                            │       │
+│ 33.                         │   799,825 │    784,354 in / 15,471 out │ $0.25 │
+│ finance.contract_billing    │           │                            │       │
+│ 34.                         │   563,408 │    545,185 in / 18,223 out │ $0.19 │
+│ finance.subscription_billi… │           │                            │       │
+│ 35.                         │   236,636 │     227,972 in / 8,664 out │ $0.08 │
+│ finance.bank_fee_analysis   │           │                            │       │
+│ 36.                         │ 1,483,340 │  1,423,681 in / 59,659 out │ $0.50 │
+│ finance.xero_po_matching    │           │                            │       │
+│ 37.                         │ 1,353,451 │  1,328,815 in / 24,636 out │ $0.43 │
+│ finance.vendor_statement_r… │           │                            │       │
+│ 38.                         │   227,351 │     218,163 in / 9,188 out │ $0.08 │
+│ finance.annual_budget_prep  │           │                            │       │
+│ 39.                         │   417,057 │    392,930 in / 24,127 out │ $0.15 │
+│ hr.comp_review_preparation  │           │                            │       │
+│ 40. hr.jira_it_onboarding   │   497,218 │    478,432 in / 18,786 out │ $0.17 │
+│ 41.                         │   911,985 │    874,041 in / 37,944 out │ $0.31 │
+│ hr.asana_compliance_tasks   │           │                            │       │
+│ 42.                         │ 2,879,119 │  2,798,192 in / 80,927 out │ $0.94 │
+│ hr.trello_internal_transfe… │           │                            │       │
+│ 43. hr.notion_meeting_notes │ 1,584,916 │  1,536,613 in / 48,303 out │ $0.52 │
+│ 44.                         │   977,422 │   875,788 in / 101,634 out │ $0.38 │
+│ hr.standup_absence_tracking │           │                            │       │
+│ 45.                         │   412,298 │    397,965 in / 14,333 out │ $0.14 │
+│ hr.anniversary_recognition  │           │                            │       │
+│ 46. hr.expense_report_audit │   883,136 │    832,910 in / 50,226 out │ $0.31 │
+│ 47.                         │   812,258 │    775,893 in / 36,365 out │ $0.28 │
+│ hr.data_migration_validati… │           │                            │       │
+│ 48.                         │   481,804 │    447,173 in / 34,631 out │ $0.18 │
+│ hr.tuition_reimbursement    │           │                            │       │
+└─────────────────────────────┴───────────┴────────────────────────────┴───────┘
+
+Total: 48,309,591 (46,520,324 in / 1,789,267 out)
+Estimated cost: $16.10 
+(cli-override/accounts/fireworks/models/deepseek-v4p1-flash)
+
+─────────────────────────────────── Results ────────────────────────────────────
+Average score (partial credit): 84%
+Pass rate (100% only): 56%
+  Task 1 (sales.priority_selection): FAIL
+  Task 2 (sales.zoom_attendance_pipeline): PASS
+  Task 3 (marketing.campaign_launch_checklist): FAIL
+  Task 4 (marketing.social_roi): PASS
+  Task 5 (sales.docusign_renewal_automation): PASS
+  Task 6 (sales.unreliable_label_account_review): PASS
+  Task 7 (marketing.linkedin_speaker_outreach): FAIL
+  Task 8 (operations.drive_slack_dock_schedule): PASS
+  Task 9 (operations.linkedin_job_change): PASS
+  Task 10 (operations.vendor_compliance_audit): PASS
+  Task 11 (operations.contractor_onboarding_workflow): PASS
+  Task 12 (operations.safety_certification_gap_analysis): PASS
+  Task 13 (operations.contractor_badge_expiration): PASS
+  Task 14 (operations.safety_incident_investigation_routing): FAIL
+  Task 15 (operations.parking_allocation_management): PASS
+  Task 16 (operations.space_utilization_analysis): FAIL
+  Task 17 (operations.hazmat_shipping_compliance): FAIL
+  Task 18 (support.zoho_sf_enrichment): FAIL
+  Task 19 (support.zendesk_maintenance_notify): PASS
+  Task 20 (support.zoho_freshdesk_escalation): FAIL
+  Task 21 (support.intercom_freshdesk_escalation): PASS
+  Task 22 (support.freshdesk_sla_monitoring): PASS
+  Task 23 (support.zendesk_gdpr_purge): FAIL
+  Task 24 (support.helpscout_health_sync): FAIL
+  Task 25 (support.reamaze_lifecycle_tagging): FAIL
+  Task 26 (support.hiver_cross_team_handoff): FAIL
+  Task 27 (support.zoho_desk_capacity_planning): PASS
+  Task 28 (marketing.product_launch_channel_plan): PASS
+  Task 29 (finance.expense_anomaly_detection): FAIL
+  Task 30 (finance.weekly_expense_summary): PASS
+  Task 31 (finance.airtable_expense_approval): FAIL
+  Task 32 (finance.late_fee_calculation): FAIL
+  Task 33 (finance.contract_billing): PASS
+  Task 34 (finance.subscription_billing): PASS
+  Task 35 (finance.bank_fee_analysis): FAIL
+  Task 36 (finance.xero_po_matching): PASS
+  Task 37 (finance.vendor_statement_reconciliation): PASS
+  Task 38 (finance.annual_budget_prep): PASS
+  Task 39 (hr.comp_review_preparation): PASS
+  Task 40 (hr.jira_it_onboarding): PASS
+  Task 41 (hr.asana_compliance_tasks): PASS
+  Task 42 (hr.trello_internal_transfers): FAIL
+  Task 43 (hr.notion_meeting_notes): FAIL
+  Task 44 (hr.standup_absence_tracking): FAIL
+  Task 45 (hr.anniversary_recognition): PASS
+  Task 46 (hr.expense_report_audit): FAIL
+  Task 47 (hr.data_migration_validation): FAIL
+  Task 48 (hr.tuition_reimbursement): PASS
+
+Results exported to: ../runs/calib_ds_harness.json
+Processing 48 groups (48 total rollouts): 100%|██████████| 48/48 [22:45<00:00, 28.45s/it, reward=0.842, pass_rate=0.562]

@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frontier-grade business automation on open models | Fireworks Deploy buildathon</title>
+<script src="story_data.js"></script>
+<script src="complement_data.js"></script>
+<style>
+  :root {
+    --ink: #1d1b22; --muted: #6b6775; --line: #e7e4ec; --bg: #fbfaf7; --card: #fff;
+    --fw: #6e2ad8; --fw-soft: #f1eafd; --nv: #76b900; --frontier: #8a8494; --open: #2f7de1;
+    --harness: #0f9d8a; --finetune: #e08a1e; --router: #6e2ad8; --oracle: #c9c3d3; --tbd: #fff2b3;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 120px; }
+  nav { position: sticky; top: 0; z-index: 5; background: rgba(251,250,247,.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  nav .in { max-width: 980px; margin: 0 auto; padding: 10px 24px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+  nav a { color: var(--muted); text-decoration: none; } nav a:hover { color: var(--fw); }
+  section { padding: 64px 0 8px; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+  .kicker { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; color: var(--fw); font-weight: 700; margin-bottom: 6px; }
+  h1 { font-size: 46px; line-height: 1.1; margin: 8px 0 18px; letter-spacing: -.02em; }
+  h2 { font-size: 30px; line-height: 1.2; margin: 0 0 16px; letter-spacing: -.01em; }
+  h3 { font-size: 19px; margin: 22px 0 8px; }
+  p.lead { font-size: 21px; color: #3a3644; max-width: 820px; }
+  .muted { color: var(--muted); } small { color: var(--muted); }
+  .tbd { background: var(--tbd); border: 1px dashed #d6b400; border-radius: 4px; padding: 0 5px; font-weight: 600; color: #7a6400; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 28px 0 8px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 14px; }
+  .stat .v { font-size: 38px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .stat .l { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .stat.hl { border-color: var(--fw); background: var(--fw-soft); } .stat.hl .v { color: var(--fw); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .grid2, .grid3 { grid-template-columns: 1fr; } h1 { font-size: 34px; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .card h3 { margin-top: 0; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 2px 10px; margin-right: 6px; }
+  .tag.fw { background: var(--fw-soft); color: var(--fw); } .tag.nv { background: #eef7dc; color: #4a7300; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f5f3f8; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; } td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .toggle button { font: inherit; font-size: 14px; padding: 6px 14px; border: 1px solid #d9d5e0; background: #fff; border-radius: 999px; margin-right: 6px; cursor: pointer; }
+  .toggle button.on { background: var(--router); color: #fff; border-color: var(--router); }
+  tr.router td { background: var(--fw-soft); font-weight: 700; }
+  .flow { display: flex; align-items: stretch; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+  .flow .box { flex: 1 1 150px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+  .flow .box b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .flow .arrow { align-self: center; color: var(--muted); font-size: 22px; }
+  .chart { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 10px 6px; margin: 18px 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); padding: 4px 12px 8px; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .vs .card.bad { border-left: 4px solid #d6455d; } .vs .card.good { border-left: 4px solid var(--harness); }
+  ol.script li { margin-bottom: 10px; } ol.script .t { font-weight: 700; color: var(--fw); margin-right: 6px; }
+  .callout { border-left: 4px solid var(--fw); background: var(--fw-soft); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 18px 0; }
+  code { background: #f1eff4; padding: 1px 5px; border-radius: 4px; font-size: 14px; }
+  footer { color: var(--muted); font-size: 14px; padding: 40px 0; }
+</style>
+</head>
+<body>
+<nav><div class="in">
+  <a href="#top"><b>Holo-on-Fireworks</b></a>
+  <a href="#problem">Problem</a><a href="#approach">Approach</a><a href="#protocol">Protocol</a>
+  <a href="#results">Results</a><a href="#complement">Complementarity</a><a href="#example">Example</a><a href="#lessons">Lessons</a>
+  <a href="#cost">Cost</a><a href="#disclosures">Disclosures</a><a href="#video">Video script</a>
+</div></nav>
+<main>
+
+<!-- 0. HERO ------------------------------------------------------------- -->
+<section id="top">
+  <div class="kicker">Fireworks Deploy buildathon · Microsoft × NVIDIA · <span data-k="asof" data-f="str"></span></div>
+  <h1>Frontier-grade business automation at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost, on open models</h1>
+  <p class="lead">
+    On Zapier's <b>AutomationBench</b>, open-weight <b>DeepSeek V4.1 Flash</b> on Fireworks, wrapped in a Holo-style harness we improved by reading its failures, passes
+    <b data-k="hero.router_pass" data-f="pct"></b> of held-out business workflows, against
+    <b data-k="hero.kimi_pass" data-f="pct"></b> for frontier <b>Kimi K3</b> on the same tasks,
+    at <b data-k="hero.router_cost" data-f="usd3"></b> per task instead of <b data-k="hero.kimi_cost" data-f="usd3"></b>.
+  </p>
+  <div class="stats">
+    <div class="stat hl"><div class="v" data-k="hero.router_pass" data-f="pct"></div><div class="l">Ours: DeepSeek + harness v2, pass rate (held-out test60)</div></div>
+    <div class="stat"><div class="v" data-k="hero.kimi_pass" data-f="pct"></div><div class="l">Kimi K3 (frontier), same 60 tasks</div></div>
+    <div class="stat hl"><div class="v" data-k="hero.router_cost" data-f="usd3"></div><div class="l">Our cost per task <small>(vs <span data-k="hero.kimi_cost" data-f="usd3"></span>)</small></div></div>
+    <div class="stat"><div class="v">+<span data-k="hero.pass_delta_pts" data-f="pts"></span></div><div class="l">points vs Kimi K3 · McNemar p = <span data-k="hero.p_vs_kimi" data-f="p"></span></div></div>
+  </div>
+  <p class="muted">Built in one day: Fireworks serverless inference, <span class="tag fw">Fireworks Serverless LoRA training</span>
+    <span class="tag fw">Qwen 3.6 35B-A3B</span> and <span class="tag nv">NVIDIA Nemotron 3.5 Super</span> LoRA-distilled from Holo4 on Fireworks, and a router tested over all five systems.</p>
+</section>
+
+<!-- 1. PROBLEM ----------------------------------------------------------- -->
+<section id="problem">
+  <div class="kicker">1 · The problem</div>
+  <h2>Business automation is where agents earn money, and frontier models still fail half the time</h2>
+  <p>AutomationBench (Zapier, 600 tasks) gives an agent a real business request in sales, marketing, operations, support,
+    finance or HR. The agent must carry it out across simulated apps (Gmail, Slack, Sheets, Salesforce, Jira, Zendesk and more)
+    using API calls only. <b>Grading is on the final state of the apps</b>, not on what the model says. The tasks are full of traps:
+    superseded policies, near-duplicate records, and rows that look in scope but aren't.</p>
+  <div class="grid3">
+    <div class="card"><h3>~50%</h3>The best published frontier pass rate (Claude Opus 5: 50.3%, Kimi K3: 46.7%, GPT-5.6 Sol: 45.8%).</div>
+    <div class="card"><h3>$0.14–$3</h3>Frontier cost per task. At 1M workflows a month that's <b data-k="calc.kimi_monthly" data-f="usd0"></b>+ for Kimi K3 alone.</div>
+    <div class="card"><h3>40+ steps</h3>Each task is a long chain of tool calls. One wrong ID or missing detail and the whole task fails.</div>
+  </div>
+  <div class="callout"><b>Our question:</b> H Company's Holo4 showed that a small model trained on agent trajectories can come close to
+    frontier on this benchmark. Can we rebuild that on Fireworks in one day, then go <i>past</i> the frontier by combining cheap systems?</div>
+</section>
+
+<!-- 2. APPROACH ---------------------------------------------------------- -->
+<section id="approach">
+  <div class="kicker">2 · Approach</div>
+  <h2>Three cheap levers, tested on held-out tasks</h2>
+  <div class="flow">
+    <div class="box"><b>Task request</b>"Route every new safety incident by severity…"</div><div class="arrow">→</div>
+    <div class="box"><b>Embed</b>qwen3-embedding-8b on Fireworks</div><div class="arrow">→</div>
+    <div class="box"><b>kNN router</b>Finds the 7 most similar calibration tasks and picks the system that solved them, cheapest first</div><div class="arrow">→</div>
+    <div class="box"><b>One of 5 systems</b>DeepSeek ± harness v1/v2 · Qwen LoRA · Nemotron LoRA</div><div class="arrow">→</div>
+    <div class="box"><b>Apps</b>Graded on final state</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <span class="tag fw">Lever 1</span><h3>Distill Holo4 with LoRA</h3>
+      We fine-tuned <b>Qwen 3.6 35B-A3B</b> and <b>NVIDIA Nemotron 3.5 Super 120B</b> on H Company's successful AutomationBench
+      trajectories, using <b>train tasks only</b>.
+      <br><br><small>Fireworks Serverless Training · LoRA rank <span data-k="distill.lora_rank" data-f="int"></span> ·
+      <span data-k="distill.sft_rows" data-f="int"></span> trajectories · ~<span data-k="distill.train_minutes" data-f="int"></span> min and
+      ~$<span data-k="distill.train_cost_qwen" data-f="num2"></span> per model.</small>
+    </div>
+    <div class="card">
+      <span class="tag fw">Lever 2</span><h3>A Holo-style harness, learned from failures</h3>
+      Wraps the stock environment (same tools, same budget, same grader) with an operating procedure and a
+      check-before-finishing step. <b>v2</b> came from reading calibration failures:
+      calib pass <span data-k="harness.calib_v1" data-f="pct"></span> → <b data-k="harness.calib_v2" data-f="pct"></b>.
+    </div>
+    <div class="card">
+      <span class="tag fw">Lever 3</span><h3>A learned per-task router</h3>
+      The systems fail on <i>different</i> tasks. A kNN over task embeddings, fit on calib60 only, sends each new task to
+      the system most likely to solve it, breaking ties by cost.
+      On test it reaches <b data-k="router.pass" data-f="pct"></b>, a tie with v2 alone; the gains don't show in the task text (see 4b).
+    </div>
+  </div>
+
+  <h3>What harness v2 fixed (each from a calibration failure we read)</h3>
+  <table>
+    <tr><th>Fix</th><th>Failure it came from</th></tr>
+    <tr><td><b>Resolve identifiers</b>: <code>proj_safety</code> is an internal ref; look up the Jira key <code>SAFETY</code></td><td>v1's "copy values verbatim" created issues in a non-existent project</td></tr>
+    <tr><td><b>Complete messages</b>: name every person, record, ID, amount and date involved</td><td>Near misses (score 0.8–0.97) that left out one checked detail</td></tr>
+    <tr><td><b>Dates in both forms</b>: "April 1, 2026 (2026-04-01)"</td><td>Grader expected "April 1"; agent wrote ISO</td></tr>
+    <tr><td><b>Whole dollars without ".00"</b> <small>(grader-aware, disclosed)</small></td><td>Slack matcher rejects <code>12,450.00</code> for <code>12,450</code></td></tr>
+    <tr><td><b>One targeted check</b> instead of a full re-verification</td><td>v1 doubled turns (<span data-k="harness.turns_base" data-f="int"></span> → <span data-k="harness.turns_v1" data-f="int"></span>) and sometimes broke correct work</td></tr>
+  </table>
+</section>
+
+<!-- 3. PROTOCOL ---------------------------------------------------------- -->
+<section id="protocol">
+  <div class="kicker">3 · Evaluation protocol</div>
+  <h2>Honest by construction</h2>
+  <div class="grid2">
+    <div class="card"><h3>Three disjoint splits</h3>
+      <b>train480</b>: only source of SFT data · <b>calib60</b>: fit the router, read failures for the harness ·
+      <b>test60</b>: held out, 10 per domain, touched only for the final numbers.</div>
+    <div class="card"><h3>Frontier baseline rerun, not cited</h3>
+      Kimi K3 run by us on the same test60 through the same grader: <b data-k="hero.kimi_pass" data-f="pct"></b>,
+      matching its published 46.67%.</div>
+    <div class="card"><h3>Statistics</h3>
+      Paired exact McNemar tests on the same tasks and 95% bootstrap CIs. With n=60 a CI is about ±12 points, and we say so.</div>
+    <div class="card"><h3>Real cost</h3>
+      $/task priced from actual token usage, including cached-input discounts, at Fireworks serverless list prices.</div>
+  </div>
+</section>
+
+<!-- 4. RESULTS ----------------------------------------------------------- -->
+<section id="results">
+  <div class="kicker">4 · Results · held-out test60</div>
+  <h2>Open models on Fireworks beat the frontier, and our harness v2 is the best system</h2>
+  <div class="chart"><svg id="bars" width="100%" viewBox="0 0 940 380"></svg>
+    <div class="legend" id="legend"></div></div>
+  <table id="restable">
+    <tr><th>System</th><th class="num">Pass rate</th><th class="num">95% CI</th><th class="num">$ / task</th></tr>
+  </table>
+  <p class="muted">Harness v2 was picked as our headline system <i>before</i> test, because it had the best calib pass rate (<span data-k="harness.calib_v2" data-f="pct"></span> vs v1 <span data-k="harness.calib_v1" data-f="pct"></span> vs no harness <span data-k="harness.calib_base" data-f="pct"></span>). Paired McNemar vs Kimi K3: p = <span data-k="hero.p_vs_kimi" data-f="p"></span> (n=60, so suggestive, not significant). Router pool: <span data-k="router.beats" data-f="str"></span> · Router selection mix on test:
+    <span data-k="router.mix_str" data-f="str"></span></p>
+
+  <h3>Pass rate vs cost</h3>
+  <div class="chart"><svg id="scatter" width="100%" viewBox="0 0 940 360"></svg></div>
+  <p class="muted">Up and to the left is better. LoRA costs are from the uncached training sampler; a deployment with
+    prompt caching would move them left.</p>
+</section>
+
+<!-- 4b. COMPLEMENTARITY ------------------------------------------------- -->
+<section id="complement">
+  <div class="kicker">4b · Complementarity</div>
+  <h2>The systems fail on different tasks: <span id="cx-single"></span> alone, <span id="cx-union"></span> together</h2>
+  <p>Each open system solves some tasks the others miss, including both Holo4 LoRA students. The chart adds systems one at a time,
+    each time picking the one that solves the most tasks not yet covered.</p>
+  <div class="toggle" id="cx-toggle"><button data-sp="test" class="on">Held-out test</button><button data-sp="calib">Calibration</button></div>
+  <div class="chart"><svg id="union" width="100%" viewBox="0 0 940 250"></svg></div>
+
+  <h3>Who solves what</h3>
+  <p class="muted">One column per task, one row per system. Filled = passed. Tasks are sorted by how many systems solve them;
+    <b>outlined</b> cells are tasks <i>only one system</i> solved.</p>
+  <div class="chart"><svg id="heat" width="100%" viewBox="0 0 940 260"></svg></div>
+
+  <div class="grid2" id="cx-cards"></div>
+  <div class="callout"><b>Why the router doesn't capture it yet.</b> Most of this headroom does not show in the task text: the same
+    request is solved by one system and missed by another for reasons that only appear in the trajectory. A kNN router over task
+    embeddings, fit on calib, only tied always choosing DeepSeek + harness v2. Capturing the
+    <span id="cx-gap"></span>-point gap needs a <b>verifier</b> that reads the attempt and escalates, which is our next step.</div>
+</section>
+
+<!-- 5. EXAMPLE ----------------------------------------------------------- -->
+<section id="example">
+  <div class="kicker">5 · One task, two agents</div>
+  <h2><code data-k="example.task" data-f="str"></code></h2>
+  <p><b>Request:</b> <span data-k="example.request" data-f="html"></span></p>
+  <div class="vs">
+    <div class="card bad"><h3>Kimi K3 ✗</h3><span data-k="example.kimi" data-f="html"></span></div>
+    <div class="card good"><h3>Ours: <span data-k="example.system" data-f="str"></span> ✓</h3><span data-k="example.ours" data-f="html"></span></div>
+  </div>
+</section>
+
+<!-- 6. LESSONS ----------------------------------------------------------- -->
+<section id="lessons">
+  <div class="kicker">6 · What we learned</div>
+  <h2>Four lessons</h2>
+  <div class="grid2">
+    <div class="card"><h3>1. Read the failures, not the averages</h3>
+      Harness v1 looked reasonable but was <i>worse</i> than no harness on test (<span data-k="harness.test_v1" data-f="pct"></span> vs <span data-k="harness.test_base" data-f="pct"></span>). Reading calibration trajectories showed why: one rule
+      ("copy values verbatim") made the agent use internal IDs as API keys. v2 fixed that and four other patterns, reaching <span data-k="harness.test_v2" data-f="pct"></span>.</div>
+    <div class="card"><h3>2. Distillation needs coverage</h3>
+      Holo4 solved only <span data-k="distill.holo_solved" data-f="int"></span>/<span data-k="distill.train_tasks" data-f="int"></span>
+      train tasks, so about 40% of task types had no demonstration. The LoRAs got the procedure but not the edge cases.
+      Their value is <i>complementarity</i>: together they solve <span data-k="distill.ft_union_test" data-f="int"></span>/60 test tasks.</div>
+    <div class="card"><h3>3. Complementarity is real, but you can't route on the task text</h3>
+      Perfect routing over our five open systems would reach <span data-k="calc.oracle_pass" data-f="pct"></span>.
+      A kNN router over task embeddings only tied the best system (<span data-k="router.pass" data-f="pct"></span>): which system wins depends
+      on what happens <i>during</i> the run. The next step is a verifier that reads the attempt and escalates.</div>
+    <div class="card"><h3>4. Small screens mislead; know your grader</h3>
+      DeepSeek scored 67% on a 30-task screen and about 55–60% on test60. The Slack grader rejects <code>$12,450.00</code> for
+      <code>12,450</code>. We disclose every grader-aware choice.</div>
+  </div>
+</section>
+
+<!-- 7. COST -------------------------------------------------------------- -->
+<section id="cost">
+  <div class="kicker">7 · What it cost to build</div>
+  <h2>The whole project cost less than <span data-k="spend.total" data-f="usd0"></span> of Fireworks credit</h2>
+  <div class="stats">
+    <div class="stat"><div class="v" data-k="spend.training" data-f="usd2"></div><div class="l">Two LoRA fine-tunes (Qwen + Nemotron), serverless</div></div>
+    <div class="stat"><div class="v" data-k="spend.kimi_eval" data-f="usd2"></div><div class="l">Frontier baseline: Kimi K3 on 60 tasks</div></div>
+    <div class="stat"><div class="v" data-k="calc.monthly_saving" data-f="usd0"></div><div class="l">Saving per 1M workflows vs Kimi K3</div></div>
+  </div>
+</section>
+
+<!-- 8. DISCLOSURES ------------------------------------------------------- -->
+<section id="disclosures">
+  <div class="kicker">8 · Disclosures</div>
+  <h2>What a skeptical judge should know</h2>
+  <ul>
+    <li><b>Kimi K3 ran at reasoning effort <code>high</code>,</b> not <code>max</code>, to fit the budget. It still matched its published score.</li>
+    <li><b>Published leaderboard numbers</b> (Opus 5, GPT-5.6 Sol) are cited from the AutomationBench README on all 600 tasks, not rerun.</li>
+    <li><b>Holo4 contamination:</b> H Company trained on 480 of the 600 public tasks, and we don't know exactly which. Our LoRAs use only our train480 split.</li>
+    <li><b>Harness v2 on test</b> was launched before its calib run finished. We committed in advance to report it whatever it showed, and we report v1 alongside it.</li>
+    <li><b>Grader-aware rule:</b> harness v2 writes whole dollars without ".00" because of a documented Slack matcher quirk.</li>
+    <li><b>Sample size:</b> n=60, CIs about ±12 points. We report p-values rather than claiming significance we don't have.</li>
+    <li><b>LoRA eval</b> used the serverless training sampler through an OpenAI-compatible proxy, with no prompt-cache discount.</li>
+    <li>Built with an AI coding assistant (GitHub Copilot).</li>
+  </ul>
+</section>
+
+<!-- 9. VIDEO SCRIPT ------------------------------------------------------ -->
+<section id="video">
+  <div class="kicker">9 · 60-second video script</div>
+  <h2>Problem → frontier fails → ours succeeds → chart → one number, one caveat</h2>
+  <ol class="script">
+    <li><span class="t">0–8s</span> "Businesses want agents that actually do the work: update Salesforce, route tickets, email vendors. On Zapier's AutomationBench, frontier models fail about half these tasks, and they're expensive."</li>
+    <li><span class="t">8–20s</span> Show the example task. "Here Kimi K3 <span data-k="example.kimi_short" data-f="str"></span>. Our system, running on cheap open models on Fireworks, gets it right."</li>
+    <li><span class="t">20–35s</span> Pipeline. "We used three levers: LoRA-distilled Qwen and NVIDIA Nemotron on Fireworks serverless training, a harness we improved by reading its failures, and a router. The harness won."</li>
+    <li><span class="t">35–50s</span> Bar chart. "On 60 held-out tasks, DeepSeek with our harness passes <span data-k="hero.router_pass" data-f="pct"></span> against Kimi K3's <span data-k="hero.kimi_pass" data-f="pct"></span>, at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost per task."</li>
+    <li><span class="t">50–60s</span> "One caveat: 60 tasks means wide error bars, so every number in our repo comes with a confidence interval and a paired test. Code, data and every run are on GitHub."</li>
+  </ol>
+</section>
+
+<footer>
+  Repo: <a href="https://github.com/abhishm/fireworks-buildathon-holo4">github.com/abhishm/fireworks-buildathon-holo4</a> ·
+  Numbers come from <code>slides/story_data.js</code> (generated from <code>runs/</code>).
+  Regenerate with <code>python3 analysis/fill_story.py && python3 analysis/complementarity.py</code>.
+</footer>
+</main>
+
+<script>
+(function () {
+  const S = window.STORY;
+  const get = (o, path) => path.split(".").reduce((a, k) => (a == null ? a : a[k]), o);
+  const has = v => v !== null && v !== undefined && !(typeof v === "number" && isNaN(v));
+  const sys = id => S.systems.find(s => s.id === id) || {};
+
+  // Derived values (only when inputs exist)
+  const h = S.hero;
+  if (!has(h.cost_ratio) && has(h.router_cost) && has(h.kimi_cost)) h.cost_ratio = h.kimi_cost / h.router_cost;
+  if (!has(h.pass_delta_pts) && has(h.router_pass) && has(h.kimi_pass)) h.pass_delta_pts = (h.router_pass - h.kimi_pass) * 100;
+  S.calc = {
+    kimi_monthly: has(h.kimi_cost) ? h.kimi_cost * 1e6 : null,
+    monthly_saving: has(h.kimi_cost) && has(h.router_cost) ? (h.kimi_cost - h.router_cost) * 1e6 : null,
+    oracle_pass: sys("oracle").pass,
+  };
+  S.router.mix_str = S.router.mix ? Object.entries(S.router.mix).map(([k, v]) => `${(sys(k).label || k)}: ${v}`).join(" · ") : null;
+
+  const F = {
+    str: v => String(v), int: v => Math.round(v).toLocaleString(), num2: v => v.toFixed(2),
+    pct: v => (v * 100).toFixed(1) + "%", pts: v => v.toFixed(1),
+    usd0: v => "$" + Math.round(v).toLocaleString(), usd2: v => "$" + v.toFixed(2), usd3: v => "$" + v.toFixed(3),
+    x1: v => v.toFixed(1) + "×", p: v => (v < 0.001 ? "<0.001" : v.toFixed(3)),
+  };
+  document.querySelectorAll("[data-k]").forEach(el => {
+    const v = get(S, el.dataset.k);
+    if (has(v)) { if (el.dataset.f === "html") el.innerHTML = v; else el.textContent = (F[el.dataset.f] || F.str)(v); }
+    else { el.textContent = "TBD"; el.classList.add("tbd"); el.title = el.dataset.k; }
+  });
+
+  const COL = { frontier: "var(--frontier)", open: "var(--open)", harness: "var(--harness)", finetune: "var(--finetune)", router: "var(--router)", oracle: "var(--oracle)" };
+  const NAME = { frontier: "Frontier (rerun by us)", open: "Open model, no harness", harness: "Open model + our harness", finetune: "LoRA fine-tune (Fireworks training)", router: "Our router", oracle: "Oracle upper bound" };
+  document.getElementById("legend").innerHTML = Object.keys(COL).map(k => `<span><i style="background:${COL[k]}"></i>${NAME[k]}</span>`).join("");
+
+  // Results table
+  const tbl = document.getElementById("restable");
+  const fmt = (v, f) => has(v) ? F[f](v) : '<span class="tbd">TBD</span>';
+  S.systems.forEach(s => {
+    const tr = document.createElement("tr"); if (s.kind === "router") tr.className = "router";
+    tr.innerHTML = `<td>${s.label}${s.note ? ` <small>(${s.note})</small>` : ""}</td><td class="num">${fmt(s.pass, "pct")}</td>
+      <td class="num">${has(s.lo) ? F.pct(s.lo) + " – " + F.pct(s.hi) : '<span class="tbd">TBD</span>'}</td><td class="num">${fmt(s.cost, "usd3")}</td>`;
+    tbl.appendChild(tr);
+  });
+
+  // Bar chart
+  const NS = "http://www.w3.org/2000/svg";
+  const mk = (tag, attrs, parent, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; parent.appendChild(e); return e; };
+  const bars = document.getElementById("bars");
+  const order = [...S.systems].sort((a, b) => (has(b.pass) ? b.pass : -1) - (has(a.pass) ? a.pass : -1));
+  const L = 300, R = 900, top = 14, rowH = 42, x = v => L + (R - L) * v / 0.8;
+  for (let t = 0; t <= 0.8001; t += 0.1) {
+    mk("line", { x1: x(t), x2: x(t), y1: top - 4, y2: top + rowH * order.length, stroke: "#eee" }, bars);
+    mk("text", { x: x(t), y: top + rowH * order.length + 16, "text-anchor": "middle", "font-size": 12, fill: "#999" }, bars, Math.round(t * 100) + "%");
+  }
+  order.forEach((s, i) => {
+    const y = top + i * rowH;
+    mk("text", { x: L - 10, y: y + 24, "text-anchor": "end", "font-size": 14, "font-weight": s.kind === "router" ? 700 : 400, fill: "#1d1b22" }, bars, s.label);
+    if (has(s.pass)) {
+      mk("rect", { x: L, y: y + 8, width: x(s.pass) - L, height: 24, rx: 5, fill: COL[s.kind] }, bars);
+      if (has(s.lo)) {
+        mk("line", { x1: x(s.lo), x2: x(s.hi), y1: y + 20, y2: y + 20, stroke: "#1d1b22", "stroke-width": 1.4, opacity: .55 }, bars);
+        [s.lo, s.hi].forEach(v => mk("line", { x1: x(v), x2: x(v), y1: y + 14, y2: y + 26, stroke: "#1d1b22", "stroke-width": 1.4, opacity: .55 }, bars));
+      }
+      mk("text", { x: x(has(s.hi) ? s.hi : s.pass) + 8, y: y + 25, "font-size": 13, "font-weight": 700, fill: "#1d1b22" }, bars, F.pct(s.pass));
+    } else {
+      mk("rect", { x: L, y: y + 8, width: 90, height: 24, rx: 5, fill: "#fff2b3", stroke: "#d6b400", "stroke-dasharray": "4 3" }, bars);
+      mk("text", { x: L + 45, y: y + 25, "text-anchor": "middle", "font-size": 12, "font-weight": 700, fill: "#7a6400" }, bars, "TBD");
+    }
+  });
+  const k = sys("kimi_k3");
+  if (has(k.pass)) {
+    mk("line", { x1: x(k.pass), x2: x(k.pass), y1: top - 6, y2: top + rowH * order.length, stroke: "#d6455d", "stroke-dasharray": "5 4", "stroke-width": 1.5 }, bars);
+    mk("text", { x: x(k.pass) + 4, y: top + 2, "font-size": 11, fill: "#d6455d" }, bars, "Kimi K3");
+  }
+
+  // Scatter: pass vs $/task (log x)
+  const sc = document.getElementById("scatter");
+  const X0 = 80, X1 = 900, Y0 = 310, Y1 = 20, cmin = 0.01, cmax = 0.3;
+  const sx = c => X0 + (X1 - X0) * (Math.log(c) - Math.log(cmin)) / (Math.log(cmax) - Math.log(cmin));
+  const sy = p => Y0 - (Y0 - Y1) * p / 0.8;
+  [0.01, 0.02, 0.05, 0.1, 0.2, 0.3].forEach(c => { mk("line", { x1: sx(c), x2: sx(c), y1: Y1, y2: Y0, stroke: "#eee" }, sc); mk("text", { x: sx(c), y: Y0 + 18, "text-anchor": "middle", "font-size": 12, fill: "#999" }, sc, "$" + c); });
+  for (let p = 0; p <= 0.8001; p += 0.2) { mk("line", { x1: X0, x2: X1, y1: sy(p), y2: sy(p), stroke: "#eee" }, sc); mk("text", { x: X0 - 8, y: sy(p) + 4, "text-anchor": "end", "font-size": 12, fill: "#999" }, sc, Math.round(p * 100) + "%"); }
+  mk("text", { x: (X0 + X1) / 2, y: Y0 + 42, "text-anchor": "middle", "font-size": 13, fill: "#6b6775" }, sc, "$ per task (log scale) →");
+  S.systems.filter(s => has(s.pass) && has(s.cost) && s.kind !== "oracle").forEach(s => {
+    mk("circle", { cx: sx(s.cost), cy: sy(s.pass), r: s.kind === "router" ? 10 : 7, fill: COL[s.kind], stroke: "#fff", "stroke-width": 2 }, sc);
+    mk("text", { x: sx(s.cost) + 12, y: sy(s.pass) + 4, "font-size": 12, "font-weight": s.kind === "router" ? 700 : 400, fill: "#1d1b22" }, sc, s.label.split(" (")[0]);
+  });
+  const missing = S.systems.filter(s => !(has(s.pass) && has(s.cost)) && s.kind !== "oracle").map(s => s.label.split(" (")[0]);
+  if (missing.length) mk("text", { x: X1, y: Y1 + 4, "text-anchor": "end", "font-size": 12, fill: "#7a6400" }, sc, "TBD: " + missing.join(", "));
+
+  // ---- Complementarity (data: complement_data.js) ----
+  const C = window.COMPLEMENT;
+  if (!C) return;
+  const KIND = { ds_harness_v2: "harness", ds_harness: "harness", ds_base: "open", qwen_ft: "finetune", nemo_ft: "finetune", kimi_k3: "frontier" };
+  const DS = ["ds_harness_v2", "ds_base", "ds_harness"];
+  const pc = (a, n) => Math.round(100 * a / n) + "%";
+  function drawComplement(sp) {
+    const d = C[sp], n = d.n, idx = s => d.systems.indexOf(s);
+    const solved = s => new Set(d.tasks.filter((t, j) => d.m[idx(s)][j]));
+    document.getElementById("cx-single").textContent = pc(d.curve[0][1], n);
+    document.getElementById("cx-union").textContent = pc(d.curve[d.curve.length - 1][1], n);
+    document.getElementById("cx-gap").textContent = Math.round(100 * (d.curve[d.curve.length - 1][1] - d.curve[0][1]) / n);
+
+    // union step chart
+    const u = document.getElementById("union"); u.innerHTML = "";
+    const L = 300, R = 860, rh = 42, xu = v => L + (R - L) * v / n;
+    [0, .25, .5, .75, 1].forEach(f => { mk("line", { x1: xu(f * n), x2: xu(f * n), y1: 4, y2: rh * d.curve.length + 4, stroke: "#eee" }, u);
+      mk("text", { x: xu(f * n), y: rh * d.curve.length + 20, "text-anchor": "middle", "font-size": 12, fill: "#999" }, u, Math.round(f * 100) + "%"); });
+    let prev = 0;
+    d.curve.forEach(([s, c], i) => {
+      const y = 8 + i * rh;
+      mk("text", { x: L - 10, y: y + 20, "text-anchor": "end", "font-size": 14, fill: "#1d1b22" }, u, (i ? "+ " : "") + C.labels[s]);
+      mk("rect", { x: L, y, width: xu(prev) - L, height: 26, rx: 4, fill: "#d9d5e0" }, u);
+      mk("rect", { x: xu(prev), y, width: Math.max(2, xu(c) - xu(prev)), height: 26, rx: 4, fill: COL[KIND[s]] }, u);
+      mk("text", { x: xu(c) + 8, y: y + 19, "font-size": 13, "font-weight": 700, fill: "#1d1b22" }, u,
+        `${pc(c, n)}` + (i ? `  (+${c - prev} task${c - prev === 1 ? "" : "s"})` : ""));
+      prev = c;
+    });
+
+    // heatmap
+    const h = document.getElementById("heat"); h.innerHTML = "";
+    const HL = 230, cw = Math.min(11, (930 - HL) / n), ch = 30;
+    h.setAttribute("viewBox", `0 0 940 ${d.systems.length * ch + 40}`);
+    const cnt = d.tasks.map((t, j) => d.systems.reduce((a, s, i) => a + d.m[i][j], 0));
+    d.systems.forEach((s, i) => {
+      mk("text", { x: HL - 10, y: i * ch + 20, "text-anchor": "end", "font-size": 13, fill: "#1d1b22" }, h, `${C.labels[s]} (${d.solves[s]})`);
+      d.tasks.forEach((t, j) => {
+        const on = d.m[i][j], solo = on && cnt[j] === 1;
+        const r = mk("rect", { x: HL + j * cw, y: i * ch + 4, width: cw - 1.5, height: ch - 6, rx: 1.5,
+          fill: on ? COL[KIND[s]] : "#f1eff4", stroke: solo ? "#1d1b22" : "none", "stroke-width": solo ? 2 : 0 }, h);
+        mk("title", {}, r, `${t}: ${on ? "passed" : "failed"}${solo ? " (only system to pass)" : ""}`);
+      });
+    });
+    const none = cnt.filter(c => c === 0).length;
+    mk("text", { x: HL, y: d.systems.length * ch + 22, "font-size": 12, fill: "#6b6775" }, h,
+      `← solved by many · solved by none: ${none}/${n} →`);
+
+    // cards: what each LoRA student adds
+    const dsU = new Set(DS.flatMap(s => [...solved(s)]));
+    const kimi = d.systems.includes("kimi_k3") ? solved("kimi_k3") : null;
+    const dom = t => t.split(".")[0];
+    const card = (s, title) => {
+      const S0 = solved(s), beyond = [...S0].filter(t => !dsU.has(t));
+      let best = "";
+      if (kimi) {
+        const doms = [...new Set(d.tasks.map(dom))];
+        const gaps = doms.map(D => [D, [...S0].filter(t => dom(t) === D).length, [...kimi].filter(t => dom(t) === D).length, d.tasks.filter(t => dom(t) === D).length]).sort((a, b) => (b[1] - b[2]) - (a[1] - a[2]));
+        if (gaps[0][1] > gaps[0][2]) best = `<br>Strongest domain vs the frontier: <b>${gaps[0][0]}</b>, ${gaps[0][1]}/${gaps[0][3]} vs Kimi K3's ${gaps[0][2]}/${gaps[0][3]}.`;
+      }
+      return `<div class="card"><span class="tag ${s === "nemo_ft" ? "nv" : "fw"}">${title}</span><h3>${C.labels[s]}</h3>
+        Solves <b>${S0.size}/${n}</b> on its own. <b>${beyond.length}</b> of those ${beyond.length === 1 ? "is a task" : "are tasks"} <i>no DeepSeek variant</i> solved` +
+        (beyond.length ? `: <small><code>${beyond.join("</code>, <code>")}</code></small>` : "") + `.${best}</div>`;
+    };
+    document.getElementById("cx-cards").innerHTML =
+      card("qwen_ft", "Holo4 student · 3B active params") + card("nemo_ft", "Holo4 student · NVIDIA");
+  }
+  drawComplement("test");
+  document.querySelectorAll("#cx-toggle button").forEach(b => b.onclick = () => {
+    document.querySelectorAll("#cx-toggle button").forEach(x => x.classList.toggle("on", x === b)); drawComplement(b.dataset.sp);
+  });
+})();
+</script>
+</body>
+</html>

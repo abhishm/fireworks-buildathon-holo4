@@ -1,0 +1,163 @@
+{
+ "calib": {
+  "n": 60,
+  "solves": {
+   "ds_harness_v2": 40,
+   "ds_base": 31,
+   "ds_harness": 33,
+   "qwen_ft": 15,
+   "nemo_ft": 20
+  },
+  "curve": [
+   [
+    "ds_harness_v2",
+    40
+   ],
+   [
+    "nemo_ft",
+    44
+   ],
+   [
+    "ds_base",
+    47
+   ],
+   [
+    "ds_harness",
+    48
+   ],
+   [
+    "qwen_ft",
+    48
+   ]
+  ],
+  "ft_only": [
+   "hr.standup_absence_tracking",
+   "marketing.event_registration_sync",
+   "marketing.linkedin_speaker_outreach",
+   "support.zendesk_gdpr_purge"
+  ],
+  "pair": {
+   "ds_harness_v2": {
+    "ds_harness_v2": 0,
+    "ds_base": 12,
+    "ds_harness": 9,
+    "qwen_ft": 27,
+    "nemo_ft": 24
+   },
+   "ds_base": {
+    "ds_harness_v2": 3,
+    "ds_base": 0,
+    "ds_harness": 4,
+    "qwen_ft": 19,
+    "nemo_ft": 17
+   },
+   "ds_harness": {
+    "ds_harness_v2": 2,
+    "ds_base": 6,
+    "ds_harness": 0,
+    "qwen_ft": 23,
+    "nemo_ft": 21
+   },
+   "qwen_ft": {
+    "ds_harness_v2": 2,
+    "ds_base": 3,
+    "ds_harness": 5,
+    "qwen_ft": 0,
+    "nemo_ft": 3
+   },
+   "nemo_ft": {
+    "ds_harness_v2": 4,
+    "ds_base": 6,
+    "ds_harness": 8,
+    "qwen_ft": 8,
+    "nemo_ft": 0
+   }
+  }
+ },
+ "test": {
+  "n": 60,
+  "solves": {
+   "ds_harness_v2": 35,
+   "ds_base": 34,
+   "ds_harness": 30,
+   "qwen_ft": 19,
+   "nemo_ft": 17,
+   "kimi_k3": 28
+  },
+  "curve": [
+   [
+    "ds_harness_v2",
+    35
+   ],
+   [
+    "ds_base",
+    40
+   ],
+   [
+    "ds_harness",
+    41
+   ],
+   [
+    "nemo_ft",
+    42
+   ],
+   [
+    "qwen_ft",
+    42
+   ]
+  ],
+  "ft_only": [
+   "sales.invalid_email_cleanup"
+  ],
+  "pair": {
+   "ds_harness_v2": {
+    "ds_harness_v2": 0,
+    "ds_base": 6,
+    "ds_harness": 6,
+    "qwen_ft": 16,
+    "nemo_ft": 21,
+    "kimi_k3": 12
+   },
+   "ds_base": {
+    "ds_harness_v2": 5,
+    "ds_base": 0,
+    "ds_harness": 8,
+    "qwen_ft": 17,
+    "nemo_ft": 18,
+    "kimi_k3": 11
+   },
+   "ds_harness": {
+    "ds_harness_v2": 1,
+    "ds_base": 4,
+    "ds_harness": 0,
+    "qwen_ft": 12,
+    "nemo_ft": 16,
+    "kimi_k3": 8
+   },
+   "qwen_ft": {
+    "ds_harness_v2": 0,
+    "ds_base": 2,
+    "ds_harness": 1,
+    "qwen_ft": 0,
+    "nemo_ft": 6,
+    "kimi_k3": 6
+   },
+   "nemo_ft": {
+    "ds_harness_v2": 3,
+    "ds_base": 1,
+    "ds_harness": 3,
+    "qwen_ft": 4,
+    "nemo_ft": 0,
+    "kimi_k3": 5
+   },
+   "kimi_k3": {
+    "ds_harness_v2": 5,
+    "ds_base": 5,
+    "ds_harness": 6,
+    "qwen_ft": 15,
+    "nemo_ft": 16,
+    "kimi_k3": 0
+   }
+  }
+ }
+}

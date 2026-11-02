@@ -12,18 +12,38 @@ ROOT = Path(__file__).resolve().parent.parent
 K = 7
 
 
+_RATIO = {}  # price tuple -> exact/naive cost ratio, learned from .json exports (jsonl lacks cache counts)
+
+
+def _json_cost(t, price):
+    cached = t.get("cached_input_tokens") or 0
+    uncached = t.get("uncached_input_tokens")
+    if uncached is None:
+        uncached = max(0, (t.get("input_tokens") or 0) - cached)
+    return (uncached * price[0] + cached * price[1] + (t.get("output_tokens") or 0) * price[2]) / 1e6
+
+
 def load_run(path, price):
+    """Pass/score from .jsonl when present (covers resumed runs), cost from the .json export.
+
+    The incremental jsonl has no cached-token counts. Tasks present in the export get the
+    exact cached-aware cost; the rest get naive cost x the run's exact/naive ratio."""
     p = ROOT / path
+    js = json.load(open(p)) if p.exists() else None
+    exact = {t["name"]: (_json_cost(t, price), t) for t in js["tasks"]} if js else {}
+    if exact:
+        naive = sum((t.get("input_tokens") or 0) * price[0] + (t.get("output_tokens") or 0) * price[2]
+                    for _, t in exact.values()) / 1e6
+        if naive > 0:
+            _RATIO[tuple(price)] = sum(c for c, _ in exact.values()) / naive
     if p.with_suffix(".jsonl").exists():
-        return load_jsonl(p.with_suffix(".jsonl"), price)
-    d = json.load(open(p))
-    out = {}
-    for t in d["tasks"]:
-        cached = t.get("cached_input_tokens") or 0
-        uncached = (t.get("input_tokens") or 0) - cached
-        cost = (uncached * price[0] + cached * price[1] + (t.get("output_tokens") or 0) * price[2]) / 1e6
-        out[t["name"]] = {"pass": bool(t["passed"]), "score": float(t["score"] or 0), "cost": cost}
-    return out
+        out = load_jsonl(p.with_suffix(".jsonl"), price)
+        r = _RATIO.get(tuple(price), 1.0)
+        for k, v in out.items():
+            v["cost"] = exact[k][0] if k in exact else v["cost"] * r
+        return out
+    return {n: {"pass": bool(t["passed"]), "score": float(t["score"] or 0), "cost": c}
+            for n, (c, t) in exact.items()}
 
 
 def load_jsonl(path, price):

@@ -23,9 +23,10 @@ IMG = ROOT / "slides/img"
 IMG.mkdir(parents=True, exist_ok=True)
 
 BG, PANEL, FG, MUTED, GRID = "#0d1117", "#161b22", "#e6edf3", "#8b949e", "#30363d"
-C = {"kimi_k3": "#a371f7", "ds_base": "#58a6ff", "ds_harness": "#1f6feb", "qwen_ft": "#f0883e",
+C = {"kimi_k3": "#a371f7", "ds_base": "#58a6ff", "ds_harness": "#1f6feb", "ds_harness_v2": "#39c5cf", "qwen_ft": "#f0883e",
      "nemo_ft": "#76b900", "router": "#e3b341"}
 LABEL = {"kimi_k3": "Kimi K3", "ds_base": "DeepSeek V4.1 Flash", "ds_harness": "DeepSeek + Holo harness",
+         "ds_harness_v2": "DeepSeek + harness v2",
          "qwen_ft": "Qwen3.6-35B-A3B + LoRA", "nemo_ft": "Nemotron 3.5 Super + LoRA", "router": "kNN router"}
 DOMAINS = ["sales", "marketing", "operations", "support", "finance", "hr"]
 # Share of input tokens served from prompt cache, measured on the complete DeepSeek screen run. Used only when
@@ -74,7 +75,7 @@ def load(split, name):
     return {k: v for k, v in runs.items() if k in keep}, final
 
 
-SYS = ["kimi_k3", "ds_base", "ds_harness", "qwen_ft", "nemo_ft"]
+SYS = ["kimi_k3", "ds_base", "ds_harness", "ds_harness_v2", "qwen_ft", "nemo_ft"]
 test, calib, done = {}, {}, {}
 for s in SYS:
     test[s], done[s] = load("test", s)
@@ -109,7 +110,7 @@ if router_ready:
     S["router"]["vs_kimi"] = mcnemar(rk, [test["kimi_k3"][t]["pass"] for t in TEST])
 
 paired = {}
-for s in ["qwen_ft", "nemo_ft", "ds_base", "ds_harness"]:
+for s in ["qwen_ft", "nemo_ft", "ds_base", "ds_harness", "ds_harness_v2"]:
     common = [t for t in TEST if t in test[s] and t in test["kimi_k3"]]
     if common:
         paired[s] = dict(zip(["sys_only", "kimi_only", "p"],
@@ -210,7 +211,7 @@ ax.legend(frameon=False, loc="upper right")
 save(fig, "loss.png")
 
 # ---------------------------------------------------------------- 4. test60 pass-rate bars
-order = [s for s in ["router", "kimi_k3", "ds_harness", "ds_base", "qwen_ft", "nemo_ft"] if s in S]
+order = [s for s in ["router", "ds_harness_v2", "ds_base", "ds_harness", "kimi_k3", "qwen_ft", "nemo_ft"] if s in S]
 order.sort(key=lambda s: S[s]["pass"])
 fig, ax = plt.subplots(figsize=(14, 0.9 * len(order) + 1.8))
 for i, s in enumerate(order):
@@ -240,7 +241,7 @@ for name, p, c in published:
 for s, st in S.items():
     ax.errorbar(st["cost"], st["pass"] * 100, yerr=[[st["pass"] * 100 - st["lo"] * 100], [st["hi"] * 100 - st["pass"] * 100]],
                 fmt="o", color=C[s], ms=13, lw=1.5, capsize=4, alpha=1 if st["complete"] else 0.5, zorder=3)
-    off, ha = {"ds_harness": ((-30, 22), "left"), "kimi_k3": ((12, 10), "left"), "ds_base": ((12, -4), "left"),
+    off, ha = {"ds_harness": ((14, -16), "left"), "ds_harness_v2": ((14, 14), "left"), "router": ((14, -2), "left"), "kimi_k3": ((12, 10), "left"), "ds_base": ((-14, -4), "right"),
                "qwen_ft": ((12, 8), "left"), "nemo_ft": ((12, -22), "left")}.get(s, ((12, 6), "left"))
     ax.annotate(LABEL[s] + ("" if st["complete"] else f" ({st['n']}/60)"), (st["cost"], st["pass"] * 100),
                 xytext=off, textcoords="offset points", fontsize=11.5, color=C[s], weight="bold", ha=ha, zorder=5,
@@ -257,7 +258,7 @@ ax.text(0.011, 76, "better ->  up and to the left", fontsize=11, color=MUTED, st
 save(fig, "pass_vs_cost.png")
 
 # ---------------------------------------------------------------- 6. per-domain heatmap
-rows = [s for s in ["kimi_k3", "ds_harness", "ds_base", "qwen_ft", "nemo_ft"] if test[s]]
+rows = [s for s in ["kimi_k3", "ds_harness_v2", "ds_harness", "ds_base", "qwen_ft", "nemo_ft"] if test[s]]
 fig, ax = plt.subplots(figsize=(13, 0.8 * len(rows) + 1.6))
 M = []
 for s in rows:
