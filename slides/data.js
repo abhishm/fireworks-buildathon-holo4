@@ -114,12 +114,50 @@ window.RESULTS = {
   "nemo_ft": 1,
   "ds_base": 17
  },
- "oracle": {
-  "Nemotron LoRA": 17,
-  "Qwen LoRA": 19,
-  "either LoRA (oracle)": 23,
-  "Kimi K3": 28,
-  "any of the three (oracle)": 36
- },
- "n_common": 60
+ "oracle": [
+  {
+   "label": "harness v2",
+   "solved": 35,
+   "gain": 35
+  },
+  {
+   "label": "+ DeepSeek (plain)",
+   "solved": 40,
+   "gain": 5
+  },
+  {
+   "label": "+ harness v1",
+   "solved": 41,
+   "gain": 1
+  },
+  {
+   "label": "+ Nemotron LoRA",
+   "solved": 42,
+   "gain": 1
+  },
+  {
+   "label": "+ Qwen LoRA",
+   "solved": 42,
+   "gain": 0
+  }
+ ],
+ "n_common": 60,
+ "before_after": {
+  "qwen_ft": {
+   "fixed": 16,
+   "broken": 1,
+   "p": 0.000274658203125,
+   "base": 0.06666666666666667,
+   "ft": 0.31666666666666665,
+   "n": 60
+  },
+  "nemo_ft": {
+   "fixed": 13,
+   "broken": 3,
+   "p": 0.021270751953125,
+   "base": 0.11666666666666667,
+   "ft": 0.2833333333333333,
+   "n": 60
+  }
+ }
 };

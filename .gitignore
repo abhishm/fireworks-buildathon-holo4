@@ -24,3 +24,6 @@ __pycache__/
 # OS / editor cruft
 .DS_Store
 *.swp
+
+# Unredacted local copies (account IDs, local paths)
+.private/

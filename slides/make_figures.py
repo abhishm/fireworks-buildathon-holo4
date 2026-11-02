@@ -283,27 +283,50 @@ for sp in ax.spines.values():
 save(fig, "domains.png")
 
 # ---------------------------------------------------------------- 7. complementarity
-q, n_, k = test["qwen_ft"], test["nemo_ft"], test["kimi_k3"]
-common = [t for t in TEST if t in q and t in n_ and t in k]
-sets = [("Nemotron LoRA", lambda t: n_[t]["pass"], C["nemo_ft"]),
-        ("Qwen LoRA", lambda t: q[t]["pass"], C["qwen_ft"]),
-        ("either LoRA (oracle)", lambda t: q[t]["pass"] or n_[t]["pass"], C["router"]),
-        ("Kimi K3", lambda t: k[t]["pass"], C["kimi_k3"]),
-        ("any of the three (oracle)", lambda t: q[t]["pass"] or n_[t]["pass"] or k[t]["pass"], "#e6edf3")]
+# Greedy union over the router's five open systems: each bar adds the system that rescues the most remaining tasks.
+common = [t for t in TEST if all(t in test[s] for s in R)]
+SHORT = {"ds_base": "DeepSeek (plain)", "ds_harness": "harness v1", "ds_harness_v2": "harness v2",
+         "qwen_ft": "Qwen LoRA", "nemo_ft": "Nemotron LoRA"}
+left, solved, sets = list(R), set(), []
+while left:
+    best = max(left, key=lambda s: (len({t for t in common if test[s][t]["pass"]} - solved), -left.index(s)))
+    gain = {t for t in common if test[best][t]["pass"]} - solved
+    solved |= gain
+    sets.append(((SHORT[best] if not sets else "+ " + SHORT[best]), len(solved), len(gain), C[best]))
+    left.remove(best)
 fig, ax = plt.subplots(figsize=(13, 4.8))
-for i, (lab, f, col) in enumerate(sets):
-    v = sum(1 for t in common if f(t))
+for i, (lab, v, g, col) in enumerate(sets):
     ax.barh(-i, v, color=col, height=0.6)
-    ax.text(v + 0.6, -i, f"{v}/{len(common)}  ({v/len(common)*100:.0f}%)", va="center", fontsize=12.5, weight="bold")
+    ax.text(v + 0.6, -i, f"{v}/{len(common)}  ({v/len(common)*100:.0f}%)" + (f"   +{g}" if i else ""), va="center", fontsize=12.5, weight="bold")
+kv = sum(test["kimi_k3"][t]["pass"] for t in common)
+ax.axvline(kv, color=C["kimi_k3"], ls="--", lw=2)
+ax.text(kv, -len(sets) + 0.35, f"Kimi K3 {kv} ", color=C["kimi_k3"], fontsize=12, weight="bold", ha="right")
+if "router" in S:
+    rv = round(S["router"]["pass"] * len(TEST))
+    ax.axvline(rv, color=C["router"], ls=":", lw=2)
+    ax.text(rv, -len(sets) + 0.35, f" kNN router {rv}", color=C["router"], fontsize=12, weight="bold")
 ax.set_yticks([-i for i in range(len(sets))], [s[0] for s in sets])
+ax.set_ylim(-len(sets) + 0.1, 0.5)
 ax.set_xlim(0, len(common) + 9)
-ax.set_xlabel("test60 tasks passed")
-ax.set_title("The two LoRAs solve different tasks, but even together they trail Kimi K3", loc="left")
+ax.set_xlabel("test60 tasks passed by at least one system (oracle pick)")
+ax.set_title("Open systems are complementary: a perfect pick among the five reaches " +
+             f"{sets[-1][1]/len(common)*100:.0f}%", loc="left")
 save(fig, "overlap.png")
+
+# Before vs after LoRA (same proxy, renderer and sampling; base = no adapter).
+before_after = {}
+for k, ft in [("qwen", "qwen_ft"), ("nemo", "nemo_ft")]:
+    rel = f"runs/test_{k}_base.json"
+    if (ROOT / rel).exists() and test[ft]:
+        b = {t: v for t, v in load_run(rel, cfg["systems"][ft]["price"]).items() if t in set(TEST)}
+        cm = [t for t in TEST if t in b and t in test[ft]]
+        before_after[ft] = dict(zip(["fixed", "broken", "p"], mcnemar([test[ft][t]["pass"] for t in cm], [b[t]["pass"] for t in cm])),
+                                base=sum(b[t]["pass"] for t in cm) / len(cm), ft=sum(test[ft][t]["pass"] for t in cm) / len(cm), n=len(cm))
 
 # ---------------------------------------------------------------- numbers for the deck
 data = {"stats": S, "paired_vs_kimi": paired, "router_ready": router_ready, "router_mix": router_mix,
-        "oracle": {lab: sum(1 for t in common if f(t)) for lab, f, _ in sets}, "n_common": len(common)}
+        "oracle": [{"label": l, "solved": v, "gain": g} for l, v, g, _ in sets], "n_common": len(common),
+        "before_after": before_after}
 (ROOT / "slides/data.js").write_text("window.RESULTS = " + json.dumps(data, indent=1) + ";\n")
 print("wrote slides/data.js")
 for s, st in S.items():

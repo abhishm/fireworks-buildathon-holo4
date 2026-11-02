@@ -59,11 +59,11 @@
   <div class="kicker">Fireworks: Deploy · Microsoft × NVIDIA buildathon</div>
   <h1>Can cheap open models do<br>frontier-grade business automation?</h1>
   <p class="muted" style="font-size:1.15em;max-width:80%">Holo4-style agents on Zapier's AutomationBench: fine-tuned open models,
-    a Holo-style harness, and a learned per-task router, all served on Fireworks.</p>
+    a Holo-style harness, and a kNN router over five open systems, all served on Fireworks.</p>
   <div class="grid3" style="margin-top:auto">
     <div class="card"><div class="muted">Benchmark</div><div class="big">600</div>tasks across 47 simulated apps</div>
-    <div class="card"><div class="muted">Bar to beat</div><div class="big" style="color:var(--kimi)">Kimi K3</div>~47% pass on our held-out set</div>
-    <div class="card"><div class="muted">Spend so far</div><div class="big">~$22</div>for two LoRA fine-tunes</div>
+    <div class="card"><div class="muted">kNN router (ours), held-out test60</div><div class="big" style="color:var(--router)" id="h-router">58.3%</div>vs Kimi K3 <span id="h-kimi">46.7%</span>, p=<span id="h-p">0.17</span></div>
+    <div class="card"><div class="muted">Cost per task</div><div class="big" id="h-cost">$0.062</div><span id="h-x">2.2×</span> cheaper than Kimi K3</div>
   </div>
 </section>
 
@@ -127,6 +127,7 @@
         <li><b>259 conversations, ~5.0M tokens</b> per model, ≤32K tokens each. Loss is computed on assistant tokens only.</li>
         <li>LoRA rank 32, lr 2e-4 with cosine decay, 1 epoch, on <b>Fireworks serverless training</b>: no GPUs to provision, billed per token.</li>
         <li>Qwen <b>$10.68</b>, Nemotron <b>$11.59</b>.</li>
+        <li><b>Before → after on test60</b> (same proxy and sampling, no adapter vs LoRA): <span id="ba"></span></li>
         <li>Served through a small OpenAI-compatible proxy over the serverless sampler, so the stock benchmark runner can call it.</li>
       </ul>
     </div>
@@ -191,7 +192,7 @@
   <div class="fig" style="flex:0 0 58%"><img src="img/domains.png" alt="per-domain"></div>
   <div class="grid2" style="font-size:.82em;flex:0;margin-top:.5em">
     <div>Kimi K3 leads in HR, finance, and ops, but gets <b>1/10 in sales</b>. Both LoRAs beat it there (4/10 and 3/10).</div>
-    <div>Domain strengths differ between systems. A router can exploit that, but only if it can predict them from the task text.</div>
+    <div>Domain strengths differ between systems. The kNN router exploits that by looking up how each system did on the most similar calib tasks.</div>
   </div>
 </section>
 
@@ -207,9 +208,9 @@
   <h2>So, do the results look good?</h2>
   <div class="grid2">
     <div class="verdict" style="font-size:.8em">
-      <h3 class="bad" style="margin:0 0 .2em">Not yet: distillation alone falls short</h3>
+      <h3 class="bad" style="margin:0 0 .2em">Where we fall short</h3>
       <ul id="v-bad"></ul>
-      <h3 class="good" style="margin:.5em 0 .2em">Yes: the cheap base + harness beats Kimi</h3>
+      <h3 class="good" style="margin:.5em 0 .2em">Yes: a router over open models beats Kimi at 2× lower cost</h3>
       <ul id="v-good"></ul>
     </div>
     <div class="card" style="font-size:.8em;align-self:start">
@@ -217,7 +218,8 @@
       <ul>
         <li><b>Small screens mislead.</b> DeepSeek scored 66.7% on the 30-task screen but <span id="ds-test">~57%</span> on test60. Hold out tasks and compare systems on the same ones.</li>
         <li><b>Grader quirk.</b> The Slack matcher rejects <code>12,450.00</code> when it expects <code>12,450</code>, while Gmail and Sheets accept it. Don't pad amounts with ".00" in Slack.</li>
-        <li><b>Coverage caps SFT.</b> Holo4 solved only 289/480 train tasks, so the fine-tunes never saw demos for ~40% of task types.</li>
+        <li><b>Distillation works, coverage caps it.</b> LoRA lifted Qwen 4→19 and Nemotron 7→17 passes, but Holo4 solved only 289/480 train tasks, so ~40% of task types had no demo.</li>
+        <li><b>A judge didn't help.</b> An LLM judge for cascading had AUC 0.66 on calib but 0.42 on test; every cascade hurt. We report it and don't use it.</li>
         <li><b>Cost depends on caching.</b> Agent loops resend about 150K tokens per task. Prompt caching makes a 5× difference to $/task.</li>
       </ul>
     </div>
@@ -228,8 +230,8 @@
 <section class="slide">
   <h2>Next steps</h2>
   <div class="grid3">
-    <div class="card"><h3 style="color:var(--ds)">Tighten the DeepSeek result</h3>The DeepSeek variants lead Kimi by 10–12 points, but p≈0.14–0.21 on 60 tasks.
-      Run more held-out tasks to confirm the gap, and push the router past its best single member.</div>
+    <div class="card"><h3 style="color:var(--ds)">Close the router gap</h3>The router ties harness v2 (58.3%) while a perfect pick reaches 70%.
+      A better routing signal (more calib tasks, outcome-trained router) is the lever, plus more held-out tasks to tighten p=0.17 vs Kimi.</div>
     <div class="card"><h3 style="color:var(--qwen)">Better distillation</h3>Distill DeepSeek+harness's own successes on train480
       to cover tasks Holo4 failed. Add the harness procedure to the SFT prompts.</div>
     <div class="card"><h3 style="color:var(--router)">Cheaper serving</h3>Deploy the LoRA on a Fireworks on-demand deployment with prompt caching,
@@ -259,21 +261,34 @@ if (S.ds_harness && !S.ds_harness.complete) cap.push(`DeepSeek runs are partial;
 if (S.router) cap.push(`Router: ${pct(S.router.pass)} at $${S.router.cost.toFixed(3)}/task.`);
 document.getElementById('cap-test').textContent = cap.join(' ');
 
-const O = R.oracle || {}, n = R.n_common || 60;
-document.getElementById('cap-overlap').textContent =
-  `Each LoRA solves tasks the other misses, but the best possible pick between them (${O['either LoRA (oracle)']}/${n}) still trails Kimi K3 alone (${O['Kimi K3']}/${n}). `+
-  `Adding Kimi raises the ceiling to ${O['any of the three (oracle)']}/${n}, so routing pays off only if a stronger, cheap member joins the pool. DeepSeek turned out to be that member.`;
+const O = R.oracle || [], n = R.n_common || 60;
+if (O.length) document.getElementById('cap-overlap').textContent =
+  `Harness v2 alone solves ${O[0].solved}/${n}. Adding the other open systems in order of rescues: ` +
+  O.slice(1).map(o => `${o.label.replace('+ ','')} +${o.gain}`).join(', ') + `, for an oracle ceiling of ${O[O.length-1].solved}/${n} (${pct(O[O.length-1].solved/n)}). ` +
+  `Kimi K3 alone solves ${S.kimi_k3 ? Math.round(S.kimi_k3.pass*n) : 28}/${n}. The kNN router realizes ${S.router ? Math.round(S.router.pass*n) : 35} of the ${O[O.length-1].solved}: the routing signal, not the pool, is the bottleneck.`;
+
+const BA = R.before_after || {};
+if (BA.qwen_ft) document.getElementById('ba').innerHTML =
+  `Qwen <b>${pct(BA.qwen_ft.base)} → ${pct(BA.qwen_ft.ft)}</b> (${BA.qwen_ft.fixed} fixed / ${BA.qwen_ft.broken} broken, p=${BA.qwen_ft.p.toFixed(4)}); ` +
+  `Nemotron <b>${pct(BA.nemo_ft.base)} → ${pct(BA.nemo_ft.ft)}</b> (${BA.nemo_ft.fixed} / ${BA.nemo_ft.broken}, p=${BA.nemo_ft.p.toFixed(3)}).`;
+if (S.router && S.kimi_k3) {
+  document.getElementById('h-router').textContent = pct(S.router.pass);
+  document.getElementById('h-kimi').textContent = pct(S.kimi_k3.pass);
+  document.getElementById('h-p').textContent = S.router.vs_kimi[2].toFixed(2);
+  document.getElementById('h-cost').textContent = '$' + S.router.cost.toFixed(3);
+  document.getElementById('h-x').textContent = (S.kimi_k3.cost / S.router.cost).toFixed(1) + '×';
+}
 
 if (S.ds_base) document.getElementById('ds-cost').textContent = '$' + S.ds_base.cost.toFixed(3) + (S.ds_harness_v2 ? '–' + S.ds_harness_v2.cost.toFixed(3) : '');
 
 const bad = [], good = [];
-if (S.qwen_ft) bad.push(`Qwen LoRA <b>${pct(S.qwen_ft.pass)}</b> and Nemotron LoRA <b>${pct(S.nemo_ft.pass)}</b> vs Kimi K3 <b>${pct(S.kimi_k3.pass)}</b> on test60. The Nemotron gap is significant (p=${P.nemo_ft.p.toFixed(3)}); Qwen's is borderline (p=${P.qwen_ft.p.toFixed(3)}).`);
-bad.push(`They aren't cheaper either: $0.10–0.16/task on the uncached serverless sampler vs Kimi's $${S.kimi_k3 ? S.kimi_k3.cost.toFixed(2) : '0.14'}.`);
-bad.push(`We haven't measured base Qwen/Nemotron on test60 yet, so the size of the SFT lift is still unknown.`);
-if (S.ds_base) good.push(`DeepSeek V4.1 Flash <b>${pct(S.ds_base.pass)}</b> vs Kimi <b>${pct(S.kimi_k3.pass)}</b> (${P.ds_base.sys_only} vs ${P.ds_base.kimi_only} discordant, p=${P.ds_base.p.toFixed(2)}) at <b>~${Math.round(S.kimi_k3.cost / S.ds_base.cost)}× lower cost</b>. Not yet significant at n=60.`);
-if (S.ds_harness_v2) good.push(`Harness v1 reached ${pct(S.ds_harness.pass)}, below base. Harness v2 reached <b>${pct(S.ds_harness_v2.pass)}</b> at $${S.ds_harness_v2.cost.toFixed(3)}/task, so the procedure needs careful tuning.`);
-if (S.router) good.push(`kNN router: <b>${pct(S.router.pass)}</b> at $${S.router.cost.toFixed(3)}/task, ties the best single system, picking DeepSeek on 59/60 tasks.`);
-if (!(S.ds_harness && S.ds_harness.complete)) good.push(`The final verdict waits on the DeepSeek runs and the router.`);
+if (S.qwen_ft) bad.push(`Alone, the LoRAs trail Kimi: Qwen <b>${pct(S.qwen_ft.pass)}</b>, Nemotron <b>${pct(S.nemo_ft.pass)}</b> vs <b>${pct(S.kimi_k3.pass)}</b> (Nemotron gap p=${P.nemo_ft.p.toFixed(3)}). They cost $0.10–0.16/task on the uncached serverless sampler.`);
+if (S.router) bad.push(`The router <b>ties</b> harness v2 (${pct(S.ds_harness_v2.pass)}); it doesn't beat the best single system. A perfect pick would reach ${R.oracle && R.oracle.length ? pct(R.oracle[R.oracle.length-1].solved/(R.n_common||60)) : '70%'}.`);
+bad.push(`n=60: the lead over Kimi is suggestive, not significant.`);
+if (S.router) good.push(`kNN router: <b>${pct(S.router.pass)}</b> vs Kimi <b>${pct(S.kimi_k3.pass)}</b> (${S.router.vs_kimi[0]} wins / ${S.router.vs_kimi[1]} losses, p=${S.router.vs_kimi[2].toFixed(2)}) at <b>$${S.router.cost.toFixed(3)}/task, ${(S.kimi_k3.cost / S.router.cost).toFixed(1)}× cheaper</b>.`);
+const mix = R.router_mix || {};
+if (S.router) good.push(`It uses four systems on test: harness v2 ${mix.ds_harness_v2||0}, plain DeepSeek ${mix.ds_base||0}, harness v1 ${mix.ds_harness||0}, Nemotron LoRA ${mix.nemo_ft||0}.`);
+if (R.before_after && R.before_after.qwen_ft) good.push(`Distillation works: LoRA SFT on Holo4 successes lifted Qwen ${pct(R.before_after.qwen_ft.base)} → ${pct(R.before_after.qwen_ft.ft)} and Nemotron ${pct(R.before_after.nemo_ft.base)} → ${pct(R.before_after.nemo_ft.ft)} (both p<0.05).`);
 if (S.ds_base) document.getElementById('ds-test').textContent = pct(S.ds_base.pass);
 document.getElementById('v-bad').innerHTML = bad.map(x => `<li>${x}</li>`).join('');
 document.getElementById('v-good').innerHTML = good.map(x => `<li>${x}</li>`).join('');

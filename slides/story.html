@@ -130,8 +130,8 @@
       We fine-tuned <b>Qwen 3.6 35B-A3B</b> and <b>NVIDIA Nemotron 3.5 Super 120B</b> on H Company's successful AutomationBench
       trajectories, using <b>train tasks only</b>.
       <div class="ba">
-        <div><b>Qwen 3.6</b> base <span data-k="distill.base_qwen" data-f="pct"></span> → LoRA <b data-k="distill.ft_qwen" data-f="pct"></b></div>
-        <div><b>Nemotron 3.5 Super</b> base <span data-k="distill.base_nemo" data-f="pct"></span> → LoRA <b data-k="distill.ft_nemo" data-f="pct"></b></div>
+        <div><b>Qwen 3.6</b> base <span data-k="distill.base_qwen" data-f="pct"></span> → LoRA <b data-k="distill.ft_qwen" data-f="pct"></b> <small>(McNemar p &lt; 0.001)</small></div>
+        <div><b>Nemotron 3.5 Super</b> base <span data-k="distill.base_nemo" data-f="pct"></span> → LoRA <b data-k="distill.ft_nemo" data-f="pct"></b> <small>(p = 0.021)</small></div>
         <small>held-out test60, same sampler and settings, only the adapter differs</small>
       </div>
       <br><br><small>Fireworks Serverless Training · LoRA rank <span data-k="distill.lora_rank" data-f="int"></span> ·
@@ -244,7 +244,7 @@
       ("copy values verbatim") made the agent use internal IDs as API keys. v2 fixed that and four other patterns, reaching <span data-k="harness.test_v2" data-f="pct"></span>.</div>
     <div class="card"><h3>2. Distillation needs coverage</h3>
       Holo4 solved only <span data-k="distill.holo_solved" data-f="int"></span>/<span data-k="distill.train_tasks" data-f="int"></span>
-      train tasks, so about 40% of task types had no demonstration. The LoRAs got the procedure but not the edge cases.
+      train tasks, so about 40% of task types had no demonstration. Even so, 33 training steps lifted Qwen from <span data-k="distill.base_qwen" data-f="pct"></span> to <span data-k="distill.ft_qwen" data-f="pct"></span> and Nemotron from <span data-k="distill.base_nemo" data-f="pct"></span> to <span data-k="distill.ft_nemo" data-f="pct"></span> on held-out tasks. The LoRAs learned the procedure but not the edge cases.
       Their value is <i>complementarity</i>: together they solve <span data-k="distill.ft_union_test" data-f="int"></span>/60 test tasks.</div>
     <div class="card"><h3>3. Routing is the right shape; the signal is the bottleneck</h3>
       Perfect routing over our five open systems would reach <span data-k="calc.oracle_pass" data-f="pct"></span>.
@@ -292,7 +292,7 @@
   <ol class="script">
     <li><span class="t">0–8s</span> "Businesses want agents that actually do the work: update Salesforce, route tickets, email vendors. On Zapier's AutomationBench, frontier models fail about half these tasks, and they're expensive."</li>
     <li><span class="t">8–20s</span> Show the example task. "Here Kimi K3 <span data-k="example.kimi_short" data-f="str"></span>. Our system, running on cheap open models on Fireworks, gets it right."</li>
-    <li><span class="t">20–35s</span> Pipeline. "We used three levers: LoRA-distilled Qwen and NVIDIA Nemotron on Fireworks serverless training, a harness we improved by reading its failures, and a kNN router that picks the best agent for each task."</li>
+    <li><span class="t">20–35s</span> Pipeline. "We used three levers: LoRA-distilled Qwen and NVIDIA Nemotron on Fireworks serverless training, a harness we improved by reading its failures, and a kNN router that picks the best agent for each task." Distillation alone took Qwen from 7% to 32% and Nemotron from 12% to 28% on held-out tasks."</li>
     <li><span class="t">35–50s</span> Bar chart. "On 60 held-out tasks, the router passes <span data-k="hero.router_pass" data-f="pct"></span> against Kimi K3's <span data-k="hero.kimi_pass" data-f="pct"></span>, at <span data-k="hero.cost_ratio" data-f="x1"></span> lower cost per task."</li>
     <li><span class="t">50–60s</span> "One caveat: 60 tasks means wide error bars, so every number in our repo comes with a confidence interval and a paired test. Code, data and every run are on GitHub."</li>
   </ol>

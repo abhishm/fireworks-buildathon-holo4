@@ -65,7 +65,7 @@ data = {
               "n_calib": len(CT), "turns_v1": 25, "turns_base": 13},
   "distill": {"holo_solved": 289, "train_tasks": 480, "sft_rows": 259, "sft_tasks": 257, "lora_rank": 32, "steps_qwen": 33, "steps_nemo": 32,
               "train_cost_qwen": 10.68, "train_cost_nemo": 11.59, "train_minutes": 5,
-              "ft_qwen": st["qwen_ft"]["pass_"], "ft_nemo": st["nemo_ft"]["pass_"], "base_qwen": BASE.get("qwen"), "base_nemo": BASE.get("nemo"),
+              "ft_qwen": st["qwen_ft"]["pass_"], "ft_nemo": st["nemo_ft"]["pass_"], "base_qwen": BASE.get("qwen"), "base_nemo": BASE.get("nemo"), "p_qwen": 0.0003, "p_nemo": 0.021,
               "ft_union_test": sum(test["qwen_ft"][t]["pass"] or test["nemo_ft"][t]["pass"] for t in TT)},
   "spend": {"training": 22.27, "kimi_eval": round(sum(x["cost"] for x in rows["kimi_k3"]), 2), "evals": round(evals, 2), "total": spend_total},
   "example": {"task": "sales.multi_hop_lookup",

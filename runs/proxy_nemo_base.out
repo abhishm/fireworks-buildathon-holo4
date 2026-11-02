@@ -891,3 +891,55 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 2026-11-02 15:01:38,319 INFO proxy: ok prompt=75828 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.1s
 2026-11-02 15:01:38,395 INFO proxy: ok prompt=21408 completion=161 tools=['api_fetch', 'api_search'] finish=tool_calls 1.2s
 2026-11-02 15:01:38,759 INFO proxy: ok prompt=18094 completion=84 tools=['api_fetch'] finish=tool_calls 5.2s
+2026-11-02 15:01:39,717 INFO proxy: ok prompt=24981 completion=1086 tools=['api_search'] finish=tool_calls 5.0s
+2026-11-02 15:01:39,971 INFO proxy: ok prompt=22465 completion=291 tools=['api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 1.6s
+2026-11-02 15:01:41,834 INFO proxy: ok prompt=24145 completion=2455 tools=['api_fetch', 'api_fetch'] finish=tool_calls 8.0s
+2026-11-02 15:01:43,856 INFO proxy: ok prompt=79957 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 5.5s
+2026-11-02 15:01:44,487 INFO proxy: ok prompt=27309 completion=1338 tools=['api_fetch', 'base64_encode', 'base64_encode', 'base64_encode'] finish=tool_calls 4.7s
+2026-11-02 15:01:45,087 INFO proxy: ok prompt=27042 completion=725 tools=[] finish=stop 3.2s
+2026-11-02 15:01:46,157 INFO proxy: ok prompt=84086 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:01:46,875 INFO proxy: ok prompt=23565 completion=1663 tools=['base64_encode'] finish=tool_calls 6.9s
+2026-11-02 15:01:48,240 INFO proxy: ok prompt=88215 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.0s
+2026-11-02 15:01:50,367 INFO proxy: ok prompt=92344 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.1s
+2026-11-02 15:01:50,447 INFO proxy: ok prompt=18213 completion=778 tools=[] finish=stop 11.7s
+2026-11-02 15:01:51,855 INFO proxy: ok prompt=30649 completion=2312 tools=['api_fetch', 'api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 7.4s
+2026-11-02 15:01:52,468 INFO proxy: ok prompt=96473 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.1s
+2026-11-02 15:01:55,073 INFO proxy: ok prompt=100602 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.6s
+2026-11-02 15:01:55,134 INFO proxy: ok prompt=23136 completion=8192 tools=[] finish=length 27.5s
+2026-11-02 15:01:55,135 INFO proxy: ok prompt=26040 completion=1184 tools=['api_fetch', 'api_fetch'] finish=tool_calls 8.3s
+2026-11-02 15:01:57,103 INFO proxy: ok prompt=33236 completion=662 tools=['api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 5.2s
+2026-11-02 15:01:59,378 INFO proxy: ok prompt=34048 completion=524 tools=['api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 2.3s
+2026-11-02 15:02:01,065 INFO proxy: ok prompt=104731 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 5.9s
+2026-11-02 15:02:01,208 INFO proxy: ok prompt=27588 completion=529 tools=[] finish=stop 6.1s
+2026-11-02 15:02:04,809 INFO proxy: ok prompt=108860 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 3.7s
+2026-11-02 15:02:04,846 INFO proxy: ok prompt=34698 completion=762 tools=['api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 5.5s
+2026-11-02 15:02:06,676 INFO proxy: ok prompt=35586 completion=344 tools=['api_fetch', 'api_fetch'] finish=tool_calls 1.8s
+2026-11-02 15:02:07,106 INFO proxy: ok prompt=112989 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:11,989 INFO proxy: ok prompt=36010 completion=612 tools=['api_fetch', 'api_fetch'] finish=tool_calls 5.3s
+2026-11-02 15:02:13,348 INFO proxy: ok prompt=117118 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 6.2s
+2026-11-02 15:02:14,246 INFO proxy: ok prompt=36698 completion=356 tools=['api_search', 'api_fetch'] finish=tool_calls 2.3s
+2026-11-02 15:02:15,659 INFO proxy: ok prompt=121247 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:15,962 INFO proxy: ok prompt=38117 completion=202 tools=['api_fetch', 'api_fetch'] finish=tool_calls 1.7s
+2026-11-02 15:02:17,946 INFO proxy: ok prompt=125376 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.2s
+2026-11-02 15:02:18,114 INFO proxy: ok prompt=38444 completion=492 tools=['api_fetch', 'api_fetch', 'api_fetch'] finish=tool_calls 2.1s
+2026-11-02 15:02:20,186 INFO proxy: ok prompt=129505 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.2s
+2026-11-02 15:02:21,342 INFO proxy: ok prompt=39326 completion=766 tools=['api_fetch', 'api_fetch'] finish=tool_calls 3.2s
+2026-11-02 15:02:22,407 INFO proxy: ok prompt=133634 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.2s
+2026-11-02 15:02:22,558 INFO proxy: ok prompt=40193 completion=152 tools=['api_fetch'] finish=tool_calls 1.2s
+2026-11-02 15:02:25,141 INFO proxy: ok prompt=137763 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.6s
+2026-11-02 15:02:27,518 INFO proxy: ok prompt=141892 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:28,424 INFO proxy: ok prompt=40399 completion=1654 tools=[] finish=stop 5.9s
+2026-11-02 15:02:29,859 INFO proxy: ok prompt=146021 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:32,225 INFO proxy: ok prompt=150150 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:34,569 INFO proxy: ok prompt=154279 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:36,952 INFO proxy: ok prompt=158408 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.3s
+2026-11-02 15:02:39,480 INFO proxy: ok prompt=162537 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.5s
+2026-11-02 15:02:41,966 INFO proxy: ok prompt=166666 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.5s
+2026-11-02 15:02:44,485 INFO proxy: ok prompt=170795 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.5s
+2026-11-02 15:02:47,002 INFO proxy: ok prompt=174924 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.5s
+2026-11-02 15:02:49,586 INFO proxy: ok prompt=179053 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.6s
+2026-11-02 15:02:52,298 INFO proxy: ok prompt=183182 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.7s
+2026-11-02 15:02:55,028 INFO proxy: ok prompt=187311 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.7s
+2026-11-02 15:02:57,605 INFO proxy: ok prompt=191440 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.5s
+2026-11-02 15:03:00,507 INFO proxy: ok prompt=195569 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.9s
+2026-11-02 15:03:03,484 INFO proxy: ok prompt=199698 completion=268 tools=['api_search', 'api_search'] finish=tool_calls 2.9s
