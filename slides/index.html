@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Holo4-style agents on AutomationBench</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="data.js"></script>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --fg:#e6edf3; --muted:#8b949e;
+          --kimi:#a371f7; --ds:#1f6feb; --qwen:#f0883e; --nemo:#76b900; --router:#e3b341; --bad:#f85149; --good:#3fb950; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:#010409; color:var(--fg);
+              font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .deck { position:relative; width:100vw; height:100vh; }
+  .slide { position:absolute; inset:0; margin:auto; width:min(100vw, 177.78vh); height:min(56.25vw, 100vh);
+           background:var(--bg); padding:4.2% 5.5% 3.5%; display:none; flex-direction:column; overflow:hidden;
+           font-size:min(1.9vw, 3.4vh); }
+  .slide.active { display:flex; }
+  h1 { font-size:2.4em; margin:0 0 .25em; letter-spacing:-.02em; line-height:1.1; }
+  h2 { font-size:1.65em; margin:0 0 .55em; letter-spacing:-.01em; }
+  h2 small { color:var(--muted); font-weight:400; font-size:.55em; margin-left:.6em; }
+  p, li { line-height:1.42; }
+  ul { margin:.2em 0; padding-left:1.1em; } li { margin:.28em 0; }
+  .muted { color:var(--muted); } .em { color:var(--router); font-weight:600; }
+  .good { color:var(--good); font-weight:600; } .bad { color:var(--bad); font-weight:600; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:4%; flex:1; min-height:0; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:3%; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:.6em; padding:.8em 1em; }
+  .card h3 { margin:0 0 .35em; font-size:1.05em; }
+  .big { font-size:2.3em; font-weight:700; letter-spacing:-.02em; line-height:1.1; }
+  .fig { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
+  .fig img { max-width:100%; max-height:100%; object-fit:contain; border-radius:.4em; }
+  .caption { color:var(--muted); font-size:.75em; margin-top:.5em; }
+  .kicker { color:var(--router); text-transform:uppercase; letter-spacing:.14em; font-size:.7em; font-weight:700; margin-bottom:.6em; }
+  .pill { display:inline-block; padding:.08em .55em; border-radius:1em; font-size:.75em; font-weight:600; border:1px solid var(--line); }
+  table { border-collapse:collapse; width:100%; font-size:.85em; }
+  th, td { text-align:left; padding:.38em .6em; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; font-size:.85em; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .verdict { border-left:4px solid var(--router); padding-left:.9em; }
+  .footer { position:absolute; bottom:2.2%; left:5.5%; right:5.5%; display:flex; justify-content:space-between;
+            color:#484f58; font-size:.6em; }
+  code { background:#1f2630; padding:.08em .35em; border-radius:.3em; font-size:.88em; }
+  .nav { position:fixed; bottom:12px; right:16px; color:#484f58; font:12px -apple-system,sans-serif; z-index:5; }
+  @media print {
+    @page { size: 13.333in 7.5in; margin:0; }
+    html,body { background:var(--bg); }
+    .deck { height:auto; }
+    .slide { display:flex !important; position:relative; width:13.333in; height:7.5in; font-size:19px; page-break-after:always; }
+    .nav { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide">
+  <div class="kicker">Fireworks: Deploy · Microsoft × NVIDIA buildathon</div>
+  <h1>Can cheap open models do<br>frontier-grade business automation?</h1>
+  <p class="muted" style="font-size:1.15em;max-width:80%">Holo4-style agents on Zapier's AutomationBench: fine-tuned open models,
+    a Holo-style harness, and a learned per-task router, all served on Fireworks.</p>
+  <div class="grid3" style="margin-top:auto">
+    <div class="card"><div class="muted">Benchmark</div><div class="big">600</div>tasks across 47 simulated apps</div>
+    <div class="card"><div class="muted">Bar to beat</div><div class="big" style="color:var(--kimi)">Kimi K3</div>~47% pass on our held-out set</div>
+    <div class="card"><div class="muted">Spend so far</div><div class="big">~$22</div>for two LoRA fine-tunes</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <h2>The benchmark: AutomationBench <small>Zapier, v1.0.6</small></h2>
+  <div class="grid2">
+    <div style="font-size:.88em">
+      <ul>
+        <li>A business request, e.g. <i>"pull the invoices from email, log them in the AP sheet, post the total to #finance"</i>.</li>
+        <li>The agent has <b>3 tools</b>: <code>api_search</code> over 758 endpoints, <code>api_fetch</code>, and <code>base64_encode</code>. It gets at most 50 steps.</li>
+        <li>Graded <b>only on the final app state</b>, using a median of 11 assertions per task. About 39% of them are "don't do X" traps.</li>
+        <li>A task counts as passed only if <b>every</b> assertion passes. Partial credit is reported but isn't the headline number.</li>
+      </ul>
+      <p class="muted">Hard because the context is spread out: corrections hide in Slack, policies in Drive, and stale rows in Sheets.</p>
+    </div>
+    <div class="card">
+      <h3>Published leaderboard (public 600)</h3>
+      <table>
+        <tr><th>Model</th><th class="num">Pass</th><th class="num">$/task</th></tr>
+        <tr><td>Claude Opus 5</td><td class="num">50.3%</td><td class="num">$3.05</td></tr>
+        <tr><td>Kimi K3</td><td class="num">46.7%</td><td class="num">$0.43</td></tr>
+        <tr><td><b>Holo4 27B</b> (H Company)</td><td class="num">45.4%</td><td class="num"><b>$0.05</b></td></tr>
+        <tr><td>Holo4 35B-A3B</td><td class="num">34.5%</td><td class="num">$0.02</td></tr>
+      </table>
+      <p class="caption">Holo4 shows that a small trained model can come close to the frontier at about 1/60 of the cost. That's our inspiration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <h2>Our approach: three cheap levers, one router</h2>
+  <div class="fig"><img src="img/pipeline.png" alt="pipeline"></div>
+  <div class="grid3" style="margin-top:.6em;font-size:.82em">
+    <div><b style="color:var(--qwen)">1 · Distill Holo4.</b> LoRA SFT of Qwen3.6-35B-A3B and Nemotron 3.5 Super on H Company's successful trajectories.</div>
+    <div><b style="color:var(--ds)">2 · Harness.</b> Holo's operating procedure plus a "verify before you finish" gate on DeepSeek V4.1 Flash.</div>
+    <div><b style="color:var(--router)">3 · Route.</b> A kNN over task embeddings picks the system with the best score on similar tasks, breaking ties by lower cost.</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <h2>Honest evaluation by design</h2>
+  <div class="fig" style="flex:0 0 52%"><img src="img/data.png" alt="splits and SFT data"></div>
+  <div class="grid3" style="font-size:.82em;margin-top:.6em">
+    <div class="card"><h3>No leakage</h3>SFT uses only train480 trajectories (checked by an assertion). The router is fit on calib60 and scored on test60.</div>
+    <div class="card"><h3>Official metric</h3>All-assertions pass rate, plus avg partial credit and <b>real $/task</b> from token usage with cache pricing.</div>
+    <div class="card"><h3>Paired stats</h3>Exact McNemar on the same tasks, plus 95% bootstrap CIs. At n=60 the CI is about ±12 pts, so we don't oversell small gaps.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <h2>Lever 1: distilling Holo4 with LoRA SFT</h2>
+  <div class="grid2" style="grid-template-columns:1.5fr 1fr;gap:2.5%">
+    <div class="fig"><img src="img/loss.png" alt="training loss"></div>
+    <div style="font-size:.88em">
+      <ul>
+        <li>Holo4 trajectories were converted to AutomationBench's exact tool schema and system prompt, keeping reasoning and tool calls.</li>
+        <li><b>259 conversations, ~5.0M tokens</b> per model, ≤32K tokens each. Loss is computed on assistant tokens only.</li>
+        <li>LoRA rank 32, lr 2e-4 with cosine decay, 1 epoch, on <b>Fireworks serverless training</b>: no GPUs to provision, billed per token.</li>
+        <li>Qwen <b>$10.68</b>, Nemotron <b>$11.59</b>.</li>
+        <li>Served through a small OpenAI-compatible proxy over the serverless sampler, so the stock benchmark runner can call it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <h2>Lever 2: a Holo-style harness</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Operating procedure (appended to the system prompt)</h3>
+      <ol style="margin:.2em 0;padding-left:1.2em;font-size:.88em">
+        <li><b>Orient</b>: find policies, corrections, and updates in every app first.</li>
+        <li><b>Plan</b>: write an explicit checklist of the changes to make.</li>
+        <li><b>Search before fetch</b>: never guess an endpoint.</li>
+        <li><b>Chain</b>: copy IDs, amounts, and formats verbatim.</li>
+        <li><b>Recover</b>: never repeat a failing call.</li>
+        <li><b>Mutate precisely</b>: stray changes cost as much as missing ones.</li>
+        <li><b>Verify</b>, then finish.</li>
+      </ol>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:.8em">
+        <h3>Verify-before-finish gate</h3>
+        <p style="margin:0;font-size:.9em">The first time the model tries to stop, the harness injects a checklist alert. The model must re-read the request and policies and check the
+        final state with read calls.</p>
+      </div>
+      <div class="card">
+        <h3>Why it matters</h3>
+        <p style="margin:0;font-size:.9em">In the Kimi smoke run, Kimi missed a Slack correction ($12,340.50 → $11,340.50) and shifted columns in a sheet. That's 3/5 assertions lost on one task, from <i>process</i> errors rather than a lack of knowledge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <h2>Results on held-out test60 <small id="asof"></small></h2>
+  <div class="fig"><img src="img/test60_pass.png" alt="test60 pass rates"></div>
+  <p class="caption" id="cap-test"></p>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <h2>Pass rate vs cost</h2>
+  <div class="grid2" style="grid-template-columns:2.1fr 1fr;gap:2.5%">
+    <div class="fig"><img src="img/pass_vs_cost.png" alt="pass vs cost"></div>
+    <div style="font-size:.78em">
+      <ul>
+        <li><b style="color:var(--ds)">DeepSeek V4.1 Flash</b> costs about <span class="em" id="ds-cost">$0.02–0.04</span>/task, <b>4–6× cheaper than Kimi K3</b> on our runs. Prompt caching covers 99%+ of its input tokens.</li>
+        <li><b style="color:var(--qwen)">LoRA models</b> cost $0.10–0.16/task <i>only because</i> the serverless sampler we used for eval has no cache discount. A dedicated deployment with prompt caching would cut that sharply.</li>
+        <li>Published points use the public 600 tasks and other harnesses, so treat them as context, not a head-to-head.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <h2>Where each system wins</h2>
+  <div class="fig" style="flex:0 0 58%"><img src="img/domains.png" alt="per-domain"></div>
+  <div class="grid2" style="font-size:.82em;flex:0;margin-top:.5em">
+    <div>Kimi K3 leads in HR, finance, and ops, but gets <b>1/10 in sales</b>. Both LoRAs beat it there (4/10 and 3/10).</div>
+    <div>Domain strengths differ between systems. A router can exploit that, but only if it can predict them from the task text.</div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <h2>Complementarity: the case for a router</h2>
+  <div class="fig"><img src="img/overlap.png" alt="overlap"></div>
+  <p class="caption" id="cap-overlap"></p>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <h2>So, do the results look good?</h2>
+  <div class="grid2">
+    <div class="verdict" style="font-size:.86em">
+      <h3 class="bad" style="margin:0 0 .2em">Not yet: distillation alone falls short</h3>
+      <ul id="v-bad"></ul>
+      <h3 class="good" style="margin:.5em 0 .2em">Promising: the cheap base + harness</h3>
+      <ul id="v-good"></ul>
+    </div>
+    <div class="card" style="font-size:.8em;align-self:start">
+      <h3>Lessons worth sharing</h3>
+      <ul>
+        <li><b>Small screens mislead.</b> DeepSeek scored 66.7% on the 30-task screen but only <span id="ds-test">~36%</span> on test60 so far. Hold out tasks and compare systems on the same ones.</li>
+        <li><b>Grader quirk.</b> The Slack matcher rejects <code>12,450.00</code> when it expects <code>12,450</code>, while Gmail and Sheets accept it. Don't pad amounts with ".00" in Slack.</li>
+        <li><b>Coverage caps SFT.</b> Holo4 solved only 289/480 train tasks, so the fine-tunes never saw demos for ~40% of task types.</li>
+        <li><b>Cost depends on caching.</b> Agent loops resend about 150K tokens per task. Prompt caching makes a 5× difference to $/task.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <h2>Next steps</h2>
+  <div class="grid3">
+    <div class="card"><h3 style="color:var(--ds)">Finish the DeepSeek runs</h3>Complete base and harness on calib60 and test60, then fit the
+      router over {DeepSeek+harness, Qwen LoRA, Nemotron LoRA} and report it with McNemar against Kimi.</div>
+    <div class="card"><h3 style="color:var(--qwen)">Better distillation</h3>Distill DeepSeek+harness's own successes on train480
+      to cover tasks Holo4 failed. Add the harness procedure to the SFT prompts.</div>
+    <div class="card"><h3 style="color:var(--router)">Cheaper serving</h3>Deploy the LoRA on a Fireworks on-demand deployment with prompt caching,
+      then re-price. That brings the LoRA models' $/task into DeepSeek's range.</div>
+  </div>
+  <div class="card" style="margin-top:auto;font-size:.85em">
+    <b>Reproduce</b>: <code>python3 slides/make_figures.py</code> rebuilds every chart and number in this deck from <code>runs/</code>.
+    Code: <code>github.com/abhishm/fireworks-buildathon-holo4</code>
+  </div>
+</section>
+
+</div>
+
+<script>
+const R = window.RESULTS || {stats:{}, paired_vs_kimi:{}, oracle:{}};
+const S = R.stats, P = R.paired_vs_kimi;
+const pct = x => (x*100).toFixed(1) + '%';
+const L = {kimi_k3:'Kimi K3', ds_base:'DeepSeek V4.1 Flash', ds_harness:'DeepSeek + harness', qwen_ft:'Qwen LoRA', nemo_ft:'Nemotron LoRA', router:'kNN router'};
+const partial = Object.entries(S).filter(([k,v]) => !v.complete);
+document.getElementById('asof').textContent = partial.length ? 'live · ' + partial.map(([k,v]) => `${L[k]} ${v.n}/60`).join(' · ') : 'final';
+
+const pv = s => P[s] ? `${P[s].sys_only} vs ${P[s].kimi_only} discordant tasks, McNemar p=${P[s].p.toFixed(3)}` : '';
+let cap = [];
+if (S.qwen_ft && S.kimi_k3) cap.push(`On the same 60 tasks, Kimi K3 beats Qwen LoRA (${pv('qwen_ft')}) and Nemotron LoRA (${pv('nemo_ft')}).`);
+if (S.ds_harness && !S.ds_harness.complete) cap.push(`DeepSeek runs are partial; compare them with Kimi on the same tasks (shown at right of each bar), not with Kimi's full-60 bar.`);
+if (S.router) cap.push(`Router: ${pct(S.router.pass)} at $${S.router.cost.toFixed(3)}/task.`);
+document.getElementById('cap-test').textContent = cap.join(' ');
+
+const O = R.oracle || {}, n = R.n_common || 60;
+document.getElementById('cap-overlap').textContent =
+  `Each LoRA solves tasks the other misses, but the best possible pick between them (${O['either LoRA (oracle)']}/${n}) still trails Kimi K3 alone (${O['Kimi K3']}/${n}). `+
+  `Adding Kimi raises the ceiling to ${O['any of the three (oracle)']}/${n}, so routing pays off only if a stronger, cheap member joins the pool. DeepSeek + harness is the candidate.`;
+
+if (S.ds_base) document.getElementById('ds-cost').textContent = '$' + S.ds_base.cost.toFixed(3) + (S.ds_harness ? '–' + S.ds_harness.cost.toFixed(3) : '');
+
+const bad = [], good = [];
+if (S.qwen_ft) bad.push(`Qwen LoRA <b>${pct(S.qwen_ft.pass)}</b> and Nemotron LoRA <b>${pct(S.nemo_ft.pass)}</b> vs Kimi K3 <b>${pct(S.kimi_k3.pass)}</b> on test60. The Nemotron gap is significant (p=${P.nemo_ft.p.toFixed(3)}); Qwen's is borderline (p=${P.qwen_ft.p.toFixed(3)}).`);
+bad.push(`They aren't cheaper yet either: $0.10–0.16/task on the uncached serverless sampler vs Kimi's $${S.kimi_k3 ? S.kimi_k3.cost.toFixed(2) : '0.14'}.`);
+bad.push(`We haven't measured base Qwen/Nemotron on test60 yet, so the size of the SFT lift is still unknown.`);
+if (S.ds_base) good.push(`DeepSeek base ties Kimi on the same ${P.ds_base.n} tasks (${P.ds_base.sys_only} vs ${P.ds_base.kimi_only} discordant) at <b>~${Math.round(S.kimi_k3.cost / S.ds_base.cost)}× lower cost</b>.`);
+if (S.ds_harness) good.push(`With the harness: ${S.ds_harness.n} tasks done, ${pct(S.ds_harness.pass)} pass vs Kimi ${pct(S.ds_harness.kimi_same)} on the same tasks (${P.ds_harness.sys_only}–${P.ds_harness.kimi_only}). Early signal.`);
+if (!(S.ds_harness && S.ds_harness.complete)) good.push(`The final verdict waits on the DeepSeek runs and the router.`);
+if (S.ds_base) document.getElementById('ds-test').textContent = pct(S.ds_base.pass);
+document.getElementById('v-bad').innerHTML = bad.map(x => `<li>${x}</li>`).join('');
+document.getElementById('v-good').innerHTML = good.map(x => `<li>${x}</li>`).join('');
+
+// navigation
+const slides = [...document.querySelectorAll('.slide')];
+let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1)) || 1) - 1));
+function show(k) {
+  i = Math.max(0, Math.min(slides.length - 1, k));
+  slides.forEach((s, j) => s.classList.toggle('active', j === i));
+  history.replaceState(null, '', '#' + (i + 1));
+}
+slides.forEach((s, j) => {
+  const f = document.createElement('div'); f.className = 'footer';
+  f.innerHTML = `<span>Holo4-style agents on AutomationBench${j ? '' : ' · ← → or click to navigate · P to print / save PDF'}</span><span>${j + 1} / ${slides.length}</span>`;
+  s.appendChild(f);
+});
+document.addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+  if (e.key.toLowerCase() === 'p') window.print();
+});
+document.addEventListener('click', e => { if (!e.target.closest('a')) show(e.clientX > innerWidth / 2 ? i + 1 : i - 1); });
+show(i);
+</script>
+</body>
+</html>

@@ -29,6 +29,7 @@ New to the benchmark? Open [`explainers/automationbench.html`](explainers/automa
 | `ft/train_lora.py` | LoRA SFT on Fireworks Serverless Training (rank 32, lr 2e-4, 1 epoch, about 5M tokens per model). |
 | `ft/proxy.py`, `ft/serve.sh`, `ft/PROXY.md` | OpenAI-compatible `/v1/chat/completions` proxy over the serverless sampler, so AutomationBench can evaluate LoRA checkpoints. |
 | `ft/STATUS.md`, `ft/checkpoints.json`, `ft/logs/` | Training status, loss curves, checkpoint paths, and proxy logs. |
+| `slides/` | Slide deck (`index.html`, `deck.pdf`), charts (`img/`), and `make_figures.py`, which regenerates both from `runs/`. |
 | `analysis/router.py`, `analysis/systems.json` | Per-task router (kNN and per-domain), cost accounting, paired McNemar tests, and bootstrap CIs. |
 | `runs/splits.json` | Fixed task splits: `train480` / `calib60` / `test60` (plus `dev30` for screening). |
 | `runs/` | Eval outputs (`*.json`, incremental `*.jsonl`, `*.log`), task embeddings, router choices, and `results.md`. |
@@ -87,22 +88,36 @@ python3 analysis/router.py analysis/systems.json
 - **Baselines.** Kimi K3 on `test60` (`runs/test_kimi.json`), plus the published frontier numbers in the AutomationBench
   README.
 
-## Results so far (preliminary)
+## Results so far (test60, in progress)
 
-These come from the first router pass in [`runs/results.md`](runs/results.md), using the 30 screen tasks split
-into calibration and test. The calib60/test60 evals are still running.
+![Approach](slides/img/pipeline.png)
 
-| System | Pass rate | 95% CI | Avg partial score | $/task |
+Slides: open [`slides/index.html`](slides/index.html) in a browser (arrow keys to navigate, P to print) or see
+[`slides/deck.pdf`](slides/deck.pdf). Running `python3 slides/make_figures.py` rebuilds every chart in `slides/img/` and
+every number in the deck from `runs/`.
+
+![Test60 results](slides/img/test60_pass.png)
+
+| System (held-out test60) | Pass rate | Avg partial | $/task | Paired vs Kimi K3 (same tasks) |
 |---|---|---|---|---|
-| DeepSeek V4.1 Flash | 66.7% | [50.0, 83.3] | 0.825 | $0.029 |
-| GLM 5.3 Flash | 56.7% | [40.0, 73.3] | 0.821 | $0.008 |
-| Nemotron 3 Ultra | 10.0% | [0.0, 20.0] | 0.334 | $0.085 |
-| **kNN router (DeepSeek / GLM)** | **70.0%** | [53.3, 86.7] | 0.871 | **$0.016** |
-| Oracle (upper bound) | 73.3% | [56.7, 86.7] | 0.891 | $0.013 |
+| Kimi K3 (reference) | 46.7% (28/60) | 0.835 | $0.140 | - |
+| Qwen3.6-35B-A3B + LoRA | 31.7% (19/60) | 0.725 | $0.096* | Kimi ahead, 15 vs 6 discordant tasks, p=0.078 |
+| Nemotron 3.5 Super + LoRA | 28.3% (17/60) | 0.708 | $0.162* | Kimi ahead, 16 vs 5 discordant tasks, p=0.027 |
+| DeepSeek V4.1 Flash (partial) | ~39% | ~0.82 | ~$0.02 | tied with Kimi on the same tasks |
+| DeepSeek + Holo harness (partial) | ~45% (11 tasks) | ~0.89 | ~$0.04 | 4 vs 0 on the same tasks (early) |
 
-The router beats DeepSeek alone on pass rate at about half the cost per task. The gain is not yet statistically
-significant (McNemar p = 1.0). Both LoRA SFT runs finished: Qwen used about 5.0M tokens ($10.68) and Nemotron about
-5.0M tokens ($11.59). Their evals are in progress; see `ft/STATUS.md`.
+\* The serverless sampler we used for LoRA eval doesn't apply the prompt-cache discount. A cached deployment would cost
+much less.
+
+**Takeaways so far**
+- **Distillation alone falls short.** Both LoRAs trail Kimi K3. They solve different tasks from each other (23/60 if
+  you pick the better of the two per task), but even that best case doesn't reach Kimi (28/60). Holo4 solved only
+  289/480 train tasks, so about 40% of task types had no demonstration to learn from.
+- **The cheap base plus harness looks promising.** DeepSeek V4.1 Flash matches Kimi on the same tasks at about 6× lower
+  cost, and early harness results are ahead. The router over {DeepSeek+harness, Qwen LoRA, Nemotron LoRA} will be
+  reported once the DeepSeek runs finish.
+- **Small screens mislead.** DeepSeek scored 66.7% on the 30-task screen (`runs/results.md`, a router pass over
+  screen tasks only) but about 39% on test60 so far.
 
 ### Grader quirk worth knowing
 
