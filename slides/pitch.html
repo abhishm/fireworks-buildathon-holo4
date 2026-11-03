@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pitch: open models vs the frontier on AutomationBench</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --fg:#e6edf3; --muted:#8b949e;
+          --kimi:#a371f7; --ds:#1f6feb; --qwen:#f0883e; --nemo:#76b900; --router:#e3b341; --bad:#f85149; --good:#3fb950; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:#010409; color:var(--fg);
+              font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .deck { position:relative; width:100vw; height:100vh; }
+  .slide { position:absolute; inset:0; margin:auto; width:min(100vw, 177.78vh); height:min(56.25vw, 100vh);
+           background:var(--bg); padding:4.2% 5.5% 3.5%; display:none; flex-direction:column; overflow:hidden;
+           font-size:min(1.9vw, 3.4vh); }
+  .slide.active { display:flex; }
+  h1 { font-size:2.4em; margin:0 0 .25em; letter-spacing:-.02em; line-height:1.1; }
+  h2 { font-size:1.65em; margin:0 0 .55em; letter-spacing:-.01em; }
+  h2 small { color:var(--muted); font-weight:400; font-size:.55em; margin-left:.6em; }
+  p, li { line-height:1.42; }
+  ul { margin:.2em 0; padding-left:1.1em; } li { margin:.28em 0; }
+  .muted { color:var(--muted); } .em { color:var(--router); font-weight:600; }
+  .good { color:var(--good); font-weight:600; } .bad { color:var(--bad); font-weight:600; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:4%; flex:1; min-height:0; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:3%; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:.6em; padding:.8em 1em; }
+  .card h3 { margin:0 0 .35em; font-size:1.05em; }
+  .big { font-size:2.3em; font-weight:700; letter-spacing:-.02em; line-height:1.1; }
+  .fig { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
+  .fig img { max-width:100%; max-height:100%; object-fit:contain; border-radius:.4em; }
+  .caption { color:var(--muted); font-size:.75em; margin-top:.5em; }
+  .kicker { color:var(--router); text-transform:uppercase; letter-spacing:.14em; font-size:.7em; font-weight:700; margin-bottom:.6em; }
+  .pill { display:inline-block; padding:.08em .55em; border-radius:1em; font-size:.75em; font-weight:600; border:1px solid var(--line); }
+  table { border-collapse:collapse; width:100%; font-size:.85em; }
+  th, td { text-align:left; padding:.38em .6em; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; font-size:.85em; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .verdict { border-left:4px solid var(--router); padding-left:.9em; }
+  .footer { position:absolute; bottom:2.2%; left:5.5%; right:5.5%; display:flex; justify-content:space-between;
+            color:#484f58; font-size:.6em; }
+  code { background:#1f2630; padding:.08em .35em; border-radius:.3em; font-size:.88em; }
+  .nav { position:fixed; bottom:12px; right:16px; color:#484f58; font:12px -apple-system,sans-serif; z-index:5; }
+  @media print {
+    @page { size: 13.333in 7.5in; margin:0; }
+    html,body { background:var(--bg); }
+    .deck { height:auto; }
+    .slide { display:flex !important; position:relative; width:13.333in; height:7.5in; font-size:19px; page-break-after:always; }
+    .nav { display:none; }
+  }
+</style>
+<style>
+  .bars { display:flex; flex-direction:column; gap:.42em; font-size:.82em; }
+  .brow { display:grid; grid-template-columns:9.5em 1fr; align-items:center; gap:.7em; }
+  .blab { text-align:right; line-height:1.15; } .blab small { display:block; color:var(--muted); font-size:.78em; }
+  .track { position:relative; height:1.5em; background:#0b0f14; border:1px solid var(--line); border-radius:.3em; }
+  .fill { position:absolute; left:0; top:0; bottom:0; border-radius:.3em 0 0 .3em; }
+  .val { position:absolute; top:50%; transform:translateY(-50%); font-weight:700; font-size:.92em; white-space:nowrap; padding-left:.4em; }
+  .head { position:absolute; top:0; bottom:0; background:repeating-linear-gradient(135deg, rgba(63,185,80,.18) 0 6px, transparent 6px 12px);
+          border:1px dashed var(--good); border-left:0; border-radius:0 .3em .3em 0; }
+  .sep { border-top:1px solid var(--line); margin:.35em 0 .1em; color:var(--muted); font-size:.75em; padding-top:.3em; text-transform:uppercase; letter-spacing:.1em; }
+  .pts li { margin:.45em 0; }
+
+  .flow { display:grid; grid-template-columns:1fr auto 1.25fr auto 3.2fr; align-items:center; gap:1.1%; flex:1; min-height:0; }
+  .node { background:var(--panel); border:1px solid var(--line); border-radius:.6em; padding:.6em .8em; font-size:.78em; line-height:1.3; }
+  .node h4 { margin:0 0 .25em; font-size:1.1em; }
+  .arrow { color:#6e7681; font-size:1.6em; }
+  .lever { border-radius:.6em; padding:.45em .6em .5em; margin:.32em 0; border:1px solid var(--line); }
+  .lever .lt { font-size:.62em; font-weight:700; text-transform:uppercase; letter-spacing:.1em; margin-bottom:.3em; }
+  .sys { display:flex; justify-content:space-between; align-items:center; background:#0b0f14; border:1px solid var(--line);
+         border-radius:.4em; padding:.28em .55em; margin:.22em 0; font-size:.72em; }
+  .sys .pk { font-size:.85em; color:var(--muted); white-space:nowrap; margin-left:.6em; }
+  .strip { display:grid; grid-template-columns:repeat(4,1fr); gap:2%; margin-top:.7em; }
+  .strip .card { padding:.5em .8em; } .strip .big { font-size:1.6em; } .strip .l { font-size:.68em; color:var(--muted); }
+  .src { color:#6e7681; font-size:.58em; margin-top:auto; padding-top:.6em; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1. Choosing the problem -->
+<section class="slide">
+  <div class="kicker">1 · Choosing the problem</div>
+  <h2>We picked a benchmark the frontier hasn't solved yet</h2>
+  <div class="grid2" style="grid-template-columns:1fr 1.35fr;gap:4%">
+    <div>
+      <p style="margin-top:0;font-size:.85em" class="muted"><b style="color:var(--fg)">AutomationBench</b> (Zapier): real business workflows across CRM, email, Sheets and Slack, graded on the final app state.</p>
+      <ul class="pts" style="font-size:.85em">
+        <li><b class="bad">Started below 10%.</b> April 2026 paper: <i>"even the best frontier models currently score below 10%."</i></li>
+        <li><b>Best today: ~50%.</b> Claude Opus 5 still fails half the tasks.</li>
+        <li><b class="good">~50 points of headroom,</b> unlike saturated benchmarks.</li>
+        <li><b style="color:var(--kimi)">Our frontier bar: Kimi K3, 46.7%,</b> rerun by us on held-out tasks.</li>
+      </ul>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column">
+      <h3>Best frontier pass rate</h3>
+      <div class="bars">
+        <div class="brow"><div class="blab">AutomationBench<small>Apr 2026 paper</small></div>
+          <div class="track"><div class="fill" style="width:10%;background:var(--bad)"></div><span class="val" style="left:10%">&lt;10%</span></div></div>
+        <div class="brow"><div class="blab">AutomationBench<small>Claude Opus 5, today</small></div>
+          <div class="track"><div class="fill" style="width:50.3%;background:#58a6ff"></div><div class="head" style="left:50.3%;right:0"></div>
+            <span class="val" style="left:50.3%">50.3%</span><span class="val good" style="right:.4em;font-size:.8em">headroom</span></div></div>
+        <div class="brow"><div class="blab" style="color:var(--kimi)">Kimi K3<small>our frontier baseline</small></div>
+          <div class="track"><div class="fill" style="width:46.7%;background:var(--kimi)"></div><span class="val" style="left:46.7%">46.7%</span></div></div>
+        <div class="sep">Saturated benchmarks (frontier models)</div>
+        <div class="brow"><div class="blab">MMLU<small>knowledge</small></div>
+          <div class="track"><div class="fill" style="width:90%;background:#484f58"></div><span class="val" style="right:12%;color:var(--fg)">90%+</span></div></div>
+        <div class="brow"><div class="blab">GSM8K<small>grade-school math</small></div>
+          <div class="track"><div class="fill" style="width:95%;background:#484f58"></div><span class="val" style="right:7%;color:var(--fg)">95%+</span></div></div>
+        <div class="brow"><div class="blab">HumanEval<small>code</small></div>
+          <div class="track"><div class="fill" style="width:95%;background:#484f58"></div><span class="val" style="right:7%;color:var(--fg)">95%+</span></div></div>
+      </div>
+      <p class="muted" style="font-size:.72em;margin:.8em 0 0">On saturated benchmarks a new system can add a point or two at most. Here, half the tasks are still unsolved.</p>
+    </div>
+  </div>
+  <div class="src">Sources: AutomationBench paper, arXiv 2604.18934 (Apr 2026); AutomationBench README leaderboard (public 600 tasks; Opus 5 50.3%, Kimi K3 46.67%);
+    Kimi K3 46.7% rerun by us on 60 held-out tasks. MMLU / GSM8K / HumanEval: approximate, widely reported frontier scores.</div>
+</section>
+
+<!-- 2. Combining approaches -->
+<section class="slide">
+  <div class="kicker">2 · Our approach</div>
+  <h2>Don't bet on one trick: combine three, all on Fireworks</h2>
+  <div class="flow">
+    <div class="node"><h4>Business task</h4><span class="muted">e.g. "Mark the Meridian deal won and route the notice per policy"</span></div>
+    <div class="arrow">→</div>
+    <div class="node" style="border-color:var(--router)"><h4 style="color:var(--router)">③ kNN router</h4>
+      Finds the most similar past tasks and sends this one to the system that solved them, breaking ties by cost.
+      <div class="muted" style="font-size:.85em;margin-top:.3em">Fit on 60 calibration tasks only</div></div>
+    <div class="arrow">→</div>
+    <div>
+      <div class="lever" style="border-color:#1f6feb"><div class="lt" style="color:#58a6ff">Open base model · DeepSeek V4.1 Flash</div>
+        <div class="sys"><span>DeepSeek, no harness</span></div></div>
+      <div class="lever" style="border-color:#39c5cf"><div class="lt" style="color:#39c5cf">① Holo-style harness (prompt + verify step)</div>
+        <div class="sys"><span>DeepSeek + harness v2</span></div>
+        <div class="sys"><span>DeepSeek + harness v1</span></div></div>
+      <div class="lever" style="border-color:var(--nemo)"><div class="lt" style="color:var(--nemo)">② Distill Holo4 · LoRA on Fireworks training</div>
+        <div class="sys"><span>NVIDIA Nemotron 3.5 Super + LoRA</span><span class="pk">raw 11.7% → <b style="color:#7ee787">28.3%</b> (2.4×)</span></div>
+        <div class="sys"><span>Qwen 3.6 35B-A3B + LoRA</span><span class="pk">raw 6.7% → <b style="color:#7ee787">31.7%</b> (4.7×)</span></div></div>
+    </div>
+  </div>
+  <div class="strip">
+    <div class="card"><div class="big" style="color:var(--router)">58.3%</div><div class="l">combined system, 60 held-out tasks</div></div>
+    <div class="card"><div class="big" style="color:var(--kimi)">46.7%</div><div class="l">Kimi K3 (frontier), same tasks</div></div>
+    <div class="card"><div class="big">2.2×</div><div class="l">cheaper: $0.062 vs $0.140 per task</div></div>
+    <div class="card"><div class="big good">70%</div><div class="l">ceiling with perfect routing over the five</div></div>
+  </div>
+  <div class="src">LoRA: pass rate on the 60 test tasks before → after fine-tuning (McNemar p=0.0003 Qwen, p=0.02 Nemotron). Router vs Kimi K3: 13 wins / 6 losses, McNemar p=0.17 (n=60).</div>
+</section>
+
+<!-- 3 harness -->
+<section class="slide">
+  <div class="kicker">3 · Lever ① · Holo-style harness</div>
+  <h1>Same model, better habits</h1>
+  <div class="grid2" style="grid-template-columns:1.05fr 1fr; margin-top:.3em">
+    <div>
+      <div class="card" style="margin-bottom:.6em; font-size:.8em">
+        <h3 style="color:#56d4dd">1 · Operating procedure in the system prompt</h3>
+        Adapted from Holo4's prompt: find governing policies first, write a checklist of every change,
+        look tools up instead of guessing, change only what was asked.
+      </div>
+      <div class="card" style="margin-bottom:.6em; font-size:.8em">
+        <h3 style="color:#56d4dd">2 · Verify before finishing</h3>
+        The first time the agent tries to stop, we interrupt once and ask it to check its work against the checklist.
+      </div>
+      <div class="card" style="font-size:.8em">
+        <h3>v1 → v2 <span class="muted" style="font-weight:400; font-size:.85em">· tuned on calibration failures only</span></h3>
+        Resolve internal IDs to what the API expects · name every person, ID, amount, date in messages ·
+        lighter final check that only looks for gaps.
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; justify-content:center">
+      <div class="bars" style="font-size:.9em">
+        <div class="brow"><div class="blab">DeepSeek<small>no harness</small></div>
+          <div class="track"><div class="fill" style="width:56.7%;background:var(--ds)"></div><div class="val" style="left:56.7%">56.7%</div></div></div>
+        <div class="brow"><div class="blab">+ harness v1<small>first version</small></div>
+          <div class="track"><div class="fill" style="width:50%;background:#2d7f86"></div><div class="val" style="left:50%">50.0% <span class="bad">−6.7</span></div></div></div>
+        <div class="brow"><div class="blab">+ harness v2<small>targeted rules</small></div>
+          <div class="track"><div class="fill" style="width:58.3%;background:#56d4dd"></div><div class="val" style="left:58.3%">58.3% <span class="good">+1.7</span></div></div></div>
+        <div class="sep">Frontier reference</div>
+        <div class="brow"><div class="blab">Kimi K3</div>
+          <div class="track"><div class="fill" style="width:46.7%;background:var(--kimi)"></div><div class="val" style="left:46.7%">46.7%</div></div></div>
+      </div>
+      <ul class="pts" style="font-size:.78em; margin-top:1em">
+        <li>v1 made the agent do ~45% more tool calls, yet broke 8 tasks (mostly messages missing a required detail). v2's rules target that gap.</li>
+        <li>v2 recovered and became the <span class="em">router's main workhorse</span>.</li>
+        <li>Cost stays low: <b>$0.060</b>/task vs Kimi's <b>$0.140</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">DeepSeek V4.1 Flash, 60 held-out test tasks; same tools, 50-step budget and grader in all three runs. v2 vs no harness is within noise (n=60).</div>
+</section>
+
+<!-- 4 distillation -->
+<section class="slide">
+  <div class="kicker">4 · Lever ② · Distill Holo4 into open models</div>
+  <h1>5 minutes of LoRA, 2–5× better</h1>
+  <div class="grid2" style="grid-template-columns:.9fr 1.1fr; margin-top:.3em">
+    <div style="display:flex; flex-direction:column; justify-content:center; gap:.45em; font-size:.8em">
+      <div class="card"><h3 style="color:var(--nemo)">1 · Collect demonstrations</h3>
+        Holo4's public AutomationBench runs, <b>successful runs only</b>, on our 480 training tasks → 259 trajectories.</div>
+      <div class="arrow" style="text-align:center; font-size:1.1em; line-height:1">↓</div>
+      <div class="card"><h3 style="color:var(--nemo)">2 · LoRA fine-tune on Fireworks</h3>
+        Serverless training, rank 32, one epoch (~33 steps). About <b>$11 and 5 minutes</b> per model.</div>
+    </div>
+    <div style="display:flex; flex-direction:column; justify-content:center">
+      <div class="bars" style="font-size:.9em">
+        <div class="brow"><div class="blab">Qwen 3.6 35B-A3B<small>raw</small></div>
+          <div class="track"><div class="fill" style="width:6.7%;background:#484f58"></div><div class="val" style="left:6.7%">6.7%</div></div></div>
+        <div class="brow"><div class="blab"><small>+ Holo4 LoRA</small></div>
+          <div class="track"><div class="fill" style="width:31.7%;background:var(--qwen)"></div><div class="val" style="left:31.7%">31.7% <span class="good">4.7×</span></div></div></div>
+        <div class="brow" style="margin-top:.4em"><div class="blab">NVIDIA Nemotron 3.5 Super<small>raw</small></div>
+          <div class="track"><div class="fill" style="width:11.7%;background:#484f58"></div><div class="val" style="left:11.7%">11.7%</div></div></div>
+        <div class="brow"><div class="blab"><small>+ Holo4 LoRA</small></div>
+          <div class="track"><div class="fill" style="width:28.3%;background:var(--nemo)"></div><div class="val" style="left:28.3%">28.3% <span class="good">2.4×</span></div></div></div>
+      </div>
+      <ul class="pts" style="font-size:.78em; margin-top:.9em">
+        <li>Qwen: <b>16 tasks fixed, 1 broken</b> (p&lt;0.001). Nemotron: <b>13 fixed, 3 broken</b> (p=0.02).</li>
+        <li>Nemotron + LoRA solves a task that <span class="em">no other system, Kimi K3 included,</span> gets right.</li>
+        <li>Ceiling is coverage: Holo4 solved only 289 of 480 training tasks, so ~40% had no example to learn from.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">60 held-out test tasks; same sampler and settings before and after, only the adapter changes. Training uses only the 480 training tasks.</div>
+</section>
+
+<!-- 5 router -->
+<section class="slide">
+  <div class="kicker">5 · Lever ③ · kNN router</div>
+  <h1>Route by what worked on similar tasks</h1>
+  <div class="grid2" style="grid-template-columns:.9fr 1.1fr; margin-top:.3em">
+    <div style="display:flex; flex-direction:column; justify-content:center; gap:.45em; font-size:.8em">
+      <div class="card"><h3 style="color:var(--router)">1 · Embed the task</h3>
+        Task text → Qwen3-Embedding-8B on Fireworks.</div>
+      <div class="arrow" style="text-align:center; font-size:1.1em; line-height:1">↓</div>
+      <div class="card"><h3 style="color:var(--router)">2 · Find 7 nearest past tasks</h3>
+        From 60 calibration tasks where we ran all five systems.</div>
+      <div class="arrow" style="text-align:center; font-size:1.1em; line-height:1">↓</div>
+      <div class="card"><h3 style="color:var(--router)">3 · Pick the best system there</h3>
+        Highest average score on those 7; ties go to the cheaper one. No test task is ever used to fit it.</div>
+    </div>
+    <div style="display:flex; flex-direction:column; justify-content:center">
+      <div class="bars" style="font-size:.9em">
+        <div class="brow"><div class="blab">Kimi K3<small>frontier</small></div>
+          <div class="track"><div class="fill" style="width:46.7%;background:var(--kimi)"></div><div class="val" style="left:46.7%">46.7%</div></div></div>
+        <div class="brow"><div class="blab">kNN router<small>five open systems</small></div>
+          <div class="track"><div class="fill" style="width:58.3%;background:var(--router)"></div><div class="val" style="left:58.3%">58.3% <span class="good">+11.7</span></div></div></div>
+        <div class="brow"><div class="blab">Perfect routing<small>same five, oracle</small></div>
+          <div class="track"><div class="fill" style="width:58.3%;background:var(--router);opacity:.35"></div>
+            <div class="head" style="left:58.3%; width:11.7%"></div><div class="val" style="left:70%">70.0%</div></div></div>
+      </div>
+      <ul class="pts" style="font-size:.78em; margin-top:.9em">
+        <li>Beats Kimi K3 on <b>13 tasks</b>, loses on <b>6</b>, at <b>2.2× lower cost</b> ($0.062 vs $0.140).</li>
+        <li>No single system covers everything: the others solve <b>7 tasks</b> the best one misses, including one only the Nemotron LoRA gets.</li>
+        <li>Today the router ties its best component; the shaded gap to 70% is the <span class="em">headroom</span>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">60 held-out test tasks. Router vs Kimi K3: McNemar p=0.17 (n=60), suggestive, not significant. K=7, cosine similarity.</div>
+</section>
+
+<!-- 6 results -->
+<section class="slide">
+  <div class="kicker">6 · Results · 60 held-out tasks</div>
+  <h1>Higher pass rate, under half the cost</h1>
+  <div class="grid2" style="grid-template-columns:1.25fr .75fr; margin-top:.2em; align-items:center">
+    <div><svg viewBox="0 0 600 370" style="width:100%;height:auto"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3fb950"/></marker></defs><line x1="60" x2="580" y1="330" y2="330" stroke="#484f58"/><line x1="60" x2="60" y1="40" y2="330" stroke="#484f58"/><line x1="60" x2="580" y1="265.6" y2="265.6" stroke="#30363d" stroke-dasharray="3 4"/><text x="52" y="270.6" text-anchor="end" fill="#8b949e" font-size="14">30%</text><line x1="60" x2="580" y1="201.1" y2="201.1" stroke="#30363d" stroke-dasharray="3 4"/><text x="52" y="206.1" text-anchor="end" fill="#8b949e" font-size="14">40%</text><line x1="60" x2="580" y1="136.7" y2="136.7" stroke="#30363d" stroke-dasharray="3 4"/><text x="52" y="141.7" text-anchor="end" fill="#8b949e" font-size="14">50%</text><line x1="60" x2="580" y1="72.2" y2="72.2" stroke="#30363d" stroke-dasharray="3 4"/><text x="52" y="77.2" text-anchor="end" fill="#8b949e" font-size="14">60%</text><text x="204.4" y="352" text-anchor="middle" fill="#8b949e" font-size="14">$0.05</text><text x="348.9" y="352" text-anchor="middle" fill="#8b949e" font-size="14">$0.10</text><text x="493.3" y="352" text-anchor="middle" fill="#8b949e" font-size="14">$0.15</text><circle cx="242.9" cy="136.7" r="7" fill="#56d4dd"/><text x="242.9" y="162.7" text-anchor="middle" fill="#c9d1d9" font-size="15">harness v1 50.0%</text><circle cx="338.2" cy="254.6" r="7" fill="var(--qwen)"/><text x="326.2" y="259.6" text-anchor="end" fill="#c9d1d9" font-size="15">Qwen 3.6 + LoRA* 31.7%</text><circle cx="528.3" cy="276.5" r="7" fill="var(--nemo)"/><text x="516.3" y="298.5" text-anchor="end" fill="#c9d1d9" font-size="15">Nemotron + LoRA* 28.3%</text><circle cx="463.9" cy="157.9" r="10" fill="var(--kimi)"/><text x="463.9" y="189.9" text-anchor="middle" fill="#c9d1d9" font-size="15">Kimi K3 (frontier) 46.7%</text><circle cx="240.3" cy="83.2" r="13" fill="none" stroke="var(--router)" stroke-width="4"/><circle cx="240.3" cy="83.2" r="5" fill="var(--router)"/><text x="258.3" y="69.2" fill="var(--router)" font-size="17" font-weight="700">kNN router 58.3% · $0.062</text><line x1="449.9" y1="153.9" x2="258.3" y2="91.2" stroke="var(--good)" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ah)"/><text x="372" y="102" fill="var(--good)" font-size="15" font-weight="700">+11.7 pts, 2.2× cheaper</text><text x="320" y="368" text-anchor="middle" fill="#8b949e" font-size="14">cost per task (real $, token usage)</text><text x="70" y="28" fill="#8b949e" font-size="14">pass rate ↑ · cheaper ←</text></svg></div>
+    <ul class="pts" style="font-size:.8em">
+      <li>Router: <b>58.3%</b> vs Kimi K3 <b>46.7%</b>, at <b>$0.062 vs $0.140</b> per task.</li>
+      <li>Up and to the left of Kimi means <span class="em">better and cheaper</span>.</li>
+      <li>A per-domain router variant matches 58.3% at <b>$0.051</b> (2.7× cheaper).</li>
+      <li>*LoRA costs are overstated: the serverless sampler we evaluated them on has no prompt-cache discount.</li>
+    </ul>
+  </div>
+  <div class="src">Cost priced from real token usage incl. cached-input pricing. n=60, 95% CIs ≈ ±12 pts; router vs Kimi K3 13 wins / 6 losses, McNemar p=0.17.</div>
+</section>
+
+<!-- 7 lessons -->
+<section class="slide">
+  <div class="kicker">7 · Lessons learned</div>
+  <h1>What we'd tell the next team</h1>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:.6em; margin-top:.4em; font-size:.74em">
+      <div class="card" style="border-top:3px solid var(--router)"><h3 style="color:var(--router)">1 · Combine, don't bet on one trick</h3>No single system wins everywhere. Perfect picks among the five reach <b>70%</b>; the best one alone gets 58%.</div>
+      <div class="card" style="border-top:3px solid #56d4dd"><h3 style="color:#56d4dd">2 · Tune the harness on failures</h3>Our first harness <b>lowered</b> the score (−6.7). Rules written from calibration failures recovered it.</div>
+      <div class="card" style="border-top:3px solid var(--nemo)"><h3 style="color:var(--nemo)">3 · Distill cheaply, mind coverage</h3><b>$11 and 5 minutes</b> gave 2–5×. The limit is demos: ~40% of task types had none.</div>
+      <div class="card" style="border-top:3px solid var(--bad)"><h3 style="color:var(--bad)">4 · LLM judges can overfit</h3>A trajectory judge looked useful on calibration (AUC 0.66), then fell below chance on test (0.42).</div>
+      <div class="card" style="border-top:3px solid var(--kimi)"><h3 style="color:var(--kimi)">5 · Small screens mislead</h3>DeepSeek scored 66.7% on a 30-task screen and 56.7% on held-out test. Keep a clean test set.</div>
+      <div class="card" style="border-top:3px solid var(--ds)"><h3 style="color:var(--ds)">6 · One platform, fast loops</h3>Inference, embeddings and LoRA training all on Fireworks: idea → fine-tuned model → eval in an afternoon.</div>
+  </div>
+  <div class="card" style="margin-top:.7em; font-size:.8em; border-left:3px solid var(--router)"><b style="color:var(--router)">Next:</b>&nbsp; collect demos for the uncovered 40% of tasks, and route on early-run signals to close the gap from 58% toward 70%.</div>
+  <div class="src">All numbers on 60 held-out test tasks unless noted; calibration and test splits never mixed.</div>
+</section>
+
+</div>
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+let i = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1)) || 1) - 1));
+function show(k) {
+  i = Math.max(0, Math.min(slides.length - 1, k));
+  slides.forEach((s, j) => s.classList.toggle('active', j === i));
+  history.replaceState(null, '', '#' + (i + 1));
+}
+slides.forEach((s, j) => {
+  const f = document.createElement('div'); f.className = 'footer';
+  f.innerHTML = `<span>Open models vs the frontier on AutomationBench · Fireworks</span><span>${j + 1} / ${slides.length}</span>`;
+  s.appendChild(f);
+});
+document.addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) show(i - 1);
+  if (e.key.toLowerCase() === 'p') window.print();
+});
+show(i);
+</script>
+</body>
+</html>
