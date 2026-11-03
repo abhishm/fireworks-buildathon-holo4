@@ -27,3 +27,6 @@ __pycache__/
 
 # Unredacted local copies (account IDs, local paths)
 .private/
+
+# Regenerable narration clips (slides/video/build.py)
+slides/video/n*.mp3
